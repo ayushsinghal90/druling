@@ -7,3 +7,4 @@ psycopg2-pool==1.2
 python-dotenv==1.0.1
 sqlparse==0.5.1
 typing_extensions==4.12.2
+qrcode~=7.4.2

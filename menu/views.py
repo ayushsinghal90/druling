@@ -1,15 +1,15 @@
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 from menu.serializer import QRMenuSerializer
 from menu.services import QRMenuService
 
 
-class QRMenuView(APIView):
-    @action(detail=True, methods=["post"])
-    def create(self, request):
+class QRMenuView(ViewSet):
+    @action(detail=False, methods=["post"], url_path="create")
+    def create_menu(self, request):
         qr_menu_service = QRMenuService()
 
         try:

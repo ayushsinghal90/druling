@@ -1,7 +1,11 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
 
 from branch.views import BranchView
 
+router = DefaultRouter()
+router.register(r"branch", BranchView, basename="branch")
+
 urlpatterns = [
-    path("", BranchView.as_view()),
+    path("", include(router.urls)),
 ]

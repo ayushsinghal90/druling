@@ -11,10 +11,10 @@ urlpatterns = [
             [
                 path("", include("user.urls")),
                 path("restaurant/", include("restaurant.urls")),
-                path("branch/", include("branch.urls")),
+                path("", include("branch.urls")),
                 path("item/", include("item.urls")),
                 path("branch_location/", include("branch_location.urls")),
-                path("qr_menu/", include("menu.urls")),
+                path("menu/", include("menu.urls")),
             ]
         ),
     ),

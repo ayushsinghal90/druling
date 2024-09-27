@@ -8,7 +8,7 @@ from .serializer import BranchSerializer
 from .services import BranchService
 
 
-class BranchCreateView(APIView):
+class BranchView(APIView):
     @action(detail=True, methods=["post"])
     def create(self, request):
         branch_service = BranchService()

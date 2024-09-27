@@ -14,6 +14,7 @@ urlpatterns = [
                 path("branch/", include("branch.urls")),
                 path("item/", include("item.urls")),
                 path("branch_location/", include("branch_location.urls")),
+                path("qr_menu/", include("qr_menu.urls")),
             ]
         ),
     ),

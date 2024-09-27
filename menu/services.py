@@ -15,7 +15,7 @@ class QRMenuService:
 
     def create(self, menu_data):
         try:
-            branch_id = (menu_data.get("branch_id"),)
+            branch_id = menu_data.get("branch_id")
             self.branch_service.get_branch_by_id(branch_id)
 
             qr_menu_serializer = QRMenuSerializer(data=menu_data)

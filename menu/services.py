@@ -3,21 +3,22 @@ import logging
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
+from branch.services import BranchService
 from menu.serializer import QRMenuSerializer
 
 logger = logging.getLogger(__name__)
 
 
 class QRMenuService:
-    def create(self, request):
+    def __init__(self, branch_service=None):
+        self.branch_service = branch_service or BranchService()
+
+    def create(self, menu_data):
         try:
-            data = {
-                "branch_id": request.data.get("branch_id"),
-                "file_key": request.data.get("file_key"),
-            }
+            branch_id = (menu_data.get("branch_id"),)
+            self.branch_service.get_branch_by_id(branch_id)
 
-            qr_menu_serializer = QRMenuSerializer(data=data)
-
+            qr_menu_serializer = QRMenuSerializer(data=menu_data)
             if qr_menu_serializer.is_valid(raise_exception=True):
                 with transaction.atomic():
                     qr_menu_instance = qr_menu_serializer.save()

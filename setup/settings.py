@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "branch_location",
     "profile",
     "contact",
-    "qr_menu",
+    "menu",
 ]
 
 MIDDLEWARE = [

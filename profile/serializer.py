@@ -1,20 +1,28 @@
 from rest_framework import serializers
 
+from branch.models import Branch
 from contact.models import Contact
-from contact.serializer import ContactSerializer
+from user.models import User
 
 from .models import Profile
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
-    contact = ContactSerializer()
-    branch = serializers.StringRelatedField()
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), required=True, source="branch"
+    )
+    branch_id = serializers.PrimaryKeyRelatedField(
+        queryset=Branch.objects.all(), required=True, source="branch"
+    )
+    contact_id = serializers.PrimaryKeyRelatedField(
+        queryset=Contact.objects.all(), required=True, source="contact"
+    )
+
     role = serializers.ChoiceField(choices=Profile.PROFILE_TYPE)
 
     class Meta:
         model = Profile
-        fields = ["id", "user", "role", "branch", "contact"]
+        fields = ["id", "user_id", "role", "branch_id", "contact_id"]
 
     def create(self, validated_data):
         contact_data = validated_data.pop("contact")

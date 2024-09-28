@@ -1,17 +1,21 @@
 from rest_framework import serializers
 
+from branch.models import Branch
+
 from .models import Item
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    branch = serializers.StringRelatedField()
+    branch_id = serializers.PrimaryKeyRelatedField(
+        queryset=Branch.objects.all(), required=True, source="branch"
+    )
     ingredients = serializers.JSONField()
 
     class Meta:
         model = Item
         fields = [
             "id",
-            "branch",
+            "branch_id",
             "name",
             "description",
             "price",

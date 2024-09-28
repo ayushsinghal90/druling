@@ -38,7 +38,7 @@ class BranchService:
                 )
 
                 branch["restaurant_id"] = restaurant.id
-                branch["branch_location_id"] = branch_location.id
+                branch["location_id"] = branch_location.id
 
                 branch_serializer = BranchSerializer(data=branch)
                 if branch_serializer.is_valid(raise_exception=True):

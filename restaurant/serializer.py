@@ -1,19 +1,18 @@
 from rest_framework import serializers
 
-from contact.serializer import ContactSerializer
+from contact.models import Contact
 
 from .models import Restaurant
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
-    contact = ContactSerializer()
+    contact = serializers.PrimaryKeyRelatedField(
+        queryset=Contact.objects.all(),
+        required=False,
+        allow_null=True,
+        source="contact",
+    )
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "description", "contact"]
-
-    def create(self, validated_data):
-        return super().create(**validated_data)
-
-    def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+        fields = ["id", "name", "description", "contact_id"]

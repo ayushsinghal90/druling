@@ -1,4 +1,4 @@
-# Financial Assistant
+# Druling
 
 ## Project Setup
 
@@ -26,19 +26,20 @@
 
 ## Before commit
 
-1. Run this command 
+1. Run this command
    ```bash
    pre-commit install
    ```
 2. Enable Auto-Save:
-   * Go to Preferences > Appearance & Behavior > System Settings.
-   * Enable "Save files automatically if application is idle". 
+    * Go to Preferences > Appearance & Behavior > System Settings.
+    * Enable "Save files automatically if application is idle".
 
 This will save files automatically when you're not typing, triggering the File Watchers if configured.
 
 ## Useful commands
 
 ### Adding package in requirement txt
+
    ```commandline
    pip freeze > requirements.txt
    ```

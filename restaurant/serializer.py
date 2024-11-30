@@ -6,7 +6,7 @@ from .models import Restaurant
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
-    contact = serializers.PrimaryKeyRelatedField(
+    contact_id = serializers.PrimaryKeyRelatedField(
         queryset=Contact.objects.all(),
         required=False,
         allow_null=True,

@@ -1,57 +1,59 @@
-from django.contrib.auth.models import User
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import action
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework.permissions import AllowAny
-from rest_framework.viewsets import ViewSet
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from commons.api.responses import ResponseFactory
 
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, UserSerializer
+
+User = get_user_model()
 
 
-class LoginUserView(ViewSet):
-    authentication_classes = (TokenAuthentication,)
+class LoginUserView(APIView):
     permission_classes = (AllowAny,)
 
-    @action(detail=False, methods=["post"], url_path="/")
-    def login(self, request):
-        serializer = RegisterSerializer(data=request.data)
+    def post(self, request):
+        email = request.data.get("email")
+        password = request.data.get("password")
 
-        if not serializer.is_valid():
-            return ResponseFactory.bad_request(errors=serializer.errors)
-        serializer.save()
+        # Authenticate user
+        user = authenticate(request, username=email, password=password)
 
-        user = User.objects.get(username=request.data["username"])
+        if user is None:
+            return ResponseFactory.unauthorized(message="Invalid credentials")
+
+        # Generate tokens
         refresh = RefreshToken.for_user(user)
-        return ResponseFactory.created(
+        return ResponseFactory.success(
             data={
-                "payload": serializer.data,
+                "payload": UserSerializer(user).data,
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
             },
-            message="User created",
+            message="Login successful",
         )
 
 
-class RegisterUserView(ViewSet):
+class RegisterUserView(APIView):
     permission_classes = (AllowAny,)
 
-    @action(detail=False, methods=["post"], url_path="/")
-    def register(self, request):
+    def post(self, request):
         serializer = RegisterSerializer(data=request.data)
 
+        # Validate serializer
         if not serializer.is_valid():
             return ResponseFactory.bad_request(errors=serializer.errors)
-        serializer.save()
 
-        user = User.objects.get(username=request.data["username"])
+        # Save the user and generate tokens
+        serializer.save()
+        user = User.objects.get(email=request.data["email"])
         refresh = RefreshToken.for_user(user)
         return ResponseFactory.created(
             data={
-                "payload": serializer.data,
+                "payload": UserSerializer(user).data,
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
             },
-            message="User created",
+            message="User registered successfully",
         )

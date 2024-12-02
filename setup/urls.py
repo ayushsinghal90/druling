@@ -10,13 +10,17 @@ urlpatterns = [
         "api/",
         include(
             [
-                path("", include("user.urls")),
+                path("user/", include("user.urls")),  # Prefix user URLs
                 path("restaurant/", include("restaurant.urls")),
-                path("", include("branch.urls")),
+                path("branch/", include("branch.urls")),  # Added a prefix for branch
                 path("item/", include("item.urls")),
-                path("branch_location/", include("branch_location.urls")),
+                path(
+                    "branch-location/", include("branch_location.urls")
+                ),  # Hyphen used
                 path("menu/", include("menu.urls")),
-                path("entity_relation/", include("entity_relation.urls")),
+                path(
+                    "entity-relation/", include("entity_relation.urls")
+                ),  # Hyphen used
             ]
         ),
     ),

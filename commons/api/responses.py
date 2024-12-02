@@ -39,6 +39,11 @@ class NotFoundResponse(BaseResponse):
         super().__init__(message=message, status=status.HTTP_404_NOT_FOUND, **kwargs)
 
 
+class UnauthorizedResponse(BaseResponse):  # New class for unauthorized response
+    def __init__(self, message="Unauthorized access", **kwargs):
+        super().__init__(message=message, status=status.HTTP_401_UNAUTHORIZED, **kwargs)
+
+
 class ServerErrorResponse(BaseResponse):
     def __init__(self, message="Internal server error", **kwargs):
         super().__init__(
@@ -62,6 +67,10 @@ class ResponseFactory:
     @staticmethod
     def not_found(message="Resource not found", **kwargs):
         return NotFoundResponse(message=message, **kwargs)
+
+    @staticmethod
+    def unauthorized(message="Unauthorized access", **kwargs):  # Factory method
+        return UnauthorizedResponse(message=message, **kwargs)
 
     @staticmethod
     def server_error(message="Internal server error", **kwargs):

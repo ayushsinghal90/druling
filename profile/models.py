@@ -6,14 +6,7 @@ from user.models import User
 
 
 class Profile(BaseModel):
-    PROFILE_TYPE = (
-        ("manager", "Manager"),
-        ("employee", "Employee"),
-        ("admin", "Admin"),
-    )
-
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    type = models.CharField(max_length=10, choices=PROFILE_TYPE)
     img_url = models.URLField(
         max_length=500,
         null=True,

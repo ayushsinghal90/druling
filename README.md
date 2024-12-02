@@ -13,15 +13,15 @@
     ```
 4. Run migrations:
     ```bash
-    python managers.py migrate
+    python manage.py migrate
     ```
 5. Run the development server:
     ```bash
-    python managers.py runserver
+    python manage.py runserver
     ```
 6. Run test cases
     ```bash
-    python managers.py test
+    python manage.py test
     ```
 
 ## Before commit

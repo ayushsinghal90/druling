@@ -1,59 +1,23 @@
-from django.contrib.auth import authenticate, get_user_model
+from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
-from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.viewsets import ViewSet
 
-from commons.api.responses import ResponseFactory
-
-from .serializers import RegisterSerializer, UserSerializer
-
-User = get_user_model()
+from .auth.login import login_user
+from .auth.register import sign_up
+from .auth.social_auth import google_login
 
 
-class LoginUserView(APIView):
+class AuthView(ViewSet):
     permission_classes = (AllowAny,)
 
-    def post(self, request):
-        email = request.data.get("email")
-        password = request.data.get("password")
+    @action(detail=False, methods=["post"], url_path="login")
+    def login(self, request):
+        return login_user(request)
 
-        # Authenticate user
-        user = authenticate(request, username=email, password=password)
+    @action(detail=False, methods=["post"], url_path="sign-up")
+    def sign_up(self, request):
+        return sign_up(request.data)
 
-        if user is None:
-            return ResponseFactory.unauthorized(message="Invalid credentials")
-
-        # Generate tokens
-        refresh = RefreshToken.for_user(user)
-        return ResponseFactory.success(
-            data={
-                "payload": UserSerializer(user).data,
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            },
-            message="Login successful",
-        )
-
-
-class RegisterUserView(APIView):
-    permission_classes = (AllowAny,)
-
-    def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-
-        # Validate serializer
-        if not serializer.is_valid():
-            return ResponseFactory.bad_request(errors=serializer.errors)
-
-        # Save the user and generate tokens
-        serializer.save()
-        user = User.objects.get(email=request.data["email"])
-        refresh = RefreshToken.for_user(user)
-        return ResponseFactory.created(
-            data={
-                "payload": UserSerializer(user).data,
-                "refresh": str(refresh),
-                "access": str(refresh.access_token),
-            },
-            message="User registered successfully",
-        )
+    @action(detail=False, methods=["post"], url_path="google-login")
+    def google_login(self, request):
+        return google_login(request.data)

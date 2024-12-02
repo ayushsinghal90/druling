@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework_simplejwt",
+    "social_django",
     "commons",
     "item",
     "user",
@@ -74,6 +75,18 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "user.User"
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",  # Google OAuth2 Backend
+    "django.contrib.auth.backends.ModelBackend",  # Default backend for email/password login
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("GOOGLE_OAUTH_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("GOOGLE_OAUTH_SECRET")
+
+# Redirect URL after login
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+SOCIAL_AUTH_LOGIN_URL = "/login/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

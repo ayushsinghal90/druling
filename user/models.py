@@ -1,11 +1,14 @@
+import uuid
+
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.db import models
 
-from commons.models.BaseModel import BaseModel
 
-
-class User(BaseModel):
-    email = models.EmailField(unique=True, blank=True, null=True)
+class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     phone_number = models.CharField(
         max_length=15,
         unique=True,
@@ -17,11 +20,11 @@ class User(BaseModel):
             )
         ],
     )
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-    password_hash = models.CharField(max_length=128)
-    salt = models.CharField(max_length=16)
-    is_active = models.BooleanField(default=True)
+    email = models.EmailField(
+        unique=True,
+        blank=False,
+        null=False,
+    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

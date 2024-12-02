@@ -10,12 +10,12 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("contact", "0001_initial"),
+        ("branch", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Profile",
+            name="EntityRelation",
             fields=[
                 (
                     "id",
@@ -29,38 +29,28 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 (
-                    "type",
+                    "role",
                     models.CharField(
                         choices=[
+                            ("owner", "Owner"),
                             ("manager", "Manager"),
                             ("employee", "Employee"),
                             ("admin", "Admin"),
                         ],
-                        max_length=10,
+                        max_length=50,
                     ),
                 ),
                 (
-                    "img_url",
-                    models.URLField(
-                        blank=True,
-                        max_length=500,
-                        null=True,
-                        verbose_name="Profile Image URL",
-                    ),
-                ),
-                (
-                    "contact",
-                    models.OneToOneField(
-                        blank=True,
-                        null=True,
+                    "branch",
+                    models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        related_name="profile",
-                        to="contact.contact",
+                        related_name="associations",
+                        to="branch.branch",
                     ),
                 ),
             ],
             options={
-                "db_table": "profile",
+                "db_table": "entity_relation",
             },
         ),
     ]

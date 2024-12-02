@@ -1,6 +1,5 @@
 from django.db import models
 
-from branch.models import Branch
 from commons.models.BaseModel import BaseModel
 from contact.models import Contact
 from user.models import User
@@ -15,12 +14,11 @@ class Profile(BaseModel):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=10, choices=PROFILE_TYPE)
-    branch = models.ForeignKey(
-        Branch,
-        related_name="employees",
-        on_delete=models.SET_NULL,
+    img_url = models.URLField(
+        max_length=500,
         null=True,
         blank=True,
+        verbose_name="Profile Image URL",
     )
     contact = models.OneToOneField(
         Contact, on_delete=models.CASCADE, related_name="profile", null=True, blank=True

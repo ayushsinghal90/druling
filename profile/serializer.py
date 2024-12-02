@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from branch.models import Branch
 from contact.models import Contact
 from user.models import User
 
@@ -11,9 +10,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), required=True, source="branch"
     )
-    branch_id = serializers.PrimaryKeyRelatedField(
-        queryset=Branch.objects.all(), required=True, source="branch"
-    )
     contact_id = serializers.PrimaryKeyRelatedField(
         queryset=Contact.objects.all(), required=True, source="contact"
     )
@@ -22,7 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ["id", "user_id", "role", "branch_id", "contact_id"]
+        fields = ["id", "user_id", "role", "contact_id"]
 
     def create(self, validated_data):
         contact_data = validated_data.pop("contact")

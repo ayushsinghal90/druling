@@ -154,6 +154,14 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Log file directory and log file path
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+LOG_FILE = os.path.join(LOG_DIR, "django_debug.log")
+
+# Create the logs directory if it does not exist
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -173,8 +181,11 @@ LOGGING = {
             "formatter": "simple",
         },
         "file": {
-            "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logs/django.log"),
+            "level": "DEBUG",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOG_FILE,
+            "maxBytes": 1024 * 1024 * 5,  # 5MB max per log file
+            "backupCount": 5,  # Keep 5 backup log files
             "formatter": "verbose",
         },
     },

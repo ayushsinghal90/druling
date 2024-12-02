@@ -43,3 +43,8 @@ This will save files automatically when you're not typing, triggering the File W
    ```commandline
    pip freeze > requirements.txt
    ```
+### Creating migrations
+
+   ```commandline
+    python manage.py makemigrations
+   ```

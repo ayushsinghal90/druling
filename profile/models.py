@@ -6,7 +6,7 @@ from user.models import User
 
 
 class Profile(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     img_url = models.URLField(
         max_length=500,
         null=True,
@@ -14,7 +14,7 @@ class Profile(BaseModel):
         verbose_name="Profile Image URL",
     )
     contact = models.OneToOneField(
-        Contact, on_delete=models.CASCADE, related_name="profile", null=True, blank=True
+        Contact, on_delete=models.CASCADE, related_name="contact", null=True, blank=True
     )
 
     def __str__(self):

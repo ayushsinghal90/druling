@@ -10,14 +10,21 @@ User = get_user_model()
 
 
 def sign_up(data):
-    serializer = RegisterSerializer(data=data)
+    """
+    Get or create a new user.
+    """
+    count = User.objects.filter(email=data["email"]).count()
+    if count < 1:
+        # If no user exists, create a new one
+        serializer = RegisterSerializer(data=data)
 
-    # Validate serializer
-    if not serializer.is_valid():
-        return ResponseFactory.bad_request(errors=serializer.errors)
+        # Validate serializer
+        if not serializer.is_valid():
+            return ResponseFactory.bad_request(errors=serializer.errors)
 
-    # Save the user and generate tokens
-    serializer.save()
+        # Save the user and generate tokens
+        serializer.save()
+
     user = User.objects.get(email=data["email"])
     refresh_token = RefreshToken.for_user(user)
     return ResponseFactory.created(

@@ -7,18 +7,18 @@ For more information, see:
 https://docs.djangoproject.com/en/4.1/topics/settings/
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
 import os
 from datetime import timedelta
 from pathlib import Path
 
+from django.core.management.commands.runserver import Command as runserver
 from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
 
 # Base directory path
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 # Security settings
 SECRET_KEY = os.getenv(
@@ -30,7 +30,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(
 )  # Comma-separated values in .env
 
 # Default port for runserver
-os.environ.setdefault("DJANGO_RUNSERVER_PORT", os.getenv("PORT", "8000"))
+runserver.default_port = os.getenv("PORT", "8000")
 
 # Installed applications
 INSTALLED_APPS = [

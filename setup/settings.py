@@ -24,8 +24,8 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
-DEBUG = os.getenv("DEBUG", "True") == "True"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(
+DEBUG = os.getenv("DEV", "True") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
 )  # Comma-separated values in .env
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "social_django",
+    "corsheaders",
     # Project apps
     "commons",
     "item",
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 # Root URL configuration
@@ -195,3 +197,8 @@ LOGGING = {
         "myapp": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": True},
     },
 }
+
+CORS_ALLOW_ALL_ORIGINS = DEBUG
+CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
+if DEBUG:
+    CORS_ALLOW_METHODS = ["*"]

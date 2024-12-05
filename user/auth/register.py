@@ -13,8 +13,12 @@ def sign_up(data):
     """
     Get or create a new user.
     """
-    count = User.objects.filter(email=data["email"]).count()
-    if count < 1:
+    try:
+        user = User.objects.get(email=data["email"])
+    except User.DoesNotExist:
+        user = None
+
+    if not user:
         # If no user exists, create a new one
         serializer = RegisterSerializer(data=data)
 

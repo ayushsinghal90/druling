@@ -5,7 +5,7 @@ from profile.models import Profile, Contact
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserProfileSerializer(serializers.ModelSerializer):
     contact_info = serializers.SerializerMethodField()
 
     class Meta:

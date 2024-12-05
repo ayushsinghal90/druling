@@ -14,8 +14,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         queryset=Contact.objects.all(), required=True, source="contact"
     )
 
-    role = serializers.ChoiceField(choices=Profile.PROFILE_TYPE)
-
     class Meta:
         model = Profile
         fields = ["id", "user_id", "role", "contact_id"]

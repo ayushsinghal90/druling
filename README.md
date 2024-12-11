@@ -7,6 +7,7 @@
     ```bash
     cp .env.example .env
     ```
+   NOTE: Please make sure that POSTGRES_DB is set as 'localhost' when running django app locally.
 3. Install the required dependencies:
     ```bash
     pip install -r requirements.txt
@@ -47,4 +48,39 @@ This will save files automatically when you're not typing, triggering the File W
 
    ```commandline
     python manage.py makemigrations
+   ```
+
+
+## Run within Docker containers
+
+### Build docker images
+NOTE: Just make sure your requirements.txt and .env file is up-to-date.
+
+
+This will build all the services together
+   ```commandline
+   docker-compose build
+   ```
+
+This will build/re-build single service at a time
+   ```commandline
+   docker-compose --build web
+   ```
+
+### Running the containers
+
+   ```commandline
+    docker-compose up -d
+   ```
+
+### Stop the containers
+
+   ```commandline
+    docker-compose stop
+   ```
+
+### Stop and delete the containers along with their networks and temporary volumes.
+
+   ```commandline
+    docker-compose down
    ```

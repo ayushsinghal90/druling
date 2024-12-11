@@ -1,0 +1,58 @@
+version: '3.9'
+
+services:
+  redis:
+    image: "redis:7.4.1"
+
+  localstack:
+    image: localstack/localstack:2.2.0
+    ports:
+      - "4566:4566"
+      - "8080:8080"
+    environment:
+      - SERVICES=sqs,dynamodb,s3,sns,secretsmanager
+      - AWS_DEFAULT_REGION=eu-central-1
+    volumes:
+      - ./localstack_bootstrap:/etc/localstack/init/ready.d
+
+  db:
+    image: postgres:15.2
+    ports:
+      - "5432:5432"
+    restart: always
+    # set shared memory limit when using docker-compose
+    # shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    #volumes:
+    #  - type: tmpfs
+    #    target: /dev/shm
+    #    tmpfs:
+    #      size: 134217728 # 128*2^20 bytes = 128Mb
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: druling
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "./wait-for-db.sh db && python manage.py migrate && python manage.py runserver 0.0.0.0:3000"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: druling
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - db
+      - redis
+      - localstack

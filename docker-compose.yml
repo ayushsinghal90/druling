@@ -39,7 +39,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: >
-      sh -c "./wait-for-db.sh db && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      sh -c "./wait-for-db.sh db && python manage.py migrate && python manage.py runserver 0.0.0.0:3000"
     volumes:
       - .:/app
     ports:

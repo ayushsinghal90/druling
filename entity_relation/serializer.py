@@ -15,7 +15,7 @@ class EntityRelationSerializer(serializers.ModelSerializer):
         queryset=Profile.objects.all(), required=True, source="profile"
     )
 
-    role = serializers.ChoiceField(choices=EntityRelation.ROLE_TYPE)
+    role = serializers.ChoiceField(choices=EntityRelation.ROLE_TYPE, required=True)
 
     class Meta:
         model = EntityRelation

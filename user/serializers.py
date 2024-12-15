@@ -10,16 +10,21 @@ User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
     contact_info = serializers.SerializerMethodField()
+    profile_id = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "contact_info"]
+        fields = ["first_name", "last_name", "contact_info", "profile_id"]
 
     @staticmethod
     def get_contact_info(obj):
         if obj.profile and obj.profile.contact:
             return ContactSerializer(obj.profile.contact).data
         return None
+
+    @staticmethod
+    def get_profile_id(obj):
+        return obj.profile.id if obj.profile else None
 
 
 class RegisterSerializer(serializers.ModelSerializer):

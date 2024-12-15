@@ -5,6 +5,7 @@ from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
 from branch_location.services import BranchLocationService
+from contact.services import ContactService
 from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
 
@@ -20,6 +21,7 @@ class BranchService:
         branch_location_service=None,
         restaurant_service=None,
         entity_relation_service=None,
+        contact_service=None,
     ):
         self.branch_location_service = (
             branch_location_service or BranchLocationService()
@@ -28,6 +30,7 @@ class BranchService:
         self.entity_relation_service = (
             entity_relation_service or EntityRelationService()
         )
+        self.contact_service = contact_service or ContactService()
 
     def create(self, branch_data, profile_id):
         try:
@@ -37,6 +40,7 @@ class BranchService:
                 restaurant_id = branch_data.get("restaurant_id")
                 restaurant_data = branch_data.get("restaurant")
                 branch_location_data = branch_data.get("branch_location")
+                contact_data = branch_data.get("contact")
 
                 if not branch or not branch_location_data:
                     raise ValidationError("Branch or branch location data missing")
@@ -45,6 +49,12 @@ class BranchService:
                     raise ValidationError(
                         "Either restaurant_id or restaurant data must be provided"
                     )
+
+                if not contact_data:
+                    raise ValidationError("Contact info is required")
+
+                contact = self.contact_service.get_or_create(contact_data)
+                restaurant_data["contact_id"] = contact.id
 
                 # Create or retrieve restaurant
                 restaurant = self._get_or_create_restaurant(
@@ -55,9 +65,11 @@ class BranchService:
                 branch_location = self._create_branch_location(branch_location_data)
 
                 # Create branch
-                branch_instance = self._create_branch(
-                    branch, restaurant.id, branch_location.id, profile_id
-                )
+                branch["contact_id"] = contact.id
+                branch["restaurant_id"] = restaurant.id
+                branch["location_id"] = branch_location.id
+
+                branch_instance = self._create_branch(branch, profile_id)
 
                 return branch_instance
 
@@ -84,11 +96,8 @@ class BranchService:
         """Create a branch location."""
         return self.branch_location_service.create(branch_location_data)
 
-    def _create_branch(self, branch, restaurant_id, location_id, profile_id):
+    def _create_branch(self, branch, profile_id):
         """Validate and save the branch."""
-        branch["restaurant_id"] = restaurant_id
-        branch["location_id"] = location_id
-
         branch_serializer = BranchCreateSerializer(data=branch)
         if branch_serializer.is_valid(raise_exception=True):
             branch_instance = branch_serializer.save()

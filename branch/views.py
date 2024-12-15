@@ -13,7 +13,7 @@ class BranchView(ViewSet):
     def create_branch(self, request):
         branch_service = BranchService()
         try:
-            profile_id = request.user.id
+            profile_id = request.user.profile_id
             branch = branch_service.create(request.data, profile_id)
             return ResponseFactory.created(BranchCreateSerializer(branch).data)
         except ValidationError:

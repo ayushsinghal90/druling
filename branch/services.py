@@ -8,7 +8,7 @@ from branch_location.services import BranchLocationService
 from restaurant.services import RestaurantService
 
 from .models import Branch
-from .serializer import BranchSerializer
+from .serializer import BranchCreateSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class BranchService:
                 branch["restaurant_id"] = restaurant.id
                 branch["location_id"] = branch_location.id
 
-                branch_serializer = BranchSerializer(data=branch)
+                branch_serializer = BranchCreateSerializer(data=branch)
                 if branch_serializer.is_valid(raise_exception=True):
                     branch_instance = branch_serializer.save()
                     return branch_instance
@@ -58,7 +58,7 @@ class BranchService:
             branch = Branch.objects.get(id=branch_id)
 
             # Serialize the branch object
-            branch_serializer = BranchSerializer(branch)
+            branch_serializer = BranchCreateSerializer(branch)
 
             # Return the serialized data
             return branch_serializer.data

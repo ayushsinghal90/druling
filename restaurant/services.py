@@ -2,7 +2,7 @@ import logging
 
 from rest_framework.exceptions import ValidationError
 
-from .serializer import RestaurantSerializer
+from .serializer import RestaurantCreateSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class RestaurantService:
     def create(self, restaurant_data):
         try:
-            restaurant_serializer = RestaurantSerializer(data=restaurant_data)
+            restaurant_serializer = RestaurantCreateSerializer(data=restaurant_data)
 
             if restaurant_serializer.is_valid(raise_exception=True):
                 restaurant = restaurant_serializer.save()

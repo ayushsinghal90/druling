@@ -28,26 +28,37 @@ class CreatedResponse(BaseResponse):
 
 
 class BadRequestResponse(BaseResponse):
-    def __init__(self, message="Bad request", errors=None, **kwargs):
+    def __init__(self, data=None, message="Bad request", errors=None, **kwargs):
         super().__init__(
-            message=message, errors=errors, status=status.HTTP_400_BAD_REQUEST, **kwargs
+            data=data,
+            message=message,
+            errors=errors,
+            status=status.HTTP_400_BAD_REQUEST,
+            **kwargs
         )
 
 
 class NotFoundResponse(BaseResponse):
-    def __init__(self, message="Resource not found", **kwargs):
-        super().__init__(message=message, status=status.HTTP_404_NOT_FOUND, **kwargs)
+    def __init__(self, data=None, message="Resource not found", **kwargs):
+        super().__init__(
+            data=data, message=message, status=status.HTTP_404_NOT_FOUND, **kwargs
+        )
 
 
 class UnauthorizedResponse(BaseResponse):  # New class for unauthorized response
-    def __init__(self, message="Unauthorized access", **kwargs):
-        super().__init__(message=message, status=status.HTTP_401_UNAUTHORIZED, **kwargs)
+    def __init__(self, data=None, message="Unauthorized access", **kwargs):
+        super().__init__(
+            data=data, message=message, status=status.HTTP_401_UNAUTHORIZED, **kwargs
+        )
 
 
 class ServerErrorResponse(BaseResponse):
-    def __init__(self, message="Internal server error", **kwargs):
+    def __init__(self, data=None, message="Internal server error", **kwargs):
         super().__init__(
-            message=message, status=status.HTTP_500_INTERNAL_SERVER_ERROR, **kwargs
+            data=data,
+            message=message,
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            **kwargs
         )
 
 
@@ -61,17 +72,19 @@ class ResponseFactory:
         return CreatedResponse(data=data, message=message, **kwargs)
 
     @staticmethod
-    def bad_request(message="Bad request", errors=None, **kwargs):
-        return BadRequestResponse(message=message, errors=errors, **kwargs)
+    def bad_request(data=None, message="Bad request", errors=None, **kwargs):
+        return BadRequestResponse(data=data, message=message, errors=errors, **kwargs)
 
     @staticmethod
-    def not_found(message="Resource not found", **kwargs):
-        return NotFoundResponse(message=message, **kwargs)
+    def not_found(data=None, message="Resource not found", errors=None, **kwargs):
+        return NotFoundResponse(data=data, message=message, errors=errors, **kwargs)
 
     @staticmethod
-    def unauthorized(message="Unauthorized access", **kwargs):  # Factory method
-        return UnauthorizedResponse(message=message, **kwargs)
+    def unauthorized(
+        data=None, message="Unauthorized access", **kwargs
+    ):  # Factory method
+        return UnauthorizedResponse(data=data, message=message, **kwargs)
 
     @staticmethod
-    def server_error(message="Internal server error", **kwargs):
-        return ServerErrorResponse(message=message, **kwargs)
+    def server_error(data=None, message="Internal server error", errors=None, **kwargs):
+        return ServerErrorResponse(data=data, message=message, errors=errors, **kwargs)

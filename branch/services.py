@@ -5,6 +5,7 @@ from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
 from branch_location.services import BranchLocationService
+from commons.exceptions.BaseError import BaseError
 from contact.services import ContactService
 from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
@@ -33,52 +34,31 @@ class BranchService:
         self.contact_service = contact_service or ContactService()
 
     def create(self, branch_data, profile_id):
-        try:
-            with transaction.atomic():
-                # Validate input data
-                branch = branch_data.get("branch")
-                restaurant_id = branch_data.get("restaurant_id")
-                restaurant_data = branch_data.get("restaurant")
-                branch_location_data = branch_data.get("branch_location")
-                contact_data = branch_data.get("contact")
+        with transaction.atomic():
+            # Validate input data
+            branch = branch_data.get("branch")
+            restaurant_id = branch_data.get("restaurant_id")
+            restaurant_data = branch_data.get("restaurant")
+            branch_location_data = branch_data.get("branch_location")
+            contact_data = branch_data.get("contact")
 
-                if not branch or not branch_location_data:
-                    raise ValidationError("Branch or branch location data missing")
+            contact = self.contact_service.get_or_create(contact_data)
+            restaurant_data["contact_id"] = contact.id
 
-                if not restaurant_id and not restaurant_data:
-                    raise ValidationError(
-                        "Either restaurant_id or restaurant data must be provided"
-                    )
+            # Create or retrieve restaurant
+            restaurant = self._get_or_create_restaurant(restaurant_id, restaurant_data)
 
-                if not contact_data:
-                    raise ValidationError("Contact info is required")
+            # Create branch location
+            branch_location = self._create_branch_location(branch_location_data)
 
-                contact = self.contact_service.get_or_create(contact_data)
-                restaurant_data["contact_id"] = contact.id
+            # Create branch
+            branch["contact_id"] = contact.id
+            branch["restaurant_id"] = restaurant.id
+            branch["location_id"] = branch_location.id
 
-                # Create or retrieve restaurant
-                restaurant = self._get_or_create_restaurant(
-                    restaurant_id, restaurant_data
-                )
+            branch_instance = self._create_branch(branch, profile_id)
 
-                # Create branch location
-                branch_location = self._create_branch_location(branch_location_data)
-
-                # Create branch
-                branch["contact_id"] = contact.id
-                branch["restaurant_id"] = restaurant.id
-                branch["location_id"] = branch_location.id
-
-                branch_instance = self._create_branch(branch, profile_id)
-
-                return branch_instance
-
-        except ValidationError as e:
-            logger.warning(f"Validation error: {str(e)}")
-            raise e
-        except Exception as e:
-            logger.error("Error while creating branch", exc_info=True)
-            raise e
+            return branch_instance
 
     def _get_or_create_restaurant(self, restaurant_id, restaurant_data):
         """Retrieve an existing restaurant or create a new one."""
@@ -106,17 +86,13 @@ class BranchService:
 
     def get_branch_by_id(self, branch_id):
         try:
-            # Fetch the branch object from the database by ID
             return Branch.objects.get(id=branch_id)
-
         except Branch.DoesNotExist:
-            # Log and handle the case where the branch does not exist
             logger.error(f"Branch with ID {branch_id} does not exist.")
             raise ObjectDoesNotExist(f"Branch with ID {branch_id} does not exist.")
 
         except Exception as e:
-            # Log any other exceptions that might occur
             logger.error(
                 f"An error occurred while fetching the branch: {str(e)}", exc_info=True
             )
-            raise e
+            raise BaseError("Error while fetching the branch", original_exception=e)

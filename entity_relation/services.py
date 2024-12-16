@@ -1,6 +1,6 @@
 import logging
 
-from serializer import EntityRelationSerializer
+from .serializer import EntityRelationSerializer
 
 logger = logging.getLogger(__name__)
 

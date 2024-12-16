@@ -9,6 +9,7 @@ from .models import Restaurant
 
 class RestaurantGetSerializer(serializers.ModelSerializer):
     branches = BranchGetSerializer(many=True)
+    contact_info = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant

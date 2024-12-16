@@ -13,8 +13,7 @@ class ContactService:
         """
         try:
             # Try to get the existing contact
-            contact = self.get(contact_data["email"], contact_data["phone_number"])
-            return contact
+            return self.get(contact_data["email"], contact_data["phone_number"])
         except Contact.DoesNotExist:
             # If not found, create a new contact
             contact_serializer = ContactSerializer(data=contact_data)
@@ -30,8 +29,7 @@ class ContactService:
         Fetches a contact by email and phone number.
         """
         try:
-            contact = Contact.objects.get(email=email, phone_number=phone_number)
-            return ContactSerializer(contact).data
+            return Contact.objects.get(email=email, phone_number=phone_number)
         except Contact.DoesNotExist:
             logger.warning(
                 f"Contact with email {email} and phone number {phone_number} does not exist."

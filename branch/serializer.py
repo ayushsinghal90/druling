@@ -11,8 +11,10 @@ from .models import Branch
 
 class BranchGetSerializer(serializers.ModelSerializer):
     restaurant_id = serializers.PrimaryKeyRelatedField(
-        queryset=Restaurant.objects.all(), required=True, source="restaurant"
+        queryset=Restaurant.objects.all(), source="restaurant", required=True
     )
+    contact_info = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
 
     class Meta:
         model = Branch

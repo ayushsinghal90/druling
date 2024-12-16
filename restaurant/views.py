@@ -16,10 +16,12 @@ class RestaurantView(ViewSet):
     @action(detail=False, methods=["get"], url_path="list")
     def get_list(self, request):
         try:
-            profile_id = request.user.profile_id
+            profile_id = request.user.profile.id
             restaurants = self.restaurant_service.get_list(profile_id)
-            return ResponseFactory.created(RestaurantGetSerializer(restaurants).data)
-        except ValidationError:
-            return ResponseFactory.bad_request()
-        except Exception:
-            return ResponseFactory.server_error()
+            return ResponseFactory.success(
+                RestaurantGetSerializer(restaurants, many=True).data
+            )
+        except ValidationError as e:
+            return ResponseFactory.bad_request(message=e.detail)
+        except Exception as e:
+            return ResponseFactory.server_error(message=str(e))

@@ -7,10 +7,10 @@ from contact.models import Contact
 class Restaurant(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
-    contact = models.OneToOneField(
+    contact = models.ForeignKey(
         Contact,
-        on_delete=models.CASCADE,
         related_name="restaurant",
+        on_delete=models.SET_NULL,
         null=True,
         blank=True,
     )

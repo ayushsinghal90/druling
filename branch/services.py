@@ -107,13 +107,7 @@ class BranchService:
     def get_branch_by_id(self, branch_id):
         try:
             # Fetch the branch object from the database by ID
-            branch = Branch.objects.get(id=branch_id)
-
-            # Serialize the branch object
-            branch_serializer = BranchCreateSerializer(branch)
-
-            # Return the serialized data
-            return branch_serializer.data
+            return Branch.objects.get(id=branch_id)
 
         except Branch.DoesNotExist:
             # Log and handle the case where the branch does not exist

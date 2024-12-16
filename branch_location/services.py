@@ -3,12 +3,17 @@ import logging
 from rest_framework.exceptions import ValidationError
 
 from commons.exceptions.BaseError import BaseError
+from commons.service.BaseService import BaseService
+from .models import BranchLocation
 from .serializer import BranchLocationSerializer
 
 logger = logging.getLogger(__name__)
 
 
-class BranchLocationService:
+class BranchLocationService(BaseService):
+    def __init__(self):
+        super().__init__(BranchLocation)
+
     def create(self, branch_location_data):
         try:
             branch_location_serializer = BranchLocationSerializer(

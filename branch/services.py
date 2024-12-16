@@ -1,11 +1,10 @@
 import logging
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
 from branch_location.services import BranchLocationService
-from commons.exceptions.BaseError import BaseError
+from commons.service.BaseService import BaseService
 from contact.services import ContactService
 from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
@@ -16,7 +15,7 @@ from .serializer import BranchCreateModelSerializer
 logger = logging.getLogger(__name__)
 
 
-class BranchService:
+class BranchService(BaseService):
     def __init__(
         self,
         branch_location_service=None,
@@ -24,6 +23,7 @@ class BranchService:
         entity_relation_service=None,
         contact_service=None,
     ):
+        super().__init__(Branch)
         self.branch_location_service = (
             branch_location_service or BranchLocationService()
         )
@@ -39,7 +39,8 @@ class BranchService:
             branch = branch_data.get("branch")
             restaurant_id = branch_data.get("restaurant_id")
             restaurant_data = branch_data.get("restaurant")
-            branch_location_data = branch_data.get("branch_location")
+            branch_location_data = branch_data.get("location")
+            branch_location_id = branch_data.get("location_id")
             contact_data = branch_data.get("contact")
 
             contact = self.contact_service.get_or_create(contact_data)
@@ -49,7 +50,9 @@ class BranchService:
             restaurant = self._get_or_create_restaurant(restaurant_id, restaurant_data)
 
             # Create branch location
-            branch_location = self._create_branch_location(branch_location_data)
+            branch_location = self._create_branch_location(
+                branch_location_id, branch_location_data
+            )
 
             # Create branch
             branch["contact_id"] = contact.id
@@ -72,9 +75,17 @@ class BranchService:
             restaurant = self.restaurant_service.create(restaurant_data)
         return restaurant
 
-    def _create_branch_location(self, branch_location_data):
+    def _create_branch_location(self, branch_location_id, branch_location_data):
         """Create a branch location."""
-        return self.branch_location_service.create(branch_location_data)
+        if branch_location_id:
+            branch = self.branch_location_service.get_by_id(branch_location_id)
+            if not branch:
+                raise ValidationError(
+                    f"Branch location with ID {branch_location_id} does not exist"
+                )
+        else:
+            branch = self.branch_location_service.create(branch_location_data)
+        return branch
 
     def _create_branch(self, branch, profile_id):
         """Validate and save the branch."""
@@ -83,16 +94,3 @@ class BranchService:
             branch_instance = branch_serializer.save()
             self.entity_relation_service.create_relation(branch_instance.id, profile_id)
             return branch_instance
-
-    def get_branch_by_id(self, branch_id):
-        try:
-            return Branch.objects.get(id=branch_id)
-        except Branch.DoesNotExist:
-            logger.error(f"Branch with ID {branch_id} does not exist.")
-            raise ObjectDoesNotExist(f"Branch with ID {branch_id} does not exist.")
-
-        except Exception as e:
-            logger.error(
-                f"An error occurred while fetching the branch: {str(e)}", exc_info=True
-            )
-            raise BaseError("Error while fetching the branch", original_exception=e)

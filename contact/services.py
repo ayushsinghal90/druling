@@ -1,13 +1,17 @@
 import logging
 
 from commons.exceptions.BaseError import BaseError
+from commons.service.BaseService import BaseService
 from .models import Contact
 from .serializer import ContactSerializer
 
 logger = logging.getLogger(__name__)
 
 
-class ContactService:
+class ContactService(BaseService):
+    def __init__(self):
+        super().__init__(Contact)
+
     def get_or_create(self, contact_data):
         """
         Fetches an existing contact by email and phone number, or creates a new one if it doesn't exist.

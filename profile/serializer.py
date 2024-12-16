@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
+from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from user.models import User
 
 from .models import Profile
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ProfileSerializer(BaseModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), required=True, source="branch"
     )

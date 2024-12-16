@@ -4,7 +4,7 @@ from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 
-from .serializer import BranchGetSerializer
+from .serializer import BranchGetModelSerializer
 from .services import BranchService
 
 
@@ -15,7 +15,7 @@ class BranchView(ViewSet):
         try:
             profile_id = request.user.profile.id
             branch = branch_service.create(request.data, profile_id)
-            return ResponseFactory.created(BranchGetSerializer(branch).data)
+            return ResponseFactory.created(BranchGetModelSerializer(branch).data)
         except ValidationError as e:
             return ResponseFactory.bad_request(message=e.detail)
         except Exception as e:

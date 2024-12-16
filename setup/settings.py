@@ -97,7 +97,7 @@ WSGI_APPLICATION = "setup.wsgi.application"
 # Database configuration
 DATABASES = {
     "default": {
-        "ENGINE": 'django.db.backends.postgresql',
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.getenv("POSTGRES_DB"),
         "USER": os.getenv("POSTGRES_USER"),
         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
@@ -202,3 +202,7 @@ CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
 if DEBUG:
     CORS_ALLOW_METHODS = ["*"]
+
+STATICFILES_DIRS = [
+    # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists
+]

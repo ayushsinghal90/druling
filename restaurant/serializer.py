@@ -1,14 +1,17 @@
 from rest_framework import serializers
 
-from branch.serializer import BranchGetSerializer
+from branch.serializer import BranchGetModelSerializer
+from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from contact.serializer import ContactSerializer
 
 from .models import Restaurant
 
 
-class RestaurantGetSerializer(serializers.ModelSerializer):
-    branches = BranchGetSerializer(many=True)
+class RestaurantGetSerializer(BaseModelSerializer):
+    branches = BranchGetModelSerializer(
+        many=True, fields=["id", "name", "contact_info"]
+    )
     contact_info = serializers.SerializerMethodField()
 
     class Meta:
@@ -22,7 +25,7 @@ class RestaurantGetSerializer(serializers.ModelSerializer):
         return None
 
 
-class RestaurantCreateSerializer(serializers.ModelSerializer):
+class RestaurantCreateSerializer(BaseModelSerializer):
     contact_id = serializers.PrimaryKeyRelatedField(
         queryset=Contact.objects.all(),
         required=False,

@@ -10,7 +10,7 @@ from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
 
 from .models import Branch
-from .serializer import BranchCreateSerializer
+from .serializer import BranchCreateModelSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +98,7 @@ class BranchService:
 
     def _create_branch(self, branch, profile_id):
         """Validate and save the branch."""
-        branch_serializer = BranchCreateSerializer(data=branch)
+        branch_serializer = BranchCreateModelSerializer(data=branch)
         if branch_serializer.is_valid(raise_exception=True):
             branch_instance = branch_serializer.save()
             self.entity_relation_service.create_relation(branch_instance.id, profile_id)

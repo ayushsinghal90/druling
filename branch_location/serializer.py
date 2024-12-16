@@ -1,9 +1,9 @@
-from rest_framework import serializers
+from commons.serializer.BaseModelSerializer import BaseModelSerializer
 
 from .models import BranchLocation
 
 
-class BranchLocationSerializer(serializers.ModelSerializer):
+class BranchLocationSerializer(BaseModelSerializer):
     class Meta:
         model = BranchLocation
         fields = ["id", "address", "city", "state", "postal_code", "country"]

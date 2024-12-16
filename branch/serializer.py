@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from branch_location.models import BranchLocation
 from branch_location.serializer import BranchLocationSerializer
+from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from contact.serializer import ContactSerializer
 from restaurant.models import Restaurant
@@ -9,7 +10,7 @@ from restaurant.models import Restaurant
 from .models import Branch
 
 
-class BranchGetSerializer(serializers.ModelSerializer):
+class BranchGetModelSerializer(BaseModelSerializer):
     restaurant_id = serializers.PrimaryKeyRelatedField(
         queryset=Restaurant.objects.all(), source="restaurant", required=True
     )
@@ -33,7 +34,7 @@ class BranchGetSerializer(serializers.ModelSerializer):
         return None
 
 
-class BranchCreateSerializer(serializers.ModelSerializer):
+class BranchCreateModelSerializer(BaseModelSerializer):
     contact_id = serializers.PrimaryKeyRelatedField(
         queryset=Contact.objects.all(),
         required=False,

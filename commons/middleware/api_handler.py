@@ -1,14 +1,9 @@
 from functools import wraps
 
+from rest_framework.exceptions import ValidationError
+
 from commons.api.responses import ResponseFactory
 from commons.exceptions.BaseError import BaseError
-from commons.exceptions.Errors import (
-    InvalidInputError,
-    NotFoundError,
-    PermissionDeniedError,
-    UnauthorizedError,
-    ValidationError,
-)
 
 
 def handle_api_exceptions(func):
@@ -16,13 +11,11 @@ def handle_api_exceptions(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             return func(self, request, *args, **kwargs)
-        except (ValidationError, InvalidInputError, NotFoundError) as e:
-            return ResponseFactory.bad_request(message=e.message)
-        except (UnauthorizedError, PermissionDeniedError) as e:
-            return ResponseFactory.unauthorized(message=e.message)
+        except ValidationError as e:
+            return ResponseFactory.bad_request(message="Invalid Input", data=e.args)
         except BaseError as e:
-            return ResponseFactory.server_error(message=e.message)
+            return ResponseFactory.server_error(message=e.message, errors=str(e))
         except Exception as e:
-            return ResponseFactory.server_error(message=str(e))
+            return ResponseFactory.server_error(message=str(e), data=e.args)
 
     return wrapper

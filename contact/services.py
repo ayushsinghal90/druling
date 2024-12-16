@@ -1,5 +1,6 @@
 import logging
 
+from commons.exceptions.BaseError import BaseError
 from .models import Contact
 from .serializer import ContactSerializer
 
@@ -22,7 +23,7 @@ class ContactService:
                 return contact_serializer.save()
         except Exception as e:
             logger.error(f"Unexpected error in get_or_create: {str(e)}", exc_info=True)
-            raise e
+            raise BaseError("Error while creating branch contact", original_exception=e)
 
     def get(self, email, phone_number):
         """
@@ -37,4 +38,4 @@ class ContactService:
             raise
         except Exception as e:
             logger.error(f"Error fetching contact: {str(e)}", exc_info=True)
-            raise e
+            raise BaseError("Error while fetching branch contact", original_exception=e)

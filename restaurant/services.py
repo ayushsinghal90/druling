@@ -4,6 +4,7 @@ from django.db.models import Prefetch
 from rest_framework.exceptions import ValidationError
 
 from branch.models import Branch
+from commons.exceptions.BaseError import BaseError
 
 from .models import Restaurant
 from .serializer import RestaurantCreateSerializer
@@ -25,14 +26,14 @@ class RestaurantService:
             raise e
         except Exception as e:
             logger.error("Error while creating restaurant", exc_info=True)
-            raise e
+            raise BaseError("Error while creating restaurant", original_exception=e)
 
     def get_list(self, profile_id):
         try:
             return self._get_restaurants_with_branches(profile_id)
         except Exception as e:
             logger.error("Error while fetching restaurant", exc_info=True)
-            raise e
+            raise BaseError("Error while fetching restaurant", original_exception=e)
 
     def _get_restaurants_with_branches(self, profile_id):
         return (

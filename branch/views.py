@@ -3,6 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
+from commons.middleware.api_handler import handle_api_exceptions
 
 from .serializer import BranchGetModelSerializer
 from .services import BranchService
@@ -10,6 +11,7 @@ from .services import BranchService
 
 class BranchView(ViewSet):
     @action(detail=False, methods=["post"], url_path="create")
+    @handle_api_exceptions
     def create_branch(self, request):
         branch_service = BranchService()
         try:

@@ -1,10 +1,10 @@
 import logging
 
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from rest_framework.exceptions import ValidationError
 
 from branch_location.services import BranchLocationService
+from commons.exceptions.BaseError import BaseError
+from commons.exceptions.Errors import NotFoundError, ValidationError
 from contact.services import ContactService
 from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
@@ -72,13 +72,9 @@ class BranchService:
                 branch_instance = self._create_branch(branch, profile_id)
 
                 return branch_instance
-
-        except ValidationError as e:
-            logger.warning(f"Validation error: {str(e)}")
-            raise e
         except Exception as e:
             logger.error("Error while creating branch", exc_info=True)
-            raise e
+            raise BaseError("Error while creating branch", original_exception=e)
 
     def _get_or_create_restaurant(self, restaurant_id, restaurant_data):
         """Retrieve an existing restaurant or create a new one."""
@@ -106,17 +102,13 @@ class BranchService:
 
     def get_branch_by_id(self, branch_id):
         try:
-            # Fetch the branch object from the database by ID
             return Branch.objects.get(id=branch_id)
-
         except Branch.DoesNotExist:
-            # Log and handle the case where the branch does not exist
             logger.error(f"Branch with ID {branch_id} does not exist.")
-            raise ObjectDoesNotExist(f"Branch with ID {branch_id} does not exist.")
+            raise NotFoundError(f"Branch with ID {branch_id} does not exist.")
 
         except Exception as e:
-            # Log any other exceptions that might occur
             logger.error(
                 f"An error occurred while fetching the branch: {str(e)}", exc_info=True
             )
-            raise e
+            raise BaseError("Error while fetching the branch", original_exception=e)

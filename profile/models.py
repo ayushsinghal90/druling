@@ -6,7 +6,7 @@ from user.models import User
 
 
 class Profile(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     img_url = models.URLField(
         max_length=500,
         null=True,

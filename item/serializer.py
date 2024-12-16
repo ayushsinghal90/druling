@@ -1,11 +1,12 @@
 from rest_framework import serializers
 
 from branch.models import Branch
+from commons.serializer.BaseModelSerializer import BaseModelSerializer
 
 from .models import Item
 
 
-class ItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(BaseModelSerializer):
     branch_id = serializers.PrimaryKeyRelatedField(
         queryset=Branch.objects.all(), required=True, source="branch"
     )

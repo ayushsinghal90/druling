@@ -5,63 +5,109 @@ from django.db import transaction
 from rest_framework.exceptions import ValidationError
 
 from branch_location.services import BranchLocationService
+from contact.services import ContactService
+from entity_relation.services import EntityRelationService
 from restaurant.services import RestaurantService
 
 from .models import Branch
-from .serializer import BranchSerializer
+from .serializer import BranchCreateModelSerializer
 
 logger = logging.getLogger(__name__)
 
 
 class BranchService:
-    def __init__(self, branch_location_service=None, restaurant_service=None):
+    def __init__(
+        self,
+        branch_location_service=None,
+        restaurant_service=None,
+        entity_relation_service=None,
+        contact_service=None,
+    ):
         self.branch_location_service = (
             branch_location_service or BranchLocationService()
         )
         self.restaurant_service = restaurant_service or RestaurantService()
+        self.entity_relation_service = (
+            entity_relation_service or EntityRelationService()
+        )
+        self.contact_service = contact_service or ContactService()
 
-    def create(self, branch_data):
+    def create(self, branch_data, profile_id):
         try:
             with transaction.atomic():
+                # Validate input data
                 branch = branch_data.get("branch")
+                restaurant_id = branch_data.get("restaurant_id")
                 restaurant_data = branch_data.get("restaurant")
                 branch_location_data = branch_data.get("branch_location")
+                contact_data = branch_data.get("contact")
 
-                if not branch or not restaurant_data or not branch_location_data:
+                if not branch or not branch_location_data:
+                    raise ValidationError("Branch or branch location data missing")
+
+                if not restaurant_id and not restaurant_data:
                     raise ValidationError(
-                        "Branch, restaurant, or branch location data missing"
+                        "Either restaurant_id or restaurant data must be provided"
                     )
 
-                restaurant = self.restaurant_service.create(restaurant_data)
-                branch_location = self.branch_location_service.create(
-                    branch_location_data
+                if not contact_data:
+                    raise ValidationError("Contact info is required")
+
+                contact = self.contact_service.get_or_create(contact_data)
+                restaurant_data["contact_id"] = contact.id
+
+                # Create or retrieve restaurant
+                restaurant = self._get_or_create_restaurant(
+                    restaurant_id, restaurant_data
                 )
 
+                # Create branch location
+                branch_location = self._create_branch_location(branch_location_data)
+
+                # Create branch
+                branch["contact_id"] = contact.id
                 branch["restaurant_id"] = restaurant.id
                 branch["location_id"] = branch_location.id
 
-                branch_serializer = BranchSerializer(data=branch)
-                if branch_serializer.is_valid(raise_exception=True):
-                    branch_instance = branch_serializer.save()
-                    return branch_instance
+                branch_instance = self._create_branch(branch, profile_id)
+
+                return branch_instance
 
         except ValidationError as e:
             logger.warning(f"Validation error: {str(e)}")
             raise e
         except Exception as e:
-            logger.e("Error while creating branch", exc_info=True)
+            logger.error("Error while creating branch", exc_info=True)
             raise e
+
+    def _get_or_create_restaurant(self, restaurant_id, restaurant_data):
+        """Retrieve an existing restaurant or create a new one."""
+        if restaurant_id:
+            restaurant = self.restaurant_service.get_by_id(restaurant_id)
+            if not restaurant:
+                raise ValidationError(
+                    f"Restaurant with ID {restaurant_id} does not exist"
+                )
+        else:
+            restaurant = self.restaurant_service.create(restaurant_data)
+        return restaurant
+
+    def _create_branch_location(self, branch_location_data):
+        """Create a branch location."""
+        return self.branch_location_service.create(branch_location_data)
+
+    def _create_branch(self, branch, profile_id):
+        """Validate and save the branch."""
+        branch_serializer = BranchCreateModelSerializer(data=branch)
+        if branch_serializer.is_valid(raise_exception=True):
+            branch_instance = branch_serializer.save()
+            self.entity_relation_service.create_relation(branch_instance.id, profile_id)
+            return branch_instance
 
     def get_branch_by_id(self, branch_id):
         try:
             # Fetch the branch object from the database by ID
-            branch = Branch.objects.get(id=branch_id)
-
-            # Serialize the branch object
-            branch_serializer = BranchSerializer(branch)
-
-            # Return the serialized data
-            return branch_serializer.data
+            return Branch.objects.get(id=branch_id)
 
         except Branch.DoesNotExist:
             # Log and handle the case where the branch does not exist

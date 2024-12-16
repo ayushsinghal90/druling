@@ -14,15 +14,13 @@ class EntityRelation(BaseModel):
         ("admin", "Admin"),
     )
 
-    profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="entity_associations"
-    )
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     branch = models.ForeignKey(
         Branch,
         on_delete=models.CASCADE,
         null=False,
         blank=False,
-        related_name="associations",
+        related_name="relations",
     )
     role = models.CharField(
         max_length=50,

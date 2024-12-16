@@ -35,7 +35,7 @@ class CreateBranchSerializer(serializers.Serializer):
     branch = BranchSerializer()
     restaurant = serializers.DictField(required=False)
     restaurant_id = serializers.CharField(required=False)
-    location = serializers.CharField(required=False)
+    location = serializers.DictField(required=False)
     location_id = serializers.CharField(required=False)
     contact = ContactSerializer()
 

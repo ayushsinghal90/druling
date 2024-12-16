@@ -21,5 +21,5 @@ def validate_obj_or_id(data, key=None, key_id=None, serializer_class=None):
     # If obj value is provided, validate its structure
     if key_value:
         nested_serializer = serializer_class(data=key_value)
-        if not nested_serializer.is_valid():
+        if not nested_serializer.is_valid(raise_exception=True):
             raise serializers.ValidationError({key: nested_serializer.errors})

@@ -5,6 +5,7 @@ from rest_framework.exceptions import ValidationError
 
 from branch.models import Branch
 from commons.exceptions.BaseError import BaseError
+from commons.service.BaseService import BaseService
 
 from .models import Restaurant
 from .serializer import RestaurantCreateSerializer
@@ -12,7 +13,10 @@ from .serializer import RestaurantCreateSerializer
 logger = logging.getLogger(__name__)
 
 
-class RestaurantService:
+class RestaurantService(BaseService):
+    def __init__(self):
+        super().__init__(Restaurant)
+
     def create(self, restaurant_data):
         try:
             restaurant_serializer = RestaurantCreateSerializer(data=restaurant_data)

@@ -2,6 +2,7 @@ import logging
 
 from rest_framework.exceptions import ValidationError
 
+from commons.exceptions.BaseError import BaseError
 from .serializer import BranchLocationSerializer
 
 logger = logging.getLogger(__name__)
@@ -23,4 +24,6 @@ class BranchLocationService:
             raise e
         except Exception as e:
             logger.error("Error while creating branch location", exc_info=True)
-            raise e
+            raise BaseError(
+                "Error while creating branch location", original_exception=e
+            )

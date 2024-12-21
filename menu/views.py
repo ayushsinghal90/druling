@@ -2,7 +2,8 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
-from commons.middleware.api_handler import handle_api_exceptions
+from commons.middleware.api_handler import api_handler
+from menu.requests.qr_menu_create_serializer import CreateQRMenuSerializer
 from menu.serializer import QRMenuSerializer
 from menu.services import QRMenuService
 
@@ -13,7 +14,7 @@ class QRMenuView(ViewSet):
         self.qr_menu_service = qr_menu_service or QRMenuService()
 
     @action(detail=False, methods=["post"], url_path="create")
-    @handle_api_exceptions
+    @api_handler(serializer=CreateQRMenuSerializer)
     def create_menu(self, request):
         qr_menu_instance = self.qr_menu_service.create(request.data)
         return ResponseFactory.created(QRMenuSerializer(qr_menu_instance).data)

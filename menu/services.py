@@ -1,7 +1,7 @@
 import logging
 
+from django.core.exceptions import ValidationError
 from django.db import transaction
-from rest_framework.exceptions import ValidationError
 
 from branch.services import BranchService
 from commons.service.BaseService import BaseService

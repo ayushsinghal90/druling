@@ -1,26 +1,31 @@
 from functools import wraps
-import logging
-
-from rest_framework.exceptions import ValidationError
-
-from commons.api.responses import ResponseFactory
-from commons.exceptions.BaseError import BaseError
-
-logger = logging.getLogger(__name__)
+from commons.middleware.api_exception_handler import handle_exceptions
+from commons.middleware.api_validation import validate
 
 
-def handle_api_exceptions(func):
-    @wraps(func)
-    def wrapper(self, request, *args, **kwargs):
-        try:
-            return func(self, request, *args, **kwargs)
-        except ValidationError as e:
-            logger.error("Invalid Input", e)
-            return ResponseFactory.bad_request(message="Invalid Input", data=e.args)
-        except BaseError as e:
-            return ResponseFactory.server_error(message=e.message, errors=str(e))
-        except Exception as e:
-            logger.error("Internal Server error", e)
-            return ResponseFactory.server_error(message=str(e), data=e.args)
+def api_handler(serializer=None, handle_exception=True):
+    """
+    Decorator to dynamically apply @handle_exceptions and/or @validate.
 
-    return wrapper
+    Args:
+        serializer: The serializer class to use for request validation (optional).
+        handle_exception: Boolean indicating whether to apply @handle_api_exceptions (default: True).
+    """
+
+    def decorator(func):
+        decorated_func = func
+
+        # Apply decorators in the correct order
+        if serializer:
+            decorated_func = validate(serializer)(decorated_func)
+
+        if handle_exception:
+            decorated_func = handle_exceptions(decorated_func)
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            return decorated_func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator

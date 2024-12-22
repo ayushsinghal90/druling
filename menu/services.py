@@ -16,12 +16,9 @@ class QRMenuService(BaseService):
         super().__init__(QRMenu)
         self.branch_service = branch_service or BranchService()
 
-    def create(self, menu_data):
+    def create(self, branch_id, file_key):
         try:
-            branch_id = menu_data.get("branch_id")
-            self.branch_service.get_by_id(branch_id)
-
-            qr_menu_serializer = QRMenuSerializer(data=menu_data)
+            qr_menu_serializer = QRMenuSerializer(data={'branch_id': branch_id, 'file_key': file_key})
             if qr_menu_serializer.is_valid(raise_exception=True):
                 with transaction.atomic():
                     qr_menu_instance = qr_menu_serializer.save()

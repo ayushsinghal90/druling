@@ -205,3 +205,12 @@ if DEBUG:
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists
 ]
+
+
+# S3 Buckets Name
+
+# FE app uploads to this bucket
+SOURCE_BUCKET_NAME = "druling-menus-temp"
+
+# BE moves the files from source bucket to this bucket
+DESTINATION_BUCKET_NAME = "druling-menus"

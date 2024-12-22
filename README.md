@@ -84,3 +84,13 @@ This will build/re-build single service at a time
    ```commandline
     docker-compose down
    ```
+
+### Upload any file to localstack S3 bucket
+
+    * Copy and paste the desired file in s3_media_files folder and rename the file to sample.jpg
+    * Re-build or restart your localstack docker container
+    * The file will then automtically appear in the durling-menus-temp S3 bucket.
+
+    NOTE: You can rename the file to something else but just make sure to copy paste the same name on line 25,
+        in localstack_bootstrap/init-aws-resources.sh
+

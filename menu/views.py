@@ -1,22 +1,38 @@
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.viewsets import ViewSet
+from rest_framework.permissions import AllowAny
 
 from commons.api.responses import ResponseFactory
-from menu.serializer import QRMenuSerializer
+from menu.serializer import UploadMenuSerializer
 from menu.services import QRMenuService
+from menu.utils import copy_file_if_exists
 
 
 class QRMenuView(ViewSet):
+
+    # TODO: remove this
+    permission_classes = (AllowAny,)
+
+    def __init__(self, qr_menu_service=None, **kwargs):
+        super().__init__(**kwargs)
+        self.qr_menu_service = qr_menu_service or QRMenuService()
+
     @action(detail=False, methods=["post"], url_path="create")
     def create_menu(self, request):
-        qr_menu_service = QRMenuService()
+        upload_menu_serializer = UploadMenuSerializer(data=request.data)
+        if not upload_menu_serializer.is_valid():
+            return ResponseFactory.bad_request(errors=upload_menu_serializer.errors)
+
+        new_file_location = copy_file_if_exists(request.data.get('file_key'))
 
         try:
-            qr_menu_instance = qr_menu_service.create(request.data)
-
-            return ResponseFactory.created(QRMenuSerializer(qr_menu_instance).data)
+            self.qr_menu_service.create(branch_id=request.data.get('branch_id'),
+                                        file_key=new_file_location)
+            return ResponseFactory.created(
+                message="Menu Uploaded Successfully",
+            )
         except ValidationError as e:
             return ResponseFactory.bad_request(e)
-        except Exception:
-            return ResponseFactory.server_error()
+        except Exception as e:
+            return ResponseFactory.server_error(e)

@@ -17,8 +17,8 @@ def get_boto_params():
     return params
 
 
-def copy_file_if_exists(file_key, source_bucket=settings.SOURCE_BUCKET_NAME,
-                        destination_bucket=settings.DESTINATION_BUCKET_NAME):
+def copy_file_if_exists(file_key, source_bucket='druling-menus-temp',
+                        destination_bucket='druling-menus'):
     """
     Checks if a file exists in the source S3 bucket and copies it to the destination bucket if found.
 

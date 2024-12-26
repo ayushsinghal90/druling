@@ -95,14 +95,14 @@ class BranchService(BaseService):
             self.entity_relation_service.create_relation(branch_instance.id, profile_id)
             return branch_instance
 
-    def update(self, branch_id, branch_data):
+    def update(self, branch_id, data):
         with transaction.atomic():
             branch = self.get_by_id(branch_id)
 
             # Validate input data
-            branch_data = branch_data.get("branch")
-            location_data = branch_data.get("location")
-            contact_data = branch_data.get("contact")
+            branch_data = data.get("branch")
+            location_data = data.get("location")
+            contact_data = data.get("contact")
 
             self.branch_location_service.update(branch.location_id, location_data)
             contact = self.contact_service.get_or_create(contact_data)

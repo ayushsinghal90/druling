@@ -1,11 +1,6 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
+from django.urls import path
 from .views import RestaurantView
 
-router = DefaultRouter()
-router.register(r"", RestaurantView, basename="restaurants")
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("list/", RestaurantView.as_view({"get": "get_list"})),
 ]

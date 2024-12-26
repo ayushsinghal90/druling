@@ -1,11 +1,8 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
+from django.urls import path
 from .views import AuthView
 
-router = DefaultRouter()
-router.register(r"", AuthView, basename="auth")
-
 urlpatterns = [
-    path("", include(router.urls)),
+    path("login/", AuthView.as_view({"post": "login"})),
+    path("sign_up/", AuthView.as_view({"post": "sign_up"})),
+    path("google_login/", AuthView.as_view({"post": "google_login"})),
 ]

@@ -1,11 +1,6 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-
-from menu.views import QRMenuView
-
-router = DefaultRouter()
-router.register(r"qr", QRMenuView, basename="menu")
+from django.urls import path
+from .views import QRMenuView
 
 urlpatterns = [
-    path("", include(router.urls)),
+    path("create/", QRMenuView.as_view({"post": "create_menu"})),
 ]

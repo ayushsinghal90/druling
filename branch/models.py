@@ -12,6 +12,7 @@ class Branch(BaseModel):
     )
     location = models.OneToOneField(BranchLocation, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
     contact = models.ForeignKey(
         Contact,
         related_name="branches",

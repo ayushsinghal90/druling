@@ -94,3 +94,23 @@ class BranchService(BaseService):
             branch_instance = branch_serializer.save()
             self.entity_relation_service.create_relation(branch_instance.id, profile_id)
             return branch_instance
+
+    def update(self, branch_id, branch_data):
+        with transaction.atomic():
+            branch = self.get_by_id(branch_id)
+
+            # Validate input data
+            branch_data = branch_data.get("branch")
+            location_data = branch_data.get("location")
+            contact_data = branch_data.get("contact")
+
+            self.branch_location_service.update(branch.location_id, location_data)
+            contact = self.contact_service.get_or_create(contact_data)
+            branch_data["contact_id"] = contact.id
+
+            branch_serializer = BranchCreateModelSerializer(
+                branch, data=branch_data, partial=True
+            )
+
+            if branch_serializer.is_valid(raise_exception=True):
+                return branch_serializer.save()

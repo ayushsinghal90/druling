@@ -1,4 +1,3 @@
-from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
@@ -13,7 +12,6 @@ class RestaurantView(ViewSet):
         super().__init__(**kwargs)
         self.restaurant_service = restaurant_service or RestaurantService()
 
-    @action(detail=False, methods=["get"], url_path="list")
     @api_handler()
     def get_list(self, request):
         profile_id = request.user.profile.id

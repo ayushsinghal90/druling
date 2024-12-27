@@ -19,7 +19,14 @@ class BranchGetModelSerializer(BaseModelSerializer):
 
     class Meta:
         model = Branch
-        fields = ["id", "name", "location", "contact_info", "restaurant_id"]
+        fields = [
+            "id",
+            "name",
+            "description",
+            "location",
+            "contact_info",
+            "restaurant_id",
+        ]
 
     @staticmethod
     def get_contact_info(obj):
@@ -50,4 +57,11 @@ class BranchCreateModelSerializer(BaseModelSerializer):
 
     class Meta:
         model = Branch
-        fields = ["id", "name", "location_id", "contact_id", "restaurant_id"]
+        fields = [
+            "id",
+            "name",
+            "description",
+            "location_id",
+            "contact_id",
+            "restaurant_id",
+        ]

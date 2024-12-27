@@ -200,7 +200,7 @@ LOGGING = {
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
 if DEBUG:
-    CORS_ALLOW_METHODS = ["*"]
+    CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists

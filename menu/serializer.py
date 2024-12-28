@@ -10,7 +10,9 @@ from .models import QRMenu
 
 class QRMenuGetSerializer(BaseModelSerializer):
     branch = BranchGetModelSerializer()
-    files = MenuFileGetSerializer(many=True)
+    files = MenuFileGetSerializer(
+        many=True, fields=["id", "file_url", "order", "category"]
+    )
 
     class Meta:
         model = QRMenu
@@ -24,4 +26,4 @@ class QRMenuCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = QRMenu
-        fields = ["id", "branch_id", "file_key"]
+        fields = ["id", "branch_id"]

@@ -21,10 +21,10 @@ class MenuFileService(BaseService):
             try:
                 file_keys = []
                 for file in files:
-                    file_keys.append(file.file_key)
+                    file_keys.append(file.get("file_key"))
                     file["menu_id"] = menu.id
 
-                self.validate_file_exists(menu.branch_id, files)
+                # self.validate_file_exists(menu.branch_id, file_keys)
 
                 menu_image_serializer = MenuFileCreateSerializer(data=files, many=True)
                 if menu_image_serializer.is_valid(raise_exception=True):
@@ -51,5 +51,5 @@ class MenuFileService(BaseService):
 
         result = []
         for file in files:
-            result.append(get_upload_url_and_file_key(branch_id, file.file_key))
+            result.append(get_upload_url_and_file_key(branch_id, file.get("file_key")))
         return result

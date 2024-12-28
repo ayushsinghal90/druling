@@ -7,6 +7,7 @@ from menu.models import QRMenu
 class MenuFile(BaseModel):
     menu = models.ForeignKey(
         QRMenu,
+        related_name="files",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

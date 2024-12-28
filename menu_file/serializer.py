@@ -11,6 +11,7 @@ class MenuFileGetSerializer(BaseModelSerializer):
     menu_id = serializers.PrimaryKeyRelatedField(
         queryset=QRMenu.objects.all(), required=True, source="menu"
     )
+    file_url = serializers.SerializerMethodField()
 
     class Meta:
         model = MenuFile

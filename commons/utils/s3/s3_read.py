@@ -95,15 +95,12 @@ def files_exist(bucket_name, folder_prefix, object_keys):
     :param bucket_name: Name of the bucket.
     :param folder_prefix: Prefix (folder path) in the bucket.
     :param object_keys: List of object keys to check.
-    :return: Dictionary with object keys as keys and existence (True/False) as values.
+    :return: True if all files exist, False otherwise.
     """
     try:
         response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=folder_prefix)
         existing_keys = {obj["Key"] for obj in response.get("Contents", [])}
-        results = {
-            key: f"{folder_prefix}/{key}" in existing_keys for key in object_keys
-        }
-        return results
+        return all(f"{folder_prefix}/{key}" in existing_keys for key in object_keys)
     except Exception as e:
         logger.error(f"Error listing objects: {e}")
         raise BaseError("Error while checking file existence.", original_exception=e)

@@ -15,6 +15,10 @@ services:
     volumes:
       - ./localstack_bootstrap:/etc/localstack/init/ready.d
       - ./s3_media_files:/media
+    command: >
+      sh -c "chmod +x /etc/localstack/init/ready.d/init-aws-resources.sh &&
+             /etc/localstack/init/ready.d/init-aws-resources.sh &&
+             docker-entrypoint.sh"
 
   db:
     image: postgres:15.2

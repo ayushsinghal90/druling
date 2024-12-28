@@ -11,11 +11,9 @@ class QRMenu(BaseModel):
         null=True,
         blank=True,
     )
-    file_key = models.CharField(max_length=100)
-    qr_file_key = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return f"{self.branch.name} - {self.file_key}"
+        return f"menu - {self.id} {self.branch.name}"
 
     class Meta:
         db_table = "qr_menu"

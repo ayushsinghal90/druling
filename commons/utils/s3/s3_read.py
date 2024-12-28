@@ -27,6 +27,16 @@ def get_read_signed_url(bucket_name, object_key, expires_in=3600):
         raise BaseError("Error while retrieving file.", original_exception=e)
 
 
+def get_normal_url(bucket_name, object_key):
+    """
+    Generate a normal URL for an S3 object.
+    :param bucket_name: Name of the bucket.
+    :param object_key: Key of the object.
+    :return: Normal URL.
+    """
+    return f"https://{bucket_name}.s3.amazonaws.com/{object_key}"
+
+
 def get_file(bucket_name, object_key):
     """
     Get the content of an object without using a signed URL.
@@ -77,3 +87,23 @@ def file_exists(bucket_name, object_key):
             raise BaseError(
                 "Error while checking file existence.", original_exception=e
             )
+
+
+def files_exist(bucket_name, folder_prefix, object_keys):
+    """
+    Check if multiple files exist in the S3 bucket folder.
+    :param bucket_name: Name of the bucket.
+    :param folder_prefix: Prefix (folder path) in the bucket.
+    :param object_keys: List of object keys to check.
+    :return: Dictionary with object keys as keys and existence (True/False) as values.
+    """
+    try:
+        response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=folder_prefix)
+        existing_keys = {obj["Key"] for obj in response.get("Contents", [])}
+        results = {
+            key: f"{folder_prefix}/{key}" in existing_keys for key in object_keys
+        }
+        return results
+    except Exception as e:
+        logger.error(f"Error listing objects: {e}")
+        raise BaseError("Error while checking file existence.", original_exception=e)

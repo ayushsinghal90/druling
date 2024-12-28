@@ -1,12 +1,23 @@
 from rest_framework import serializers
 
 from branch.models import Branch
+from branch.serializer import BranchGetModelSerializer
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
+from menu_file.serializer import MenuFileGetSerializer
 
 from .models import QRMenu
 
 
-class QRMenuSerializer(BaseModelSerializer):
+class QRMenuGetSerializer(BaseModelSerializer):
+    branch = BranchGetModelSerializer()
+    files = MenuFileGetSerializer(many=True)
+
+    class Meta:
+        model = QRMenu
+        fields = ["id", "branch", "files"]
+
+
+class QRMenuCreateSerializer(BaseModelSerializer):
     branch_id = serializers.PrimaryKeyRelatedField(
         queryset=Branch.objects.all(), required=True, source="branch"
     )

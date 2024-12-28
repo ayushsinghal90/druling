@@ -10,6 +10,7 @@ from item.models import Item
 from menu.models import QRMenu
 from restaurant.models import Restaurant
 from user.models import User
+from menu_file.models import MenuFile
 
 # Register your models here.
 
@@ -22,3 +23,4 @@ admin.site.register(Contact)
 admin.site.register(QRMenu)
 admin.site.register(EntityRelation)
 admin.site.register(User)
+admin.site.register(MenuFile)

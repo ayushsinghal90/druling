@@ -1,3 +1,3 @@
-from .qr_menu_create_serializer import CreateQRMenuSerializer, MenuFileNameSerializer
+from .qr_menu_create_serializer import CreateQRMenuSerializer
 
-__all__ = [CreateQRMenuSerializer, MenuFileNameSerializer]
+__all__ = [CreateQRMenuSerializer]

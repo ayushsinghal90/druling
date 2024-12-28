@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "contact",
     "menu",
     "entity_relation",
+    "menu_file",
 ]
 
 # Middleware

@@ -15,11 +15,5 @@ create_s3_bucket() {
     awslocal --endpoint-url=http://${LOCALSTACK_HOST}:4566 s3api create-bucket --bucket ${S3_BUCKET_NAME} --region ${AWS_REGION} --create-bucket-configuration LocationConstraint=${AWS_REGION}
 }
 
-upload_sample_s3_file_to_temp_bucket() {
-    local FILE_NAME=$1
-    awslocal s3api put-object --bucket druling-menus-temp --key ${FILE_NAME} --body /media/${FILE_NAME}
-}
-
 create_s3_bucket "druling-menus-temp"
 create_s3_bucket "druling-menus"
-upload_sample_s3_file_to_temp_bucket "sample.jpg"

@@ -5,10 +5,13 @@ from django.db import transaction
 
 from branch.services import BranchService
 from commons.service.BaseService import BaseService
+from commons.utils.s3.s3_read import file_exists
 from menu.models import QRMenu
 from menu.serializer import QRMenuSerializer
+from menu.utils import get_upload_url_and_file_key
 
 logger = logging.getLogger(__name__)
+MENU_BUCKET = "druling-menus"
 
 
 class QRMenuService(BaseService):
@@ -18,7 +21,11 @@ class QRMenuService(BaseService):
 
     def create(self, branch_id, file_key):
         try:
-            qr_menu_serializer = QRMenuSerializer(data={'branch_id': branch_id, 'file_key': file_key})
+            if not file_exists(MENU_BUCKET, file_key):
+                raise ValidationError("File not found.")
+            qr_menu_serializer = QRMenuSerializer(
+                data={"branch_id": branch_id, "file_key": file_key}
+            )
             if qr_menu_serializer.is_valid(raise_exception=True):
                 with transaction.atomic():
                     qr_menu_instance = qr_menu_serializer.save()
@@ -32,3 +39,6 @@ class QRMenuService(BaseService):
         except Exception:
             logger.error("Error while creating QR menu", exc_info=True)
             raise
+
+    def get_menu_upload_url(self, key_name):
+        return get_upload_url_and_file_key(MENU_BUCKET, "qr_menus", key_name)

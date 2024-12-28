@@ -1,18 +1,24 @@
 from rest_framework import serializers
 
 from branch.requests.serlializers import BranchSerializer
+from branch_location.models import BranchLocation
 from branch_location.requests.serlializers import BranchLocationSerializer
 from commons.validations.request_validations import validate_obj_or_id
 from contact.requests.serlializers import ContactSerializer
+from restaurant.models import Restaurant
 from restaurant.requests.serlializers import RestaurantSerializer
 
 
 class BranchCreateSerializer(serializers.Serializer):
     branch = BranchSerializer()
     restaurant = serializers.DictField(required=False)
-    restaurant_id = serializers.CharField(required=False)
+    restaurant_id = serializers.PrimaryKeyRelatedField(
+        queryset=Restaurant.objects.all(), required=True, source="restaurant"
+    )
     location = serializers.DictField(required=False)
-    location_id = serializers.CharField(required=False)
+    location_id = serializers.PrimaryKeyRelatedField(
+        queryset=BranchLocation.objects.all(), required=True, source="location"
+    )
     contact = ContactSerializer()
 
     def validate(self, data):

@@ -11,6 +11,7 @@ from menu.models import QRMenu
 from restaurant.models import Restaurant
 from user.models import User
 from menu_file.models import MenuFile
+from social_contact.models import SocialContact
 
 # Register your models here.
 
@@ -24,3 +25,4 @@ admin.site.register(QRMenu)
 admin.site.register(EntityRelation)
 admin.site.register(User)
 admin.site.register(MenuFile)
+admin.site.register(SocialContact)

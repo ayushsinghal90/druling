@@ -44,10 +44,11 @@ class BranchService(BaseService):
             contact_data = branch_data.get("contact")
 
             contact = self.contact_service.get_or_create(contact_data)
-            restaurant_data["contact_id"] = contact.id
 
             # Create or retrieve restaurant
-            restaurant = self._get_or_create_restaurant(restaurant_id, restaurant_data)
+            restaurant = self._get_or_create_restaurant(
+                restaurant_id, restaurant_data, contact
+            )
 
             # Create branch location
             branch_location = self._create_branch_location(
@@ -63,7 +64,7 @@ class BranchService(BaseService):
 
             return branch_instance
 
-    def _get_or_create_restaurant(self, restaurant_id, restaurant_data):
+    def _get_or_create_restaurant(self, restaurant_id, restaurant_data, contact):
         """Retrieve an existing restaurant or create a new one."""
         if restaurant_id:
             restaurant = self.restaurant_service.get_by_id(restaurant_id)
@@ -72,6 +73,7 @@ class BranchService(BaseService):
                     f"Restaurant with ID {restaurant_id} does not exist"
                 )
         else:
+            restaurant_data["contact_id"] = contact.id
             restaurant = self.restaurant_service.create(restaurant_data)
         return restaurant
 

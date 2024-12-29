@@ -13,11 +13,11 @@ class BranchCreateSerializer(serializers.Serializer):
     branch = BranchSerializer()
     restaurant = serializers.DictField(required=False)
     restaurant_id = serializers.PrimaryKeyRelatedField(
-        queryset=Restaurant.objects.all(), required=False, source="restaurant"
+        queryset=Restaurant.objects.all(), required=False
     )
     location = serializers.DictField(required=False)
     location_id = serializers.PrimaryKeyRelatedField(
-        queryset=BranchLocation.objects.all(), required=False, source="location"
+        queryset=BranchLocation.objects.all(), required=False
     )
     contact = ContactSerializer()
 

@@ -5,7 +5,7 @@ from commons.models.BaseModel import BaseModel
 
 
 class QRMenu(BaseModel):
-    branch = models.ForeignKey(
+    branch = models.OneToOneField(
         Branch,
         on_delete=models.SET_NULL,
         null=True,

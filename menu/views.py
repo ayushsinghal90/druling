@@ -1,3 +1,5 @@
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
@@ -25,6 +27,7 @@ class QRMenuView(ViewSet):
         return ResponseFactory.created(upload_creds)
 
     @api_handler()
+    @permission_classes([AllowAny])
     def get_menu_by_id(self, request, menu_id):
         qr_menu_obj = self.qr_menu_service.get_by_id(menu_id)
         return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)
@@ -41,3 +44,16 @@ class QRMenuView(ViewSet):
         return ResponseFactory.success(
             QRMenuGetSerializer(qr_menu_objs, many=True).data
         )
+
+
+class QRMenuPublicView(ViewSet):
+    permission_classes = [AllowAny]  # Set permission at class level
+
+    def __init__(self, qr_menu_service=None, **kwargs):
+        super().__init__(**kwargs)
+        self.qr_menu_service = qr_menu_service or QRMenuService()
+
+    @api_handler()
+    def get_menu_by_id(self, request, menu_id):
+        qr_menu_obj = self.qr_menu_service.get_by_id(menu_id)
+        return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)

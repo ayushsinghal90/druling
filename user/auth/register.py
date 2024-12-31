@@ -19,14 +19,10 @@ def sign_up(data):
         user = None
 
     if not user:
-        # If no user exists, create a new one
         serializer = RegisterSerializer(data=data)
 
-        # Validate serializer
         if not serializer.is_valid():
             return ResponseFactory.bad_request(errors=serializer.errors)
-
-        # Save the user and generate tokens
         serializer.save()
 
     user = User.objects.get(email=data["email"])

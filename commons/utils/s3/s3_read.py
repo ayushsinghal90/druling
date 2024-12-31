@@ -1,5 +1,5 @@
 from commons.exceptions.BaseError import BaseError
-from .s3_client import get_s3_client
+from .s3_client import get_s3_client, get_s3_endpoint
 import logging
 
 
@@ -34,7 +34,7 @@ def get_normal_url(bucket_name, object_key):
     :param object_key: Key of the object.
     :return: Normal URL.
     """
-    return f"https://{bucket_name}.s3.amazonaws.com/{object_key}"
+    return f"{get_s3_endpoint(bucket_name)}/{object_key}"
 
 
 def get_file(bucket_name, object_key):

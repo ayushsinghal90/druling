@@ -24,7 +24,7 @@ class MenuFileService(BaseService):
                     file_keys.append(file.get("file_key"))
                     file["menu_id"] = menu.id
 
-                # self.validate_file_exists(menu.branch_id, file_keys)
+                self.validate_file_exists(menu.branch_id, file_keys)
 
                 menu_image_serializer = MenuFileCreateSerializer(data=files, many=True)
                 if menu_image_serializer.is_valid(raise_exception=True):

@@ -19,3 +19,8 @@ class RestaurantView(ViewSet):
         return ResponseFactory.success(
             RestaurantGetSerializer(restaurants, many=True).data
         )
+
+    @api_handler()
+    def get_restaurant_by_id(self, request, restaurant_id):
+        restaurant = self.restaurant_service.get_by_id(restaurant_id)
+        return ResponseFactory.created(RestaurantGetSerializer(restaurant).data)

@@ -23,3 +23,8 @@ class BranchView(ViewSet):
     def update_branch(self, request, branch_id):
         branch = self.branch_service.update(branch_id, request.data)
         return ResponseFactory.success(BranchGetModelSerializer(branch).data)
+
+    @api_handler()
+    def get_branch_by_id(self, request, branch_id):
+        branch = self.branch_service.get_by_id(branch_id)
+        return ResponseFactory.success(BranchGetModelSerializer(branch).data)

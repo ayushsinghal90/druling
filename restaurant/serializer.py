@@ -10,7 +10,8 @@ from .models import Restaurant
 
 class RestaurantGetSerializer(BaseModelSerializer):
     branches = BranchGetModelSerializer(
-        many=True, fields=["id", "name", "description", "location", "contact_info"]
+        many=True,
+        fields=["id", "name", "description", "location", "contact_info", "menu_id"],
     )
     contact_info = serializers.SerializerMethodField()
 

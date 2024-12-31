@@ -47,9 +47,11 @@ class QRMenuService(BaseService):
         try:
             return self.model.objects.get(branch_id=branch_id)
         except self.model.DoesNotExist:
-            logger.error(f"{self.model.__name__} with branch id {id} does not exist.")
+            logger.error(
+                f"{self.model.__name__} with branch id {branch_id} does not exist."
+            )
             raise ObjectDoesNotExist(
-                f"{self.model.__name__} with branch id {id} does not exist."
+                f"{self.model.__name__} with branch id {branch_id} does not exist."
             )
 
         except Exception as e:

@@ -59,3 +59,12 @@ class QRMenuService(BaseService):
             raise BaseError(
                 f"Error while fetching the {self.model.__name__}", original_exception=e
             )
+
+    def get_list(self, profile_id):
+        try:
+            return QRMenu.objects.filter(
+                branch__relations__profile_id=profile_id
+            ).distinct()
+        except Exception as e:
+            logger.error("Error while fetching restaurant", exc_info=True)
+            raise BaseError("Error while fetching restaurant", original_exception=e)

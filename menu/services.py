@@ -23,9 +23,10 @@ class QRMenuService(BaseService):
         with transaction.atomic():
             try:
                 branch_id = data.get("branch_id")
+                theme = data.get("theme")
                 files = data.get("files")
                 qr_menu_serializer = QRMenuCreateSerializer(
-                    data={"branch_id": branch_id}
+                    data={"branch_id": branch_id, "theme": theme}
                 )
                 if qr_menu_serializer.is_valid(raise_exception=True):
                     with transaction.atomic():

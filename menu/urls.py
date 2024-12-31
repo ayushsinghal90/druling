@@ -8,5 +8,5 @@ urlpatterns = [
     path(
         "qr/branch/<branch_id>/", QRMenuView.as_view({"get": "get_menu_by_branch_id"})
     ),
-    path("qr/list/", QRMenuView.as_view({"get": "get_all"})),
+    path("qr/", QRMenuView.as_view({"get": "get_all"})),
 ]

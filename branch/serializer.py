@@ -5,7 +5,6 @@ from branch_location.serializer import BranchLocationSerializer
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from contact.serializer import ContactSerializer
-from menu.models import QRMenu
 from restaurant.models import Restaurant
 
 from .models import Branch
@@ -15,9 +14,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
     contact_info = serializers.SerializerMethodField()
     location = serializers.SerializerMethodField()
     restaurant = serializers.SerializerMethodField()
-    menu_id = serializers.PrimaryKeyRelatedField(
-        queryset=QRMenu.objects.all(), source="qr_menu", required=False
-    )
+    menu = serializers.SerializerMethodField(required=False)
 
     class Meta:
         model = Branch
@@ -28,7 +25,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
             "location",
             "contact_info",
             "restaurant",
-            "menu_id",
+            "menu",
         ]
 
     @staticmethod
@@ -51,6 +48,14 @@ class BranchGetModelSerializer(BaseModelSerializer):
             return RestaurantGetSerializer(
                 obj.restaurant, fields=["id", "name", "description"]
             ).data
+        return None
+
+    @staticmethod
+    def get_menu(obj):
+        from menu.serializer import QRMenuGetSerializer
+
+        if hasattr(obj, "qr_menu") and obj.qr_menu:
+            return QRMenuGetSerializer(obj.qr_menu, fields=["id", "theme"]).data
         return None
 
 

@@ -11,11 +11,9 @@ from .models import Branch
 
 
 class BranchGetModelSerializer(BaseModelSerializer):
-    restaurant_id = serializers.PrimaryKeyRelatedField(
-        queryset=Restaurant.objects.all(), source="restaurant", required=True
-    )
     contact_info = serializers.SerializerMethodField()
     location = serializers.SerializerMethodField()
+    restaurant = serializers.SerializerMethodField()
 
     class Meta:
         model = Branch
@@ -25,7 +23,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
             "description",
             "location",
             "contact_info",
-            "restaurant_id",
+            "restaurant",
         ]
 
     @staticmethod
@@ -38,6 +36,16 @@ class BranchGetModelSerializer(BaseModelSerializer):
     def get_location(obj):
         if obj.location:
             return BranchLocationSerializer(obj.location).data
+        return None
+
+    @staticmethod
+    def get_restaurant(obj):
+        from restaurant.serializer import RestaurantGetSerializer
+
+        if obj.restaurant:
+            return RestaurantGetSerializer(
+                obj.restaurant, fields=["id", "name", "description"]
+            ).data
         return None
 
 

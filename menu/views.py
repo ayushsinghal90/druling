@@ -25,6 +25,11 @@ class QRMenuView(ViewSet):
         return ResponseFactory.created(upload_creds)
 
     @api_handler()
-    def get_menu_details(self, request, menu_id):
+    def get_menu_by_id(self, request, menu_id):
         qr_menu_obj = self.qr_menu_service.get_by_id(menu_id)
+        return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)
+
+    @api_handler()
+    def get_menu_by_branch_id(self, request, branch_id):
+        qr_menu_obj = self.qr_menu_service.get_by_id(branch_id)
         return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)

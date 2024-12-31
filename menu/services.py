@@ -1,9 +1,10 @@
 import logging
 
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import transaction
 
 from branch.services import BranchService
+from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
 from .models import QRMenu
 from .serializer import QRMenuCreateSerializer
@@ -40,3 +41,21 @@ class QRMenuService(BaseService):
             except Exception:
                 logger.error("Error while creating QR menu", exc_info=True)
                 raise
+
+    def get_by_branch_id(self, branch_id):
+        try:
+            return self.model.objects.get(branch_id=branch_id)
+        except self.model.DoesNotExist:
+            logger.error(f"{self.model.__name__} with branch id {id} does not exist.")
+            raise ObjectDoesNotExist(
+                f"{self.model.__name__} with branch id {id} does not exist."
+            )
+
+        except Exception as e:
+            logger.error(
+                f"An error occurred while fetching the {self.model.__name__}: {str(e)}",
+                exc_info=True,
+            )
+            raise BaseError(
+                f"Error while fetching the {self.model.__name__}", original_exception=e
+            )

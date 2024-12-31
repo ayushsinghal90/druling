@@ -1,31 +1,18 @@
-from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from commons.api.responses import ResponseFactory
 
-from ..serializers import RegisterSerializer
+from ..services import UserService
 from .utils import generate_payload
 
-User = get_user_model()
+user_service = UserService()
 
 
 def sign_up(data):
     """
     Get or create a new user.
     """
-    try:
-        user = User.objects.get(email=data["email"])
-    except User.DoesNotExist:
-        user = None
-
-    if not user:
-        serializer = RegisterSerializer(data=data)
-
-        if not serializer.is_valid():
-            return ResponseFactory.bad_request(errors=serializer.errors)
-        serializer.save()
-
-    user = User.objects.get(email=data["email"])
+    user = user_service.get_or_create(data)
     refresh_token = RefreshToken.for_user(user)
     return ResponseFactory.created(
         data=generate_payload(user, refresh_token),

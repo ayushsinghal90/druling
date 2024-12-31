@@ -7,9 +7,10 @@ import os
 from commons.api.responses import ResponseFactory
 
 from .utils import generate_payload
-from ..serializers import RegisterSerializer
+from ..services import UserService
 
 User = get_user_model()
+user_service = UserService()
 google_oauth2_client_id = os.getenv("GOOGLE_OAUTH_KEY", "Test")
 
 
@@ -27,21 +28,14 @@ def google_login(data):
         ):
             raise ValueError("Wrong issuer.")
 
-        user = get_user_model().objects.filter(email=id_info["email"]).first()
-        if not user:
-            serializer = RegisterSerializer(
-                data={
-                    "email": id_info["email"],
-                    "first_name": id_info.get("given_name", ""),
-                    "last_name": id_info.get("family_name", ""),
-                    "password": User.objects.make_random_password(),
-                }
-            )
-            if not serializer.is_valid():
-                return ResponseFactory.bad_request(errors=serializer.errors)
-            serializer.save()
+        user_data = {
+            "email": id_info["email"],
+            "first_name": id_info.get("given_name", ""),
+            "last_name": id_info.get("family_name", ""),
+            "password": User.objects.make_random_password(),
+        }
 
-        user = User.objects.get(email=id_info["email"])
+        user = user_service.get_or_create(user_data)
         refresh_token = RefreshToken.for_user(user)
 
         return ResponseFactory.success(

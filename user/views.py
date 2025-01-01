@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 
 from commons.middleware.api_handler import api_handler
 from .auth.login import login_user
+from .auth.logout import logout_user
 from .auth.register import sign_up
 from .auth.social_auth import google_login
 
@@ -21,3 +22,9 @@ class AuthView(ViewSet):
     @api_handler()
     def google_login(self, request):
         return google_login(request.data)
+
+
+class LogoutView(ViewSet):
+    @api_handler()
+    def logout(self, request):
+        return logout_user(request)

@@ -8,7 +8,7 @@ def api_handler(serializer=None, handle_exception=True):
     Decorator to dynamically apply @handle_exceptions and/or @validate.
 
     Args:
-        serializer: The serializer class to use for request validation (optional).
+        serializer: The serializer class to use for requests validation (optional).
         handle_exception: Boolean indicating whether to apply @handle_api_exceptions (default: True).
     """
 

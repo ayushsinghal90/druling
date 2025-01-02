@@ -1,9 +1,9 @@
-from ..serializers import UserProfileSerializer
+from profile.serializer import ProfileGetSerializer
 
 
 def generate_payload(user, refresh_token):
     return {
-        "profile": UserProfileSerializer(user).data,
+        "profile": ProfileGetSerializer(user.profile).data,
         "refresh": str(refresh_token),
         "access": str(refresh_token.access_token),
     }

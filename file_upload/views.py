@@ -6,9 +6,9 @@ from file_upload.services import FileUploadService
 from commons.middleware.api_handler import api_handler
 
 
-class QRMenuView(ViewSet):
+class FileUploadView(ViewSet):
     @api_handler(serializer=FileUploadSerializer)
-    def get_menu_upload_url(self, request):
+    def get_upload_url(self, request):
         file_upload_service = FileUploadService(request.data.get("file_type"))
         upload_urls = file_upload_service.get_menu_upload_url(request.data)
         return ResponseFactory.created(upload_urls)

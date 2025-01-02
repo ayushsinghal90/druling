@@ -16,14 +16,14 @@ class S3Service:
         """
         if settings.DEBUG:
             return boto3.client(
-                "services", endpoint_url=f"http://localhost:{localstack_port}"
+                "s3", endpoint_url=f"http://localhost:{localstack_port}"
             )
         else:
-            return boto3.client("services")
+            return boto3.client("s3")
 
     @staticmethod
     def get_endpoint(bucket):
         if settings.DEBUG:
             return f"http://localhost:{localstack_port}/{bucket}"
         else:
-            return f"https://{bucket}.services.amazonaws.com"
+            return f"https://{bucket}.s3.amazonaws.com"

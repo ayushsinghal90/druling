@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
-from file_upload.enum.FIleType import FileType
+from file_upload.enum.FileType import FileType
 from file_upload.services import FileUploadService
 from menu.models import QRMenu
 

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.fields import empty
 
 from file_upload.config import S3_FILE_TYPE_CONFIG
-from file_upload.enum.FIleType import FileType
+from file_upload.enum.FileType import FileType
 
 
 def validate_file_name(value):
@@ -18,7 +18,7 @@ class FileSerializer(serializers.Serializer):
     file_key = serializers.CharField(required=True)
 
     def __init__(self, instance=None, data=empty, valid_extensions=None, **kwargs):
-        super().__init__(instance, data, kwargs)
+        super().__init__(instance, data, **kwargs)
         self.valid_extensions = valid_extensions
 
     def validate(self, data):

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 
 from commons.service.BaseService import BaseService
-from file_upload.enum.FIleType import FileType
+from file_upload.enum.FileType import FileType
 from file_upload.services import FileUploadService
 from .serializer import MenuFileCreateSerializer
 from menu_file.models import MenuFile

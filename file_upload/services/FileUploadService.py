@@ -1,7 +1,8 @@
 import uuid
 
-from file_upload.services.BasePathSerivce import BasePathService
-from file_upload.enum.Buckets import BucketType
+from django.core.exceptions import ValidationError
+
+from file_upload.config import S3_FILE_TYPE_CONFIG
 from file_upload.enum.FIleType import FileType
 from file_upload.services.s3 import S3ReadService, S3UploadService
 
@@ -9,12 +10,10 @@ from file_upload.services.s3 import S3ReadService, S3UploadService
 class FileUploadService:
     def __init__(
         self,
-        bucket: BucketType,
         file_type: FileType,
     ):
         self.file_type = file_type
-        self.bucket = bucket
-        self.base_path_service = BasePathService()
+        self.bucket = S3_FILE_TYPE_CONFIG[file_type].bucket
 
     def get_upload_url_and_file_key(self, file_key, path_params=None):
         new_file_key = f"{uuid.uuid4()}-{file_key}"
@@ -29,12 +28,26 @@ class FileUploadService:
         }
 
     def get_sub_path(self, path_params=None):
-        return self.base_path_service.get_sub_path(self.file_type, params=path_params)
+        _, path_func = S3_FILE_TYPE_CONFIG[self.file_type].path
+        return path_func(path_params)
 
     def get_url(self, file_key, path_params=None):
         return S3ReadService(
             self.bucket.value, f"{self.get_sub_path(path_params)}/{file_key}"
         ).get_normal_url()
+
+    def get_menu_upload_url(self, data):
+        path_params = {"branch_id": data.get("branch_id")}
+        files = data.get("files")
+
+        result = []
+        for file in files:
+            result.append(
+                self.get_upload_url_and_file_key(
+                    file.get("file_key"), path_params=path_params
+                )
+            )
+        return result
 
     def get_s3_read_service(self, path_params=None, file_key=None, file_keys=None):
         if not file_key and not file_keys:
@@ -44,3 +57,10 @@ class FileUploadService:
             object_key = f"{self.get_sub_path(path_params)}/{file_key}"
             return S3ReadService(self.bucket.value, object_key)
         return S3ReadService(self.bucket.value, object_keys=file_keys)
+
+    def validate_file_exists(self, path_params, file_keys):
+        s3_read_service = self.get_s3_read_service(
+            path_params=path_params, file_keys=file_keys
+        )
+        if not (s3_read_service.files_exist(self.get_sub_path(path_params))):
+            raise ValidationError("One or more File not found")

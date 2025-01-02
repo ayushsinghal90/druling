@@ -42,7 +42,7 @@ class S3ReadService:
     def _handle_s3_error(self, operation: str, error: Exception) -> None:
         """Handle S3 operation errors consistently."""
         logger.error(f"Error during {operation}: {error}")
-        raise BaseError(f"Error during {operation}", original_exception=error)
+        raise BaseError(f"Error while {operation}", original_exception=error)
 
     def get_read_signed_url(self, expires_in: int = 3600) -> str:
         """

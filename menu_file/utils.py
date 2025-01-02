@@ -1,7 +1,7 @@
 import uuid
 
-from file_upload.s3.s3_read import get_normal_url
-from file_upload.s3.s3_upload import get_upload_signed_url
+from file_upload.services.s3_read import get_normal_url
+from file_upload.services.s3_upload import get_upload_signed_url
 
 QR_MENU_PATH = "qr_menus"
 MENU_BUCKET = "druling-menus"

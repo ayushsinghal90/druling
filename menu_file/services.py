@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 
 from commons.service.BaseService import BaseService
-from file_upload.s3.s3_read import files_exist
+from file_upload.services.s3_read import files_exist
 from .serializer import MenuFileCreateSerializer
 from .utils import get_upload_url_and_file_key, MENU_BUCKET, get_sub_path
 from menu_file.models import MenuFile

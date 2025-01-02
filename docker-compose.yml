@@ -10,7 +10,7 @@ services:
       - "4566:4566"
       - "8080:8080"
     environment:
-      - SERVICES=sqs,dynamodb,s3,sns,secretsmanager
+      - SERVICES=sqs,dynamodb,services,sns,secretsmanager
       - AWS_DEFAULT_REGION=ap-south-1
     volumes:
       - ./localstack_bootstrap:/etc/localstack/init/ready.d

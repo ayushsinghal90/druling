@@ -1,6 +1,6 @@
 import logging
 from commons.exceptions.BaseError import BaseError
-from .s3 import S3Service
+from file_upload.services.s3 import S3Service
 
 logger = logging.getLogger(__name__)
 

@@ -12,6 +12,7 @@ urlpatterns = [
         include(
             [
                 path("user/", include("user.urls")),
+                path("profile/", include("profile.urls")),
                 path("restaurant/", include("restaurant.urls")),
                 path("branch/", include("branch.urls")),
                 path("item/", include("item.urls")),

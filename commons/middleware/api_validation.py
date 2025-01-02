@@ -3,7 +3,7 @@ from functools import wraps
 
 def validate(serializer=None):
     """
-    Decorator to validate API request data using a serializer.
+    Decorator to validate API requests data using a serializer.
 
     Args:
         serializer: The serializer class to use for validation.

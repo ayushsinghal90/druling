@@ -28,7 +28,7 @@ class CreatedResponse(BaseResponse):
 
 
 class BadRequestResponse(BaseResponse):
-    def __init__(self, data=None, message="Bad request", errors=None, **kwargs):
+    def __init__(self, data=None, message="Bad requests", errors=None, **kwargs):
         super().__init__(
             data=data,
             message=message,
@@ -72,7 +72,7 @@ class ResponseFactory:
         return CreatedResponse(data=data, message=message, **kwargs)
 
     @staticmethod
-    def bad_request(data=None, message="Bad request", errors=None, **kwargs):
+    def bad_request(data=None, message="Bad requests", errors=None, **kwargs):
         return BadRequestResponse(data=data, message=message, errors=errors, **kwargs)
 
     @staticmethod

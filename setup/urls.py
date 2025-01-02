@@ -19,6 +19,7 @@ urlpatterns = [
                 path("menu/", include("menu.urls")),
                 path("menu-file/", include("menu_file.urls")),
                 path("entity-relation/", include("entity_relation.urls")),
+                path("file/", include("file_upload.urls")),
             ]
         ),
     ),

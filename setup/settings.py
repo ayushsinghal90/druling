@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "entity_relation",
     "menu_file",
     "social_contact",
+    "file_upload",
 ]
 
 # Middleware

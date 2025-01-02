@@ -29,12 +29,19 @@ class FileSerializer(serializers.Serializer):
 
 class FileUploadSerializer(serializers.Serializer):
     params = serializers.DictField(required=False)
-    file_type = serializers.ChoiceField(choices=[e.value for e in FileType])
-    files = FileSerializer(many=True, required=True)
+    file_type = serializers.ChoiceField(
+        choices=[e.value for e in FileType], required=True
+    )
+    files = serializers.ListField(required=False)
 
     def validate(self, data):
-        file_type = data.get("file_type")
+        file_type = FileType(data.get("file_type"))
         serializer = S3_FILE_TYPE_CONFIG[file_type].serializer
         if serializer:
             serializer(data=data.get("params")).is_valid(raise_exception=True)
+
+        valid_extensions = S3_FILE_TYPE_CONFIG[file_type].valid_extensions
+        FileSerializer(
+            many=True, valid_extensions=valid_extensions, data=data.get("files")
+        ).is_valid(raise_exception=True)
         return data

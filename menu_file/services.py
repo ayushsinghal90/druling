@@ -44,16 +44,3 @@ class MenuFileService(BaseService):
             except Exception:
                 logger.error("Error while saving menu files", exc_info=True)
                 raise
-
-    def get_menu_upload_url(self, data):
-        path_params = {"branch_id": data.get("branch_id")}
-        files = data.get("files")
-
-        result = []
-        for file in files:
-            result.append(
-                self.file_upload_service.get_upload_url_and_file_key(
-                    file.get("file_key"), path_params=path_params
-                )
-            )
-        return result

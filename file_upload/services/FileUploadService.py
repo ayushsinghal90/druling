@@ -33,10 +33,7 @@ class FileUploadService:
             self.bucket, f"{self.get_sub_path(path_params)}/{file_key}"
         ).get_normal_url()
 
-    def get_menu_upload_url(self, data):
-        path_params = {"branch_id": data.get("branch_id")}
-        files = data.get("files")
-
+    def get_menu_upload_url(self, path_params, files):
         result = []
         for file in files:
             result.append(

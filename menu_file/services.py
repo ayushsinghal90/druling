@@ -46,10 +46,13 @@ class MenuFileService(BaseService):
 
     def validate_file_exists(self, branch_id, file_keys):
         path_params = {"branch_id": branch_id}
+        s3_read_service = self.file_upload_service.get_s3_read_service(
+            path_params=path_params, file_keys=file_keys
+        )
         if not (
-            self.file_upload_service.get_s3_read_service(
-                path_params=path_params, file_keys=file_keys
-            ).files_exist(self.file_upload_service.get_sub_path(path_params))
+            s3_read_service.files_exist(
+                self.file_upload_service.get_sub_path(path_params)
+            )
         ):
             logger.error("One or more File not found", exc_info=True)
             raise ValidationError("One or more File not found")

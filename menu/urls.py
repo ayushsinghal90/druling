@@ -3,7 +3,6 @@ from .views import QRMenuView, QRMenuPublicView
 
 urlpatterns = [
     path("qr/create/", QRMenuView.as_view({"post": "create_menu"})),
-    path("qr/upload_url/", QRMenuView.as_view({"post": "get_menu_upload_url"})),
     path("qr/<menu_id>/", QRMenuPublicView.as_view({"get": "get_menu_by_id"})),
     path(
         "qr/branch/<branch_id>/", QRMenuView.as_view({"get": "get_menu_by_branch_id"})

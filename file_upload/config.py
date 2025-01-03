@@ -24,13 +24,13 @@ S3_FILE_TYPE_CONFIG = {
     FileType.RESTAURANT_LOGO: FileTypeConfig(
         bucket=BucketType.RESTAURANT.value,
         valid_extensions=["jpg", "jpeg", "png"],
-        path=lambda p: "restaurant_logos/",
+        path=lambda p: "restaurant_logos",
         serializer=None,
     ),
     FileType.BRANCH_LOGO: FileTypeConfig(
         bucket=BucketType.RESTAURANT.value,
         valid_extensions=["jpg", "jpeg", "png"],
-        path=lambda p: "branch_logos/",
+        path=lambda p: "branch_logos",
         serializer=None,
     ),
 }

@@ -24,6 +24,7 @@ class RestaurantGetSerializer(BaseModelSerializer):
         ],
     )
     contact_info = serializers.SerializerMethodField()
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant

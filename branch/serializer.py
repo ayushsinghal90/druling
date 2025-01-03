@@ -17,6 +17,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
     location = serializers.SerializerMethodField()
     restaurant = serializers.SerializerMethodField()
     menu = serializers.SerializerMethodField(required=False)
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Branch

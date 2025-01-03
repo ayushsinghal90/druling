@@ -4,6 +4,8 @@ from branch.serializer import BranchGetModelSerializer
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from contact.serializer import ContactSerializer
+from file_upload.enum import FileType
+from file_upload.services import FileUploadService
 
 from .models import Restaurant
 
@@ -31,6 +33,12 @@ class RestaurantGetSerializer(BaseModelSerializer):
     def get_contact_info(obj):
         if obj.contact:
             return ContactSerializer(obj.contact).data
+        return None
+
+    @staticmethod
+    def get_img_url(obj):
+        if obj.img_url:
+            return FileUploadService(FileType.RESTAURANT_LOGO).get_url(obj.img_url)
         return None
 
 

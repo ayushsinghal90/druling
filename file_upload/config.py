@@ -33,4 +33,10 @@ S3_FILE_TYPE_CONFIG = {
         path=lambda p: "branch_logos",
         serializer=None,
     ),
+    FileType.USER_PROFILE: FileTypeConfig(
+        bucket=BucketType.DRULING.value,
+        valid_extensions=["jpg", "jpeg", "png"],
+        path=lambda p: "user_profile",
+        serializer=None,
+    ),
 }

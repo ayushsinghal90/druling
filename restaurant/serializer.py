@@ -11,13 +11,21 @@ from .models import Restaurant
 class RestaurantGetSerializer(BaseModelSerializer):
     branches = BranchGetModelSerializer(
         many=True,
-        fields=["id", "name", "description", "location", "contact_info", "menu"],
+        fields=[
+            "id",
+            "name",
+            "description",
+            "location",
+            "contact_info",
+            "menu",
+            "img_rul",
+        ],
     )
     contact_info = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "description", "contact_info", "branches"]
+        fields = ["id", "name", "img_rul", "description", "contact_info", "branches"]
 
     @staticmethod
     def get_contact_info(obj):
@@ -36,7 +44,7 @@ class RestaurantCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "description", "contact_id"]
+        fields = ["id", "name", "img_rul", "description", "contact_id"]
 
     def create(self, validated_data):
         return Restaurant.objects.create(**validated_data)

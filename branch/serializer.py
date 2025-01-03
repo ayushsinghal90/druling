@@ -21,6 +21,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
         fields = [
             "id",
             "name",
+            "img_url",
             "description",
             "location",
             "contact_info",
@@ -78,6 +79,7 @@ class BranchCreateModelSerializer(BaseModelSerializer):
         fields = [
             "id",
             "name",
+            "img_url",
             "description",
             "location_id",
             "contact_id",

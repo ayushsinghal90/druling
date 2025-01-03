@@ -18,14 +18,14 @@ class RestaurantGetSerializer(BaseModelSerializer):
             "location",
             "contact_info",
             "menu",
-            "img_rul",
+            "img_url",
         ],
     )
     contact_info = serializers.SerializerMethodField()
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "img_rul", "description", "contact_info", "branches"]
+        fields = ["id", "name", "img_url", "description", "contact_info", "branches"]
 
     @staticmethod
     def get_contact_info(obj):
@@ -44,7 +44,7 @@ class RestaurantCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "img_rul", "description", "contact_id"]
+        fields = ["id", "name", "img_url", "description", "contact_id"]
 
     def create(self, validated_data):
         return Restaurant.objects.create(**validated_data)

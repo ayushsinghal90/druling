@@ -44,5 +44,6 @@ create_s3_bucket() {
 wait_for_localstack
 
 # Create S3 buckets
+create_s3_bucket "druling"
 create_s3_bucket "druling-menus"
 create_s3_bucket "druling-restaurants"

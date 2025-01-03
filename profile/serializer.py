@@ -29,7 +29,7 @@ class ProfileGetSerializer(BaseModelSerializer):
     @staticmethod
     def get_img_url(obj):
         if obj.img_url:
-            return FileUploadService(FileType.BRANCH_LOGO).get_url(obj.img_url)
+            return FileUploadService(FileType.USER_PROFILE).get_url(obj.img_url)
         return None
 
 

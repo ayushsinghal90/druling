@@ -7,6 +7,7 @@ from contact.models import Contact
 class Restaurant(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+    img_url = models.CharField(max_length=200, null=True, blank=True)
     contact = models.ForeignKey(
         Contact,
         related_name="restaurant",

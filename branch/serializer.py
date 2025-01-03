@@ -5,6 +5,8 @@ from branch_location.serializer import BranchLocationSerializer
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from contact.models import Contact
 from contact.serializer import ContactSerializer
+from file_upload.enum import FileType
+from file_upload.services import FileUploadService
 from restaurant.models import Restaurant
 
 from .models import Branch
@@ -15,12 +17,14 @@ class BranchGetModelSerializer(BaseModelSerializer):
     location = serializers.SerializerMethodField()
     restaurant = serializers.SerializerMethodField()
     menu = serializers.SerializerMethodField(required=False)
+    img_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Branch
         fields = [
             "id",
             "name",
+            "img_url",
             "description",
             "location",
             "contact_info",
@@ -51,6 +55,12 @@ class BranchGetModelSerializer(BaseModelSerializer):
         return None
 
     @staticmethod
+    def get_img_url(obj):
+        if obj.img_url:
+            return FileUploadService(FileType.BRANCH_LOGO).get_url(obj.img_url)
+        return None
+
+    @staticmethod
     def get_menu(obj):
         from menu.serializer import QRMenuGetSerializer
 
@@ -78,6 +88,7 @@ class BranchCreateModelSerializer(BaseModelSerializer):
         fields = [
             "id",
             "name",
+            "img_url",
             "description",
             "location_id",
             "contact_id",

@@ -11,6 +11,7 @@ class Branch(BaseModel):
         Restaurant, related_name="branches", on_delete=models.CASCADE
     )
     location = models.OneToOneField(BranchLocation, on_delete=models.CASCADE)
+    img_url = models.CharField(max_length=200, null=True, blank=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
     contact = models.ForeignKey(

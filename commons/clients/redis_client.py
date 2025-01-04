@@ -1,4 +1,5 @@
 import redis
+import json
 from django.conf import settings
 
 
@@ -9,6 +10,9 @@ class RedisClient:
             port=settings.REDIS_PORT,
             decode_responses=True,  # Automatically decode byte strings to regular strings
         )
+
+    def client(self):
+        return self.client
 
     def set(self, key, value, ttl=None):
         """
@@ -29,6 +33,24 @@ class RedisClient:
         :return: Value or None if the key does not exist
         """
         return self.client.get(key)
+
+    def set_hash(self, key, data):
+        """Store a dictionary in Redis."""
+        self.client.hset(key, mapping=data)
+
+    def get_hash(self, key):
+        """Retrieve a dictionary from Redis."""
+        return self.client.hgetall(key)
+
+    def set_json(self, key, data, ttl=None):
+        """Store a JSON-serializable object in Redis."""
+        json_data = json.dumps(data)
+        self.set(key, json_data, ttl)
+
+    def get_json(self, key):
+        """Retrieve and deserialize a JSON object from Redis."""
+        json_data = self.get(key)
+        return json.loads(json_data) if json_data else None
 
     def delete(self, key):
         """

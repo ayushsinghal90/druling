@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 class TemplateManager:
     def __init__(self, client=None):
-        self.client = client or MailClient()
+        self.client = client or MailClient().get_client()
 
     def create_or_update_template(
         self,

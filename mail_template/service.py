@@ -23,7 +23,7 @@ class TemplateSetup:
             try:
                 action, result = self.template_manager.create_or_update_template(
                     template_name=template_config.template_name,
-                    subject=template_config.subject_part,
+                    subject=template_config.subject,
                     html_content=template_config.html,
                     text_content=template_config.text,
                     force_update=force_update,

@@ -1,5 +1,4 @@
 from django.apps import AppConfig
-from django.db.models.signals import post_migrate
 
 
 class MailTemplateConfig(AppConfig):
@@ -9,4 +8,4 @@ class MailTemplateConfig(AppConfig):
     def ready(self):
         from .signals import setup_email_templates
 
-        post_migrate.connect(setup_email_templates, sender=self)
+        setup_email_templates(self)

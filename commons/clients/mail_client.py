@@ -19,7 +19,10 @@ class MailClient:
             # Production AWS configuration
             self.client = boto3.client("ses", region_name=settings.AWS_DEFAULT_REGION)
 
-    def send_templated_email(
+    def get_client(self):
+        return self.client
+
+    def send_email(
         self,
         source: str,
         to_addresses: List[str],

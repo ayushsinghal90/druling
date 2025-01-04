@@ -7,7 +7,7 @@ from ..requests import SendVerifyCodeSerializer, VerifyCodeSerializer
 from ..services import EmailVerifyService
 
 
-class AuthView(ViewSet):
+class EmailVerificationView(ViewSet):
     permission_classes = (AllowAny,)
 
     def __init__(self, email_verify_service=None, **kwargs):

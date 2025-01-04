@@ -1,13 +1,16 @@
 import redis
 import json
-from django.conf import settings
+import os
+
+redis_host = os.getenv("REDIS_HOST", "localhost")
+redis_port = os.getenv("REDIS_PORT", 6379)
 
 
 class RedisClient:
     def __init__(self):
         self.client = redis.StrictRedis(
-            host=settings.REDIS_HOST,
-            port=settings.REDIS_PORT,
+            host=redis_host,
+            port=redis_port,
             decode_responses=True,  # Automatically decode byte strings to regular strings
         )
 

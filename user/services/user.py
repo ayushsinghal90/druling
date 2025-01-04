@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
-from .serializers import RegisterSerializer
+from ..serializers import RegisterSerializer
 
 User = get_user_model()
 logger = logging.getLogger(__name__)

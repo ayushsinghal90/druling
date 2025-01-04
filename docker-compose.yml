@@ -46,6 +46,12 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      POSTGRES_DB: druling
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
     depends_on:
       - db
       - redis

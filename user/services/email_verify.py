@@ -1,14 +1,15 @@
 import random
 
-from django.conf import settings
-from django.core.mail import send_mail
-
+from commons.clients.mail_client import MailClient
 from commons.clients.redis_client import RedisClient
+from mail_template.config import TEMPLATE_TYPE_CONFIG
+from mail_template.enum import TemplateType
 
 
 class EmailVerifyService:
-    def __init__(self, redis_client=None):
+    def __init__(self, redis_client=None, mail_client=None):
         self.redis_client = redis_client or RedisClient()
+        self.mail_client = mail_client or MailClient()
 
     def send_code(self, data):
         email = data.get("email")
@@ -20,11 +21,11 @@ class EmailVerifyService:
         self.redis_client.set(f"email_verification:{email}", code, 600)
 
         # Send the code via email
-        send_mail(
-            subject="Your Verification Code",
-            message=f"Your verification code is: {code}",
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[email],
+        self.mail_client.send_email(
+            template_name=TemplateType.EMAIL_VERIFY.value,
+            template_data={"verification_code": code},
+            source=TEMPLATE_TYPE_CONFIG[TemplateType.EMAIL_VERIFY.value].source,
+            to_addresses=[email],
         )
 
     def verify(self, data):

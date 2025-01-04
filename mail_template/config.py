@@ -9,5 +9,6 @@ TEMPLATE_TYPE_CONFIG = {
         subject="Verify your email",
         html=EMAIL_VERIFY.html_part,
         text=EMAIL_VERIFY.text_part,
+        source="no-reply@druling.com",
     )
 }

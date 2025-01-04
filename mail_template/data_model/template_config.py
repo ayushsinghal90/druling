@@ -9,3 +9,4 @@ class TemplateConfig:
     subject: str
     html: Any
     text: Any
+    source: str

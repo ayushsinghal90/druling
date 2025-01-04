@@ -1,0 +1,50 @@
+import boto3
+from botocore.exceptions import ClientError
+from typing import List, Dict, Any
+
+from django.conf import settings
+
+from commons.exceptions.BaseError import BaseError
+
+
+class MailClient:
+    def __init__(self):
+        if settings.DEBUG:
+            self.client = boto3.client(
+                "ses",
+                endpoint_url=f"http://localhost:{settings.LOCALSTACK_PORT}",
+                region_name=settings.AWS_DEFAULT_REGION,
+            )
+        else:
+            # Production AWS configuration
+            self.client = boto3.client("ses", region_name=settings.AWS_DEFAULT_REGION)
+
+    def send_templated_email(
+        self,
+        source: str,
+        to_addresses: List[str],
+        template_name: str,
+        template_data: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        """
+        Send templated email using SES.
+
+        Args:
+            source (str): Sender email address
+            to_addresses (List[str]): List of recipient email addresses
+            template_name (str): Name of the SES template to use
+            template_data (Dict[str, Any]): Template data
+
+        Returns:
+            Dict[str, Any]: Response from SES
+        """
+        try:
+            response = self.client.send_templated_email(
+                Source=source,
+                Destination={"ToAddresses": to_addresses},
+                Template=template_name,
+                TemplateData=template_data,
+            )
+            return response
+        except ClientError as e:
+            raise BaseError(f"Failed to send templated email: {str(e)}")

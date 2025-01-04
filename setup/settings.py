@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "menu_file",
     "social_contact",
     "file_upload",
+    "mail_template",
 ]
 
 # Middleware
@@ -209,3 +210,6 @@ if DEBUG:
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists
 ]
+
+LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")
+AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")

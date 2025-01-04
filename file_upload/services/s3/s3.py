@@ -1,10 +1,8 @@
 import boto3
 import logging
-import os
 from setup import settings
 
 logger = logging.getLogger(__name__)
-localstack_port = os.getenv("LOCALSTACK_PORT", "4566")
 
 
 class S3Service:
@@ -16,7 +14,7 @@ class S3Service:
         """
         if settings.DEBUG:
             return boto3.client(
-                "s3", endpoint_url=f"http://localhost:{localstack_port}"
+                "s3", endpoint_url=f"http://localhost:{settings.LOCALSTACK_PORT}"
             )
         else:
             return boto3.client("s3")
@@ -24,6 +22,6 @@ class S3Service:
     @staticmethod
     def get_endpoint(bucket):
         if settings.DEBUG:
-            return f"http://localhost:{localstack_port}/{bucket}"
+            return f"http://localhost:{settings.LOCALSTACK_PORT}/{bucket}"
         else:
             return f"https://{bucket}.s3.amazonaws.com"

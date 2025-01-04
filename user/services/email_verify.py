@@ -35,7 +35,7 @@ class EmailVerifyService:
 
         # Retrieve the code from Redis
         stored_code = self.redis_client.get(f"email_verification:{email}")
-        if int(stored_code) is None or stored_code != code:
+        if stored_code is None or stored_code != code:
             return False
 
         self.redis_client.delete(f"email_verification:{email}")

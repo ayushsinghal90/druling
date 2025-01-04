@@ -7,4 +7,4 @@ class SendVerifyCodeSerializer(serializers.Serializer):
 
 class VerifyCodeSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    code = serializers.IntegerField(max_length=6)
+    code = serializers.CharField(max_length=6)

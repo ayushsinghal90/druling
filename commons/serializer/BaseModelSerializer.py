@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 class BaseModelSerializer(serializers.ModelSerializer):
     """
-    A base serializer class that can be extended by other serializers.
+    A base serializer class that can be extended by other requests.
     It can include common functionality like custom validation or dynamic fields.
     """
 

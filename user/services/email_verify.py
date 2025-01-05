@@ -24,12 +24,6 @@ class EmailVerifyService:
         # Store the code in Redis with a TTL 10 min.
         self.redis_client.set(f"{RedisKey.EMAIL_VERIFICATION}:{email}", code, 600)
 
-        print(
-            self.mail_client.get_client().get_template(
-                TemplateName=TemplateType.EMAIL_VERIFY.value
-            )
-        )
-
         template_data = {
             "company_name": "Druling",
             "verification_code": code,
@@ -55,8 +49,8 @@ class EmailVerifyService:
         if stored_code is None or stored_code != code:
             return False
 
+        self.redis_client.set(f"{RedisKey.EMAIL_VERIFIED}:{email}", "1", 1800)
         self.redis_client.delete(f"{RedisKey.EMAIL_VERIFICATION}:{email}")
-        self.redis_client.set(f"{RedisKey.EMAIL_VERIFIED}:{email}", True, 1800)
         return True
 
     def get_code(self):

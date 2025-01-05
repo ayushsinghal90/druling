@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     "social_contact",
     "file_upload",
     "mail_template",
+    "subscription_plan",
+    "transaction",
 ]
 
 # Middleware

@@ -5,6 +5,7 @@ from django.conf import settings
 
 from commons.clients.mail_client import MailClient
 from commons.clients.redis_client import RedisClient
+from commons.enums import RedisKey
 from mail_template.config import TEMPLATE_TYPE_CONFIG
 from mail_template.enum import TemplateType
 
@@ -21,7 +22,7 @@ class EmailVerifyService:
         code = f"{self.get_code()}"
 
         # Store the code in Redis with a TTL 10 min.
-        self.redis_client.set(f"email_verification:{email}", code, 600)
+        self.redis_client.set(f"{RedisKey.EMAIL_VERIFICATION}:{email}", code, 600)
 
         print(
             self.mail_client.get_client().get_template(
@@ -50,11 +51,12 @@ class EmailVerifyService:
         email = data.get("email")
         code = data.get("code")
 
-        stored_code = self.redis_client.get(f"email_verification:{email}")
+        stored_code = self.redis_client.get(f"{RedisKey.EMAIL_VERIFICATION}:{email}")
         if stored_code is None or stored_code != code:
             return False
 
-        self.redis_client.delete(f"email_verification:{email}")
+        self.redis_client.delete(f"{RedisKey.EMAIL_VERIFICATION}:{email}")
+        self.redis_client.set(f"{RedisKey.EMAIL_VERIFIED}:{email}", True, 1800)
         return True
 
     def get_code(self):

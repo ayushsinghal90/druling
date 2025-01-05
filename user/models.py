@@ -28,6 +28,7 @@ class User(AbstractUser):
         blank=False,
         null=False,
     )
+    is_email_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"  # Use email as the unique identifier
     REQUIRED_FIELDS = []  # No additional required fields besides email

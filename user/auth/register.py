@@ -26,7 +26,6 @@ class RegisterService:
             return ResponseFactory.bad_request(message="Email is not verified.")
 
         self.redis_client.delete(f"{RedisKey.EMAIL_VERIFIED}:{data.get('email')}")
-        data["is_email_verified"] = True
 
         user = user_service.get_or_create(data)
         refresh_token = RefreshToken.for_user(user)

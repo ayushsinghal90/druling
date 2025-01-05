@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "menu_file",
     "social_contact",
     "file_upload",
+    "mail_template",
 ]
 
 # Middleware
@@ -197,7 +198,11 @@ LOGGING = {
     },
     "loggers": {
         "django": {"handlers": ["console", "file"], "level": "INFO"},
-        "myapp": {"handlers": ["console", "file"], "level": "DEBUG", "propagate": True},
+        "mail_template": {
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
     },
 }
 
@@ -209,3 +214,6 @@ if DEBUG:
 STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists
 ]
+
+LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")
+AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")

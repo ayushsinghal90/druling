@@ -12,13 +12,13 @@ RUN apt-get update && apt-get install -y postgresql-client
 WORKDIR /app
 
 # Copy the requirements file to the container
-COPY requirements.txt /app/
+COPY ../../requirements.txt /app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code to the container
-COPY . /app/
+COPY ../.. /app/
 
 # Expose port 3000 for Django development server
 EXPOSE 3000

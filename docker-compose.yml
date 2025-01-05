@@ -14,6 +14,9 @@ services:
     environment:
       - SERVICES=sqs,dynamodb,lambda,sns,secretsmanager,ses
       - AWS_DEFAULT_REGION=ap-south-1
+      - DEBUG=1
+      - LS_LOG=trace
+      - PERSISTENCE=1
     volumes:
       - ./build/stack/localstack:/etc/localstack/init/ready.d
     command: >

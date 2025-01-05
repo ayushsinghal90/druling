@@ -5,7 +5,7 @@ repos:
       - id: black
         name: black
         language_version: python3
-        exclude: '(^|/)(migrations|venv|docs|static)/'
+        exclude: '(^|/)(migrations|venv|docs|static|mail_template/templates)/'
 
   - repo: https://github.com/pycqa/flake8
     rev: 3.9.2
@@ -13,4 +13,4 @@ repos:
       - id: flake8
         args:
           - --max-line-length=120
-        exclude: '(^|/)(migrations|venv|tests)/'
+        exclude: '(^|/)(migrations|venv|docs|static|mail_template/templates)/'

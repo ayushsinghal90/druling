@@ -1,6 +1,8 @@
 from _datetime import datetime
 import random
 
+from django.conf import settings
+
 from commons.clients.mail_client import MailClient
 from commons.clients.redis_client import RedisClient
 from mail_template.config import TEMPLATE_TYPE_CONFIG
@@ -16,7 +18,7 @@ class EmailVerifyService:
         email = data.get("email")
 
         # Generate a 6-digit random code
-        code = f"{random.randint(100000, 999999)}"
+        code = f"{self.get_code()}"
 
         # Store the code in Redis with a TTL 10 min.
         self.redis_client.set(f"email_verification:{email}", code, 600)
@@ -54,3 +56,8 @@ class EmailVerifyService:
 
         self.redis_client.delete(f"email_verification:{email}")
         return True
+
+    def get_code(self):
+        if settings.DEBUG:
+            return "123123"
+        return f"{random.randint(100000, 999999)}"

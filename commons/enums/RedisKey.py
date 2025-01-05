@@ -1,6 +1,6 @@
-from enum import Enum
+from commons.enums.BaseEnum import BaseEnum
 
 
-class RedisKey(Enum):
+class RedisKey(BaseEnum):
     EMAIL_VERIFICATION = "email_verification"
     EMAIL_VERIFIED = "email_verified"

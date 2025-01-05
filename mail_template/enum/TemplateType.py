@@ -1,5 +1,5 @@
-from enum import Enum
+from commons.enums.BaseEnum import BaseEnum
 
 
-class TemplateType(Enum):
+class TemplateType(BaseEnum):
     EMAIL_VERIFY = "email_verify"

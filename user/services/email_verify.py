@@ -1,3 +1,4 @@
+from _datetime import datetime
 import random
 
 from commons.clients.mail_client import MailClient
@@ -15,15 +16,30 @@ class EmailVerifyService:
         email = data.get("email")
 
         # Generate a 6-digit random code
-        code = random.randint(100000, 999999)
+        code = f"{random.randint(100000, 999999)}"
 
         # Store the code in Redis with a TTL 10 min.
         self.redis_client.set(f"email_verification:{email}", code, 600)
 
+        print(
+            self.mail_client.get_client().get_template(
+                TemplateName=TemplateType.EMAIL_VERIFY.value
+            )
+        )
+
+        template_data = {
+            "company_name": "Druling",
+            "verification_code": code,
+            "user_email": email,
+            "support_email": "support@yourcompany.com",
+            "expiry_time": "10",
+            "current_year": datetime.now().year,
+        }
+
         # Send the code via email
         self.mail_client.send_email(
             template_name=TemplateType.EMAIL_VERIFY.value,
-            template_data={"verification_code": code},
+            template_data=template_data,
             source=TEMPLATE_TYPE_CONFIG[TemplateType.EMAIL_VERIFY.value].source,
             to_addresses=[email],
         )

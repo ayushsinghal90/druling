@@ -16,7 +16,15 @@ class QRMenuGetSerializer(BaseModelSerializer):
 
     class Meta:
         model = QRMenu
-        fields = ["id", "theme", "branch", "files", "created_at", "updated_at"]
+        fields = [
+            "id",
+            "theme",
+            "branch",
+            "files",
+            "is_active",
+            "created_at",
+            "updated_at",
+        ]
 
 
 class QRMenuCreateSerializer(BaseModelSerializer):
@@ -26,4 +34,4 @@ class QRMenuCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = QRMenu
-        fields = ["id", "branch_id", "theme"]
+        fields = ["id", "branch_id", "theme", "is_active"]

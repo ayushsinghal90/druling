@@ -30,6 +30,7 @@ class BranchGetModelSerializer(BaseModelSerializer):
             "contact_info",
             "restaurant",
             "menu",
+            "is_active",
         ]
 
     @staticmethod
@@ -93,4 +94,5 @@ class BranchCreateModelSerializer(BaseModelSerializer):
             "location_id",
             "contact_id",
             "restaurant_id",
+            "is_active",
         ]

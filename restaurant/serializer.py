@@ -28,7 +28,15 @@ class RestaurantGetSerializer(BaseModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "img_url", "description", "contact_info", "branches"]
+        fields = [
+            "id",
+            "name",
+            "img_url",
+            "description",
+            "contact_info",
+            "branches",
+            "is_active",
+        ]
 
     @staticmethod
     def get_contact_info(obj):
@@ -53,7 +61,7 @@ class RestaurantCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ["id", "name", "img_url", "description", "contact_id"]
+        fields = ["id", "name", "img_url", "description", "contact_id", "is_active"]
 
     def create(self, validated_data):
         return Restaurant.objects.create(**validated_data)

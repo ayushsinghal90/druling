@@ -21,6 +21,7 @@ class Branch(BaseModel):
         null=True,
         blank=True,
     )
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.name} - {self.location.city}"

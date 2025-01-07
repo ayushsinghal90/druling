@@ -17,7 +17,6 @@ class TemplateSetup:
         Set up all email templates in SES and return status of each template.
         """
         results = self.starting_templates_setup(force_update)
-        errors, success = [], []
         errors, success = [k for k, v in results.items() if v["status"] == "error"], [
             k for k, v in results.items() if v["status"] != "error"
         ]

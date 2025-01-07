@@ -1,25 +1,15 @@
 import json
 
-import boto3
 from botocore.exceptions import ClientError
 from typing import List, Dict, Any
 
-from django.conf import settings
-
+from commons.clients.boto_client import boto_client
 from commons.exceptions.BaseError import BaseError
 
 
 class MailClient:
     def __init__(self):
-        if settings.DEBUG:
-            self.client = boto3.client(
-                "ses",
-                endpoint_url=f"http://{settings.LOCALSTACK_HOST}:{settings.LOCALSTACK_PORT}",
-                region_name=settings.AWS_DEFAULT_REGION,
-            )
-        else:
-            # Production AWS configuration
-            self.client = boto3.client("ses", region_name=settings.AWS_DEFAULT_REGION)
+        self.client = boto_client("ses")
 
     def get_client(self):
         return self.client

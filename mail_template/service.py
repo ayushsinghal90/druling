@@ -16,6 +16,19 @@ class TemplateSetup:
         """
         Set up all email templates in SES and return status of each template.
         """
+        results = self.starting_templates_setup(force_update)
+        errors, success = [], []
+        errors, success = [k for k, v in results.items() if v["status"] == "error"], [
+            k for k, v in results.items() if v["status"] != "error"
+        ]
+        logger.info(
+            f"Ran script to set up email templates. Success: {success}, Errors: {errors}"
+        )
+
+    def starting_templates_setup(self, force_update: bool = False) -> Dict[str, Any]:
+        """
+        Set up all email templates in SES and return status of each template.
+        """
         results = {}
 
         for template_type in TemplateType:

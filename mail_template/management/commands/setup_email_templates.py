@@ -16,12 +16,11 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        try:
-            force_update = options.get("force", False)
-
-            TemplateSetup().setup_templates(force_update)
-            self.stdout.write(self.style.SUCCESS("Successfully set up email templates"))
-        except Exception as e:
-            self.stderr.write(
-                self.style.ERROR(f"Failed to set up email templates: {str(e)}")
-            )
+        self.stdout.write(
+            self.style.SUCCESS("Running script to Set up email templates")
+        )
+        force_update = options.get("force", False)
+        TemplateSetup().setup_templates(force_update)
+        self.stdout.write(
+            self.style.SUCCESS("Completing script to set up email templates")
+        )

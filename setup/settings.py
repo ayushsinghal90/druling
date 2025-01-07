@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     "mail_template",
     "subscription_plan",
     "transaction",
+    "subscription",
+    "resource_limit",
 ]
 
 # Middleware

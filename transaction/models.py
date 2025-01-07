@@ -1,12 +1,12 @@
 from django.db import models
 
 from commons.models.BaseModel import BaseModel
-from purchase.models import Purchase
+from subscription.models import Subscription
 from transaction.enums import TransactionStatus
 
 
 class Transaction(BaseModel):
-    purchase = models.ForeignKey(Purchase, on_delete=models.CASCADE)
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
     amount = models.IntegerField()
     status = models.CharField(
         max_length=50,
@@ -16,7 +16,7 @@ class Transaction(BaseModel):
     completed_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.id}, {self.purchase.id}"
+        return f"{self.id}, {self.subscription.id}"
 
     class Meta:
         db_table = "transaction"

@@ -1,9 +1,9 @@
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 
-from .models import SubscriptionPlan
+from .models import Subscription
 
 
-class PurchaseSerializer(BaseModelSerializer):
+class SubscriptionSerializer(BaseModelSerializer):
     class Meta:
-        model = SubscriptionPlan
+        model = Subscription
         fields = ["id", "amount", "profile"]

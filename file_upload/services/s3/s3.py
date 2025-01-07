@@ -1,5 +1,6 @@
-import boto3
 import logging
+
+from commons.clients.boto_client import boto_client
 from setup import settings
 
 logger = logging.getLogger(__name__)
@@ -12,13 +13,7 @@ class S3Service:
         Get an S3 client for AWS or LocalStack.
         :return: Configured S3 client.
         """
-        if settings.DEBUG:
-            return boto3.client(
-                "s3",
-                endpoint_url=f"http://{settings.LOCALSTACK_HOST}:{settings.LOCALSTACK_PORT}",
-            )
-        else:
-            return boto3.client("s3")
+        return boto_client("s3")
 
     @staticmethod
     def get_endpoint(bucket):

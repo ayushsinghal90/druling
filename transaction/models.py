@@ -1,12 +1,14 @@
 from django.db import models
 
 from commons.models.BaseModel import BaseModel
+from profile.models import Profile
 from subscription.models import Subscription
 from transaction.enums import TransactionStatus
 
 
 class Transaction(BaseModel):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     amount = models.IntegerField()
     status = models.CharField(
         max_length=50,

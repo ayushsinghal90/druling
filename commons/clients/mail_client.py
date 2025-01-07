@@ -14,7 +14,7 @@ class MailClient:
         if settings.DEBUG:
             self.client = boto3.client(
                 "ses",
-                endpoint_url=f"http://localhost:{settings.LOCALSTACK_PORT}",
+                endpoint_url=f"http://{settings.LOCALSTACK_HOST}:{settings.LOCALSTACK_PORT}",
                 region_name=settings.AWS_DEFAULT_REGION,
             )
         else:

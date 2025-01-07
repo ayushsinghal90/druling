@@ -14,7 +14,8 @@ class S3Service:
         """
         if settings.DEBUG:
             return boto3.client(
-                "s3", endpoint_url=f"http://localhost:{settings.LOCALSTACK_PORT}"
+                "s3",
+                endpoint_url=f"http://{settings.LOCALSTACK_HOST}:{settings.LOCALSTACK_PORT}",
             )
         else:
             return boto3.client("s3")

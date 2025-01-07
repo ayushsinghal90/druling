@@ -10,13 +10,12 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("subscription", "0001_initial"),
-        ("profile", "0003_alter_profile_img_url"),
+        ("subscription_plan", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Transaction",
+            name="ResourceLimit",
             fields=[
                 (
                     "id",
@@ -30,15 +29,11 @@ class Migration(migrations.Migration):
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 ("deleted_at", models.DateTimeField(blank=True, null=True)),
-                ("amount", models.IntegerField()),
-                ("discount", models.IntegerField(default=0)),
-                ("taxes", models.IntegerField(default=0)),
-                ("total_amount", models.IntegerField()),
                 (
-                    "status",
+                    "resource_type",
                     models.CharField(
                         choices=[
-                            ("COMPLETED", "completed"),
+                            ("QR_MENU", "qr_menu"),
                             ("IN_PROGRESS", "in_progress"),
                             ("CANCELLED", "cancelled"),
                             ("FAILED", "failed"),
@@ -46,36 +41,18 @@ class Migration(migrations.Migration):
                         max_length=50,
                     ),
                 ),
-                ("method", models.CharField(max_length=50)),
-                ("completed_at", models.DateTimeField(blank=True, null=True)),
+                ("limit", models.IntegerField()),
+                ("is_active", models.BooleanField(default=True)),
                 (
-                    "profile",
+                    "plan_id",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="profile.profile",
-                    ),
-                ),
-                (
-                    "subscription",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="subscription.subscription",
+                        to="subscription_plan.subscriptionplan",
                     ),
                 ),
             ],
             options={
-                "db_table": "transaction",
-                "ordering": ["-created_at"],
-                "indexes": [
-                    models.Index(
-                        fields=["profile", "-created_at"],
-                        name="transaction_profile_934a6d_idx",
-                    ),
-                    models.Index(
-                        fields=["status", "-created_at"],
-                        name="transaction_status_c83f11_idx",
-                    ),
-                ],
+                "db_table": "resource_limit",
             },
         ),
     ]

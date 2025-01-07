@@ -12,6 +12,10 @@ from restaurant.models import Restaurant
 from user.models import User
 from menu_file.models import MenuFile
 from social_contact.models import SocialContact
+from subscription.models import Subscription
+from subscription_plan.models import SubscriptionPlan
+from transaction.models import Transaction
+from resource_limit.models import ResourceLimit
 
 # Register your models here.
 
@@ -26,3 +30,7 @@ admin.site.register(EntityRelation)
 admin.site.register(User)
 admin.site.register(MenuFile)
 admin.site.register(SocialContact)
+admin.site.register(Subscription)
+admin.site.register(SubscriptionPlan)
+admin.site.register(ResourceLimit)
+admin.site.register(Transaction)

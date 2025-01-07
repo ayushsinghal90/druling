@@ -55,6 +55,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
+      LOCALSTACK_HOST: localstack
     depends_on:
       - db
       - redis

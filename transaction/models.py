@@ -10,6 +10,9 @@ class Transaction(BaseModel):
     subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     amount = models.IntegerField()
+    discount = models.IntegerField(default=0)
+    taxes = models.IntegerField(default=0)
+    total_amount = models.IntegerField()
     status = models.CharField(
         max_length=50,
         choices=[(status.name, status.value) for status in TransactionStatus],

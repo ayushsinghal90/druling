@@ -7,7 +7,6 @@ class SubscriptionPlan(BaseModel):
     amount = models.IntegerField()
     name = models.CharField(max_length=50)
     duration = models.IntegerField()
-    discount = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

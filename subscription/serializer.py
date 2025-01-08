@@ -1,9 +1,22 @@
+from rest_framework import serializers
+
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
+from profile.models import Profile
+from subscription_plan.models import SubscriptionPlan
 
 from .models import Subscription
 
 
-class SubscriptionSerializer(BaseModelSerializer):
+class SubscriptionCreateSerializer(BaseModelSerializer):
+    profile_id = serializers.PrimaryKeyRelatedField(
+        queryset=Profile.objects.all(), required=True, source="profile"
+    )
+    plan_id = serializers.PrimaryKeyRelatedField(
+        queryset=SubscriptionPlan.objects.all(),
+        required=True,
+        source="subscription_plan",
+    )
+
     class Meta:
         model = Subscription
-        fields = ["id", "amount", "profile"]
+        fields = ["id", "plan_id", "profile_id", "start_data", "end_date"]

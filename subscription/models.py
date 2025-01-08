@@ -8,8 +8,8 @@ from subscription_plan.models import SubscriptionPlan
 class Subscription(BaseModel):
     plan_id = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    start_data = models.DateField(null=True, blank=True)
-    end_data = models.DateField(null=True, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

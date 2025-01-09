@@ -7,7 +7,7 @@ from subscription_plan.models import SubscriptionPlan
 
 
 class Subscription(BaseModel):
-    plan_id = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -17,6 +17,7 @@ class Subscription(BaseModel):
     status = models.CharField(
         max_length=50,
         choices=[(status.name, status.value) for status in SubscriptionStatus],
+        default=SubscriptionStatus.DRAFT,
     )
 
     def __str__(self):

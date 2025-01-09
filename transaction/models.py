@@ -16,8 +16,9 @@ class Transaction(BaseModel):
     status = models.CharField(
         max_length=50,
         choices=[(status.name, status.value) for status in TransactionStatus],
+        default=TransactionStatus.PENDING,
     )
-    method = models.CharField(max_length=50)
+    method = models.CharField(max_length=50, null=True, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
     reference_number = models.CharField(max_length=100, null=True, blank=True)
 

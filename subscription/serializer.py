@@ -14,7 +14,7 @@ class SubscriptionGetSerializer(BaseModelSerializer):
             "id",
             "plan",
             "transaction",
-            "start_data",
+            "start_date",
             "end_date",
             "status",
             "next_billing_date",
@@ -29,7 +29,7 @@ class SubscriptionCreateSerializer(BaseModelSerializer):
     plan_id = serializers.PrimaryKeyRelatedField(
         queryset=SubscriptionPlan.objects.all(),
         required=True,
-        source="subscription_plan",
+        source="plan",
     )
 
     class Meta:
@@ -38,7 +38,7 @@ class SubscriptionCreateSerializer(BaseModelSerializer):
             "id",
             "plan_id",
             "profile_id",
-            "start_data",
+            "start_date",
             "end_date",
             "status",
             "next_billing_date",

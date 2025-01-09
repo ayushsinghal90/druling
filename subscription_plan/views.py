@@ -16,11 +16,11 @@ class SubscriptionPlanView(ViewSet):
     @api_handler()
     def get_all_plans(self, request):
         all_plans = self.subscription_plan_service.get_all_active_plans()
-        return ResponseFactory.created(
+        return ResponseFactory.success(
             SubscriptionPlanGetSerializer(all_plans, many=True).data
         )
 
     @api_handler()
     def get_plan_by_id(self, request, plan_id):
         plan = self.subscription_plan_service.get_by_id(plan_id)
-        return ResponseFactory.created(SubscriptionPlanGetSerializer(plan).data)
+        return ResponseFactory.success(SubscriptionPlanGetSerializer(plan).data)

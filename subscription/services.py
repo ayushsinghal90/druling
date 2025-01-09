@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.db import transaction
 
@@ -21,7 +21,7 @@ class SubscriptionService(BaseService):
             subscription_plan = self.plan_service.get_active_plan_by_id(plan_id)
 
             start_date = datetime.now().date()
-            end_date = start_date.__add__(subscription_plan.duration)
+            end_date = start_date + timedelta(days=subscription_plan.duration)
 
             subscription_serializer = SubscriptionCreateSerializer(
                 data={
@@ -29,7 +29,8 @@ class SubscriptionService(BaseService):
                     "plan_id": plan_id,
                     "start_date": start_date,
                     "end_date": end_date,
-                }
+                },
+                partial=True,
             )
             if subscription_serializer.is_valid(raise_exception=True):
                 return subscription_serializer.save()

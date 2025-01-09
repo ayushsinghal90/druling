@@ -18,7 +18,7 @@ class SubscriptionService(BaseService):
 
     def create_subscription(self, plan_id, profile_id):
         with transaction.atomic():
-            subscription_plan = self.plan_service.get_by_id(plan_id)
+            subscription_plan = self.plan_service.get_active_plan_by_id(plan_id)
 
             start_date = datetime.now().date()
             end_date = start_date.__add__(subscription_plan.duration)
@@ -33,3 +33,13 @@ class SubscriptionService(BaseService):
             )
             if subscription_serializer.is_valid(raise_exception=True):
                 return subscription_serializer.save()
+
+    def update_status(self, status, id):
+        with transaction.atomic():
+            subscription = self.get_by_id(id)
+            subscription.status = status
+            subscription.save()
+            return subscription
+
+    def get_by_profile_id(self, profile_id):
+        return self.model.objects.filter(profile_id=profile_id)

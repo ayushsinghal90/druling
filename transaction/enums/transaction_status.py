@@ -3,6 +3,6 @@ from commons.enums.BaseEnum import BaseEnum
 
 class TransactionStatus(BaseEnum):
     COMPLETED = "completed"
-    IN_PROGRESS = "in_progress"
+    PENDING = "pending"
     CANCELLED = "cancelled"
     FAILED = "failed"

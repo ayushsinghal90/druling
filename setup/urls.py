@@ -23,6 +23,9 @@ urlpatterns = [
                 path("menu-file/", include("menu_file.urls")),
                 path("entity-relation/", include("entity_relation.urls")),
                 path("file/", include("file_upload.urls")),
+                path("subscription-plan/", include("subscription_plans.urls")),
+                path("transaction/", include("transaction.urls")),
+                path("subscription", include("subscription.urls")),
             ]
         ),
     ),

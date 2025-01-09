@@ -30,3 +30,6 @@ class SubscriptionPlanService(BaseService):
             raise BaseError(
                 f"Error while fetching the {self.model.__name__}", original_exception=e
             )
+
+    def get_all_active_plans(self):
+        return self.model.objects.filter(is_active=True)

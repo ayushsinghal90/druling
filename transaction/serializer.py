@@ -7,6 +7,22 @@ from subscription.models import Subscription
 from .models import Transaction
 
 
+class TransactionGetSerializer(BaseModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = [
+            "id",
+            "amount",
+            "discount",
+            "taxes",
+            "total_amount",
+            "status",
+            "method",
+            "completed_at",
+            "reference_number",
+        ]
+
+
 class TransactionCreateSerializer(BaseModelSerializer):
     profile_id = serializers.PrimaryKeyRelatedField(
         queryset=Profile.objects.all(), required=True, source="profile"

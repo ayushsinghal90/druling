@@ -7,8 +7,10 @@ from transaction.enums import TransactionStatus
 
 
 class Transaction(BaseModel):
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    subscription = models.OneToOneField(
+        Subscription, on_delete=models.CASCADE, related_name="transaction"
+    )
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     amount = models.IntegerField()
     discount = models.IntegerField(default=0)
     taxes = models.IntegerField(default=0)

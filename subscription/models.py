@@ -7,8 +7,8 @@ from subscription_plan.models import SubscriptionPlan
 
 
 class Subscription(BaseModel):
-    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    plan = models.OneToOneField(SubscriptionPlan, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     cancellation_date = models.DateField(null=True, blank=True)

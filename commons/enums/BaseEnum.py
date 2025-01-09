@@ -8,3 +8,8 @@ class BaseEnum(Enum):
     @property
     def value(self) -> str:
         return super().value
+
+    @classmethod
+    def choices(cls):
+        """Generate choices for use in Django models."""
+        return [(item.value, item.name) for item in cls]

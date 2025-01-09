@@ -16,7 +16,7 @@ class Subscription(BaseModel):
     auto_renewal = models.BooleanField(default=True)
     status = models.CharField(
         max_length=50,
-        choices=[(status.name, status.value) for status in SubscriptionStatus],
+        choices=SubscriptionStatus.choices(),
         default=SubscriptionStatus.DRAFT,
     )
 

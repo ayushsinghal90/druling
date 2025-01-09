@@ -15,7 +15,7 @@ class Transaction(BaseModel):
     total_amount = models.IntegerField()
     status = models.CharField(
         max_length=50,
-        choices=[(status.name, status.value) for status in TransactionStatus],
+        choices=TransactionStatus.choices(),
         default=TransactionStatus.PENDING,
     )
     method = models.CharField(max_length=50, null=True, blank=True)

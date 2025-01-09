@@ -43,7 +43,7 @@ class TransactionService(BaseService):
 
         return {
             "subscription_id": subscription.id,
-            "status": TransactionStatus.PENDING.name,
+            "status": TransactionStatus.PENDING,
             "amount": subscription_plan.amount,
             "profile_id": profile_id,
             "discount": discount,

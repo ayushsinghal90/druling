@@ -24,4 +24,5 @@ COPY ../.. /app/
 EXPOSE 3000
 
 # Command to run the application
+CMD ["python", "manage.py", "setup_email_templates"]
 CMD ["python", "manage.py", "runserver", "0.0.0.0:3000"]

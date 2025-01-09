@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class SubscriptionService(BaseService):
-    def __init__(self, plan_service):
+    def __init__(self, plan_service=None):
         super().__init__(Subscription)
         self.plan_service = plan_service or SubscriptionPlanService()
 

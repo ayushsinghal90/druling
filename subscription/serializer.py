@@ -19,4 +19,13 @@ class SubscriptionCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = Subscription
-        fields = ["id", "plan_id", "profile_id", "start_data", "end_date"]
+        fields = [
+            "id",
+            "plan_id",
+            "profile_id",
+            "start_data",
+            "end_date",
+            "status",
+            "next_billing_date",
+            "auto_renewal",
+        ]

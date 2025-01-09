@@ -7,6 +7,21 @@ from subscription_plan.models import SubscriptionPlan
 from .models import Subscription
 
 
+class SubscriptionGetSerializer(BaseModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = [
+            "id",
+            "plan",
+            "transaction",
+            "start_data",
+            "end_date",
+            "status",
+            "next_billing_date",
+            "auto_renewal",
+        ]
+
+
 class SubscriptionCreateSerializer(BaseModelSerializer):
     profile_id = serializers.PrimaryKeyRelatedField(
         queryset=Profile.objects.all(), required=True, source="profile"

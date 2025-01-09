@@ -40,3 +40,6 @@ class SubscriptionService(BaseService):
             subscription.status = status
             subscription.save()
             return subscription
+
+    def get_by_profile_id(self, profile_id):
+        return self.model.objects.filter(profile_id=profile_id)

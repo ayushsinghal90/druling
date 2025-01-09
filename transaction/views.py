@@ -2,8 +2,8 @@ from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
-from transaction.requests import TransactionSerializer
-from transaction.services import TransactionService
+from .requests import TransactionSerializer
+from .services import TransactionService
 
 
 class TransactionView(ViewSet):

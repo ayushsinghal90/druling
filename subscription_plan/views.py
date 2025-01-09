@@ -2,8 +2,8 @@ from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
-from subscription_plan.serializer import SubscriptionPlanGetSerializer
-from subscription_plan.services import SubscriptionPlanService
+from .serializer import SubscriptionPlanGetSerializer
+from .services import SubscriptionPlanService
 
 
 class SubscriptionPlanView(ViewSet):

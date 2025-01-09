@@ -90,3 +90,9 @@ NOTE: Just make sure your requirements.txt and .env file is up-to-date.
 We use localstack for AWS S3 while testing it is part of docker compose file.
 
 * GUI here https://docs.localstack.cloud/user-guide/tools/localstack-desktop/
+
+## Setup mail templates
+To setup mail templates, you need to run the following command:
+```bash
+python manage.py setup_email_templates
+```

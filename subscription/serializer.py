@@ -10,8 +10,8 @@ from .models import Subscription
 
 
 class SubscriptionGetSerializer(BaseModelSerializer):
-    transaction = serializers.SerializerMethodField()
-    plan = serializers.SerializerMethodField()
+    transaction = TransactionGetSerializer(read_only=True)
+    plan = SubscriptionPlanGetSerializer(read_only=True)
 
     class Meta:
         model = Subscription
@@ -25,18 +25,6 @@ class SubscriptionGetSerializer(BaseModelSerializer):
             "next_billing_date",
             "auto_renewal",
         ]
-
-    @staticmethod
-    def get_transaction(obj):
-        if obj.transaction:
-            return TransactionGetSerializer(obj.transaction).data
-        return None
-
-    @staticmethod
-    def get_plan(obj):
-        if obj.plan:
-            return SubscriptionPlanGetSerializer(obj.plan).data
-        return None
 
 
 class SubscriptionCreateSerializer(BaseModelSerializer):

@@ -15,7 +15,7 @@ def handle_exceptions(func):
         try:
             return func(self, request, *args, **kwargs)
         except ValidationError as e:
-            logger.error("Invalid Input", e)
+            logger.error("Invalid Input ", exc_info=e)
             return ResponseFactory.bad_request(message="Invalid Input", data=e.args)
         except BaseError as e:
             return ResponseFactory.server_error(message=e.message, errors=str(e))

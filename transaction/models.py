@@ -7,7 +7,9 @@ from transaction.enums import TransactionStatus
 
 
 class Transaction(BaseModel):
-    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    subscription = models.OneToOneField(
+        Subscription, on_delete=models.CASCADE, related_name="transaction"
+    )
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     amount = models.IntegerField()
     discount = models.IntegerField(default=0)
@@ -15,7 +17,7 @@ class Transaction(BaseModel):
     total_amount = models.IntegerField()
     status = models.CharField(
         max_length=50,
-        choices=[(status.name, status.value) for status in TransactionStatus],
+        choices=TransactionStatus.choices(),
         default=TransactionStatus.PENDING,
     )
     method = models.CharField(max_length=50, null=True, blank=True)

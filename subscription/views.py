@@ -15,11 +15,11 @@ class SubscriptionView(ViewSet):
     def get_all_subscription(self, request):
         profile_id = request.user.profile.id
         subscriptions = self.subscription_service.get_by_profile_id(profile_id)
-        return ResponseFactory.created(
+        return ResponseFactory.success(
             SubscriptionGetSerializer(subscriptions, many=True).data
         )
 
     @api_handler()
     def get_by_id(self, request, subscription_id):
         plan = self.subscription_service.get_by_id(subscription_id)
-        return ResponseFactory.created(SubscriptionGetSerializer(plan).data)
+        return ResponseFactory.success(SubscriptionGetSerializer(plan).data)

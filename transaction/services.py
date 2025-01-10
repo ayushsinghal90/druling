@@ -25,7 +25,8 @@ class TransactionService(BaseService):
             )
 
             transaction_serializer = TransactionCreateSerializer(
-                data=self.create_transaction_data(subscription, data)
+                data=self.create_transaction_data(subscription, profile_id, data),
+                partial=True,
             )
             transaction_obj = None
             if transaction_serializer.is_valid(raise_exception=True):
@@ -33,7 +34,7 @@ class TransactionService(BaseService):
 
             return {"transaction_id": transaction_obj.id}
 
-    def create_transaction_data(self, subscription, data):
+    def create_transaction_data(self, subscription, profile_id, data):
         subscription_plan = subscription.plan
         amount = subscription_plan.amount
         discount = data.get("discount", 0)
@@ -41,9 +42,10 @@ class TransactionService(BaseService):
         total_amount = amount - discount
 
         return {
-            "subscription": subscription.id,
+            "subscription_id": subscription.id,
             "status": TransactionStatus.PENDING,
             "amount": subscription_plan.amount,
+            "profile_id": profile_id,
             "discount": discount,
             "taxes": 0,
             "total_amount": total_amount,

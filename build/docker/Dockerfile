@@ -5,8 +5,9 @@ FROM python:3.10-slim
 ENV PYTHONDONTWRITEBYTECODE 1  # Prevent Python from writing .pyc files
 ENV PYTHONUNBUFFERED 1        # Force the stdout and stderr streams to be unbuffered
 
-# Install postgresl client utility
-RUN apt-get update && apt-get install -y postgresql-client
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
@@ -18,12 +19,10 @@ COPY ../../requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code to the container
-COPY ../.. /app/
+COPY ../../ /app/
 
 # Expose port 8000 for Django development server
 EXPOSE 8000
 
 # Command to run the application
-#CMD ["python", "manage.py", "setup_email_templates"]
-CMD ["python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

@@ -9,6 +9,7 @@ urlpatterns = [
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", CustomTokenRefreshView.as_view(), name="token_refresh"),
     path("auth/", include("social_django.urls", namespace="social")),
+    path("health/", include("health_check.urls")),
     path(
         "api/",
         include(

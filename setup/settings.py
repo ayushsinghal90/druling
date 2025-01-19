@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "social_django",
     "corsheaders",
     # Project apps
+    "health_check",
     "commons",
     "item",
     "user",

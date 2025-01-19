@@ -20,9 +20,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the container
 COPY ../.. /app/
 
-# Expose port 3000 for Django development server
-EXPOSE 3000
+# Expose port 8000 for Django development server
+EXPOSE 8000
 
 # Command to run the application
-CMD ["python", "manage.py", "setup_email_templates"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:3000"]
+#CMD ["python", "manage.py", "setup_email_templates"]
+CMD ["python", "manage.py", "migrate"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

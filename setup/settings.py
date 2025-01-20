@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "social_django",
     "corsheaders",
     # Project apps
+    "health_check",
     "commons",
     "item",
     "user",
@@ -106,11 +107,11 @@ WSGI_APPLICATION = "setup.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": os.getenv("DATABASE_NAME"),
+        "USER": os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT"),
     }
 }
 

@@ -8,7 +8,7 @@ Your one-stop solution for all you restaurant management.
     ```bash
     cp .env.example .env
     ```
-   NOTE: Please make sure that POSTGRES_DB is set as 'localhost' when running django app locally.
+   NOTE: Please make sure that DATABASE_NAME is set as 'druling' when running django app locally.
 3. Install the required dependencies:
     ```bash
     pip install -r requirements.txt

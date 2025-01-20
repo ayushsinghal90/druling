@@ -1,9 +1,9 @@
-name: Build and Push to ECR
+name: Build and Push
 
 on:
   push:
     branches:
-      - master
+      - health_check
 
 jobs:
   build-and-push:

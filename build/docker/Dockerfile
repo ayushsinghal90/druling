@@ -9,14 +9,17 @@ ENV PYTHONUNBUFFERED 1        # Force the stdout and stderr streams to be unbuff
 RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/* \
 
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set the working directory in the container
+WORKDIR /app
+
 # Copy the supervisord configuration file
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy the entrypoint script
 COPY entrypoint.sh /app/entrypoint.sh
-
-# Set the working directory in the container
-WORKDIR /app
 
 # Copy the requirements file to the container
 COPY ../../requirements.txt /app/

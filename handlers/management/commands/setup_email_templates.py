@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from ...service import TemplateSetup
+from mail_template.service import TemplateSetup
 import logging
 
 logger = logging.getLogger(__name__)

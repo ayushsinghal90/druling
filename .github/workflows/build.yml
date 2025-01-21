@@ -3,7 +3,7 @@ name: Build and Push
 on:
   push:
     branches:
-      - health_check
+      - gracefull_shutdown
 
 jobs:
   build-and-push:

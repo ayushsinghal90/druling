@@ -22,10 +22,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ../../ /app/
 
 # Copy the supervisord configuration file
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY /build/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Copy the entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
+# Copy the entrypoint configuration file
+COPY /build/docker/entrypoint.sh /app/entrypoint.sh
 
 # Make the entrypoint script executable
 RUN chmod +x /app/entrypoint.sh
@@ -34,4 +34,4 @@ RUN chmod +x /app/entrypoint.sh
 EXPOSE 8000
 
 # Use the entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["/appp/entrypoint.sh"]

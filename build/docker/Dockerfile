@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY ../../ /app/
 
 # Copy the supervisord configuration file
-COPY /app/build/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY /build/docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Make the entrypoint script executable
 RUN chmod +x /app/entrypoint.sh

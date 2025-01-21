@@ -16,10 +16,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /app
 
 # Copy the supervisord configuration file
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY .supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy the entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
+COPY .entrypoint.sh /app/entrypoint.sh
 
 # Copy the requirements file to the container
 COPY ../../requirements.txt /app/

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Project apps
     "health_check",
     "commons",
+    "handlers",
     "item",
     "user",
     "restaurant",

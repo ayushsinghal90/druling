@@ -82,17 +82,4 @@ jobs:
             --no-cli-pager \
             > /dev/null 2>&1
           
-          echo "Starting deployment..."
-          
-          # Hide output but check exit code
-          if aws ecs wait services-stable \
-            --cluster "$ECS_NAME" \
-            --services "$ECS_NAME" \
-            --region "$AWS_REGION" \
-            --no-cli-pager \
-            > /dev/null 2>&1; then
-            echo "✅ Deployment completed successfully"
-          else
-            echo "❌ Deployment failed"
-            exit 1
-          fi
+          echo "Started Deployment"

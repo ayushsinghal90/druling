@@ -73,8 +73,26 @@ jobs:
 
       - name: Update ECS service
         run: |
+          # Redirect stderr to hide AWS CLI debug output
           aws ecs update-service \
-            --cluster $ECS_CLUSTER \
-            --service $ECS_SERVICE \
+            --cluster "$ECS_NAME" \
+            --service "$ECS_NAME" \
             --force-new-deployment \
-            --region $AWS_REGION
+            --region "$AWS_REGION" \
+            --no-cli-pager \
+            > /dev/null 2>&1
+          
+          echo "Starting deployment..."
+          
+          # Hide output but check exit code
+          if aws ecs wait services-stable \
+            --cluster "$ECS_NAME" \
+            --services "$ECS_NAME" \
+            --region "$AWS_REGION" \
+            --no-cli-pager \
+            > /dev/null 2>&1; then
+            echo "✅ Deployment completed successfully"
+          else
+            echo "❌ Deployment failed"
+            exit 1
+          fi

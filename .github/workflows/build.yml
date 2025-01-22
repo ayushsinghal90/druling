@@ -3,7 +3,7 @@ name: Build and Push
 on:
   push:
     branches:
-      - gracefull_shutdown
+      - dev
 
 jobs:
   build-and-push:

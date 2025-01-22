@@ -73,12 +73,11 @@ jobs:
 
       - name: Update ECS service
         run: |
-          # Redirect stderr to hide AWS CLI debug output
           aws ecs update-service \
-            --cluster "$ECS_NAME" \
-            --service "$ECS_NAME" \
+            --cluster $ECS_CLUSTER \
+            --service $ECS_SERVICE \
             --force-new-deployment \
-            --region "$AWS_REGION" \
+            --region $AWS_REGION \
             --no-cli-pager \
             > /dev/null 2>&1
           

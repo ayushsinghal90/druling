@@ -1,4 +1,4 @@
-name: Build and Push
+name: Build, Push, and Deploy
 
 on:
   push:
@@ -45,35 +45,36 @@ jobs:
           
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-                    
+          
           echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
 
   update-ecs-service:
-      name: Update ECS Service
-      runs-on: ubuntu-latest
-      needs: build-and-push
-      environment: dev
+    name: Update ECS Service
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    environment: dev
 
-      permissions:
-        id-token: write
-        contents: read
+    permissions:
+      id-token: write
+      contents: read
 
-      env:
-        AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-        ECS_NAME: ${{ secrets.ECS_NAME }}
-        IMAGE: ${{ env.image }}
+    env:
+      AWS_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+      ECS_CLUSTER: ${{ secrets.ECS_NAME }}
+      ECS_SERVICE: ${{ secrets.ECS_NAME }}
+      IMAGE: ${{ env.image }}
 
-      steps:
-        - name: Configure AWS credentials
-          uses: aws-actions/configure-aws-credentials@v4
-          with:
-            role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-            aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
-        - name: Update ECS service
-          run: |
-            aws ecs update-service \
-              --cluster $ECS_NAME \
-              --service $ECS_NAME \
-              --force-new-deployment \
-              --region $AWS_REGION
+      - name: Update ECS service
+        run: |
+          aws ecs update-service \
+            --cluster $ECS_CLUSTER \
+            --service $ECS_SERVICE \
+            --force-new-deployment \
+            --region $AWS_REGION

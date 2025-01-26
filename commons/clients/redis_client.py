@@ -4,6 +4,7 @@ import os
 
 redis_host = os.getenv("REDIS_HOST", "localhost")
 redis_port = os.getenv("REDIS_PORT", 6379)
+redis_pass = os.getenv("REDIS_PASSWORD", None)
 
 
 class RedisClient:
@@ -11,6 +12,7 @@ class RedisClient:
         self.client = redis.StrictRedis(
             host=redis_host,
             port=redis_port,
+            password=redis_pass,
             decode_responses=True,  # Automatically decode byte strings to regular strings
         )
 

@@ -30,14 +30,14 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_USER: postgres
+      POSTGRES_USER: druling
       POSTGRES_PORT: 5432
       POSTGRES_NAME: druling
 
   web:
     build:
       context: .
-      dockerfile: build/docker/Dockerfile
+      dockerfile: build/stack/web/Dockerfile
     command: >
       sh -c "./build/stack/db/wait-for-db.sh db && 
              ./build/stack/web/init-web.sh web"
@@ -49,7 +49,7 @@ services:
       - .env
     environment:
       DATABASE_NAME: druling
-      DATABASE_USER: postgres
+      DATABASE_USER: druling
       DATABASE_PASSWORD: password
       DATABASE_HOST: db
       DATABASE_PORT: 5432

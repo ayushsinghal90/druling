@@ -11,9 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     supervisor && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/log/supervisor /run/supervisor \
-    && chmod 755 /var/log/supervisor /run/supervisor
-
 # Set the working directory in the container
 WORKDIR /app
 

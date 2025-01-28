@@ -214,6 +214,9 @@ LOGGING = {
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
 CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.druling\.com$",
+]
 if DEBUG:
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 

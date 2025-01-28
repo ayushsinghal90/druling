@@ -24,7 +24,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
-DEBUG = os.getenv("DEV", "False") == "False"
+DEBUG = os.getenv("DEV", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
 )  # Comma-separated values in .env

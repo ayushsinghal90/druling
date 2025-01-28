@@ -212,14 +212,15 @@ LOGGING = {
     },
 }
 
-CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOW_CREDENTIALS = True
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^https://.*\.druling\.com$",
+    CORS_ALLOW_CREDENTIALS = True
+    CORS_ALLOWED_ORIGIN = [
+        "https://dev.druling.com",
     ]
 
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")

@@ -3,7 +3,7 @@ name: Build, Push, and Deploy
 on:
   push:
     branches:
-      - docker_build
+      - adding_actions
 
 jobs:
   build-and-push:

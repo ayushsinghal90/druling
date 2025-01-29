@@ -218,7 +218,7 @@ if DEBUG:
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGIN = [
+    CORS_ALLOWED_ORIGINS = [
         "https://dev.druling.com/",
     ]
 

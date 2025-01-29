@@ -28,7 +28,7 @@ class EmailVerifyService:
             "company_name": "Druling",
             "verification_code": code,
             "user_email": email,
-            "support_email": "support@yourcompany.com",
+            "support_email": "support@druling.com",
             "expiry_time": "10",
             "current_year": datetime.now().year,
         }

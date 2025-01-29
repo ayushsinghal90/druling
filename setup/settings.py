@@ -24,7 +24,8 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
-DEBUG = os.getenv("DEV", "False") == "True"
+ENV = os.getenv("ENV", "dev")
+DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
 )  # Comma-separated values in .env
@@ -218,8 +219,8 @@ if DEBUG:
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGIN = [
-        "https://dev.druling.com/",
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.druling\.com$",
     ]
 
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")

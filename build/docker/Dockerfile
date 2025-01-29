@@ -14,6 +14,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Set the working directory in the container
 WORKDIR /app
 
+# Ensure required directories exist
+RUN mkdir -p /app/static /app/media
+
 # Copy the requirements file to the container
 COPY ../../requirements.txt /app/
 

@@ -91,9 +91,9 @@ create_email_template() {
 wait_for_localstack
 
 # Create S3 buckets
-create_s3_bucket "dev-druling"
-create_s3_bucket "dev-druling-menus"
-create_s3_bucket "dev-druling-restaurants"
+create_s3_bucket "druling"
+create_s3_bucket "druling-menus"
+create_s3_bucket "druling-restaurants"
 
 # Set up SES configurations
 # Verify email addresses

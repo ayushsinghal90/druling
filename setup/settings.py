@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
 ENV = os.getenv("ENV", "dev")
-DEBUG = ENV == "dev"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
 )  # Comma-separated values in .env

@@ -1,7 +1,8 @@
 from enum import Enum
-import os
+from django.conf import settings
 
-env = os.getenv("ENV", "dev")
+
+env = settings.ENV
 
 
 class BaseResourceEnum(Enum):

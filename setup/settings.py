@@ -218,8 +218,8 @@ if DEBUG:
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
-        "https://dev.druling.com",
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.druling\.com$",
     ]
 
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")

@@ -1,7 +1,7 @@
 from django.db import models
 
 from commons.models.BaseModel import BaseModel
-from email.enums.blocked_type import BlockedType
+from .enums.blocked_type import BlockedType
 
 
 class BlockedEmail(BaseModel):

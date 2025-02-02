@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     "commons",
     "handlers",
     "item",
-    "email",
+    "email_config",
     "user",
     "restaurant",
     "branch",

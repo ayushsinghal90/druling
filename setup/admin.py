@@ -16,7 +16,7 @@ from subscription.models import Subscription
 from subscription_plan.models import SubscriptionPlan
 from transaction.models import Transaction
 from resource_limit.models import ResourceLimit
-from email.models import BlockedEmail
+from email_config.models import BlockedEmail
 
 # Register your models here.
 

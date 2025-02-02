@@ -28,11 +28,8 @@ COPY ../../ /app/
 # Copy the entrypoint configuration file
 COPY /build/docker/entrypoint.sh /app/entrypoint.sh
 
-# Make the entrypoint script executable
-RUN chmod +x /app/entrypoint.sh
-
 # Expose port 8000 for the Django server
 EXPOSE 8000
 
-# Use the entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Make the entrypoint script executable
+RUN chmod +x /app/entrypoint.sh

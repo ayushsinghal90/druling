@@ -24,7 +24,7 @@ trap shutdown SIGTERM SIGINT
 
 # Start Gunicorn in the background with graceful timeout
 echo "Starting Gunicorn..."
-gunicorn --bind 0.0.0.0:8000 myproject.wsgi:application --workers 4 --timeout 90 &
+gunicorn --bind 0.0.0.0:8000 setup.wsgi:application --workers 4 --timeout 90 &
 
 # Store the PID of the Gunicorn process
 GUNICORN_PID=$!

@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ViewSet
 
@@ -5,6 +7,7 @@ from commons.api.responses import ResponseFactory
 from .services import BlockedEmailService
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class BlockedEmailView(ViewSet):
     permission_classes = [AllowAny]
 

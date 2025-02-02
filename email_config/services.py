@@ -57,3 +57,11 @@ class BlockedEmailService(BaseService):
         except Exception as e:
             logger.error(f"Error fetching contact: {str(e)}", exc_info=True)
             raise BaseError("Error while fetching branch contact", original_exception=e)
+
+    def verify(self, email):
+        """
+        Verifies if email is blocked.
+        """
+        blocked_email = self.get_by_email(email)
+        if blocked_email:
+            raise BaseError("Email is blocked")

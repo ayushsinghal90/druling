@@ -33,3 +33,6 @@ EXPOSE 8000
 
 # Make the entrypoint script executable
 RUN chmod +x /app/entrypoint.sh
+
+# Set the entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]

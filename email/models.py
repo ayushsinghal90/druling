@@ -5,7 +5,7 @@ from email.enums.blocked_type import BlockedType
 
 
 class BlockedEmail(BaseModel):
-    email = models.EmailField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True, db_index=True, unique=True)
     type = models.CharField(
         max_length=50,
         choices=BlockedType.choices(),

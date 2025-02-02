@@ -22,6 +22,14 @@ shutdown() {
 # Trap SIGTERM and SIGINT signals (container stop or AWS shutdown notice)
 trap shutdown SIGTERM SIGINT
 
+# Apply database migrations
+echo "Applying database migrations..."
+python manage.py migrate
+
+# Set up email templates with the --force option
+echo "Setting up email templates..."
+python manage.py setup_email_templates --force
+
 # Start Gunicorn in the background with graceful timeout
 echo "Starting Gunicorn..."
 gunicorn --bind 0.0.0.0:8000 setup.wsgi:application --workers 4 --timeout 90 &

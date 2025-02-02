@@ -205,8 +205,7 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["console", "file"], "level": "INFO"},
-        "mail_template": {
+        "": {
             "handlers": ["console", "file"],
             "level": "DEBUG",
             "propagate": True,

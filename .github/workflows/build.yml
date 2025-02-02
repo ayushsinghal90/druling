@@ -3,7 +3,7 @@ name: Build, Push, and Deploy
 on:
   push:
     branches:
-      - cors_fix
+      - handle_bounce_email
 
 jobs:
   build-and-push:

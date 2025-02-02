@@ -16,6 +16,7 @@ class BlockedEmailService(BaseService):
         super().__init__(BlockedEmail)
 
     def process_notification(self, body):
+        logger.info(f"Processing SES notification: {body}")
         notification_type = body.get("notificationType")
         bounce_recipients = body.get("bounceRecipients")
 

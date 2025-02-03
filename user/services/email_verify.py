@@ -6,17 +6,22 @@ from django.conf import settings
 from commons.clients.mail_client import MailClient
 from commons.clients.redis_client import RedisClient
 from commons.enums import RedisKey
+from email_config.services import BlockedEmailService
 from mail_template.config import TEMPLATE_TYPE_CONFIG
 from mail_template.enum import TemplateType
 
 
 class EmailVerifyService:
-    def __init__(self, redis_client=None, mail_client=None):
+    def __init__(self, redis_client=None, mail_client=None, blocked_email_service=None):
         self.redis_client = redis_client or RedisClient()
         self.mail_client = mail_client or MailClient()
+        self.blocked_email_service = blocked_email_service or BlockedEmailService()
 
     def send_code(self, data):
         email = data.get("email")
+
+        # Check if the email is blocked
+        self.blocked_email_service.verify(email)
 
         # Generate a 6-digit random code
         code = f"{self.get_code()}"
@@ -44,6 +49,9 @@ class EmailVerifyService:
     def verify(self, data):
         email = data.get("email")
         code = data.get("code")
+
+        # Check if the email is blocked
+        self.blocked_email_service.verify(email)
 
         stored_code = self.redis_client.get(f"{RedisKey.EMAIL_VERIFICATION}:{email}")
         if stored_code is None or stored_code != code:

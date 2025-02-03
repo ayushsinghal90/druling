@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
+from email_config.services import BlockedEmailService
 from ..serializers import RegisterSerializer
 
 User = get_user_model()
@@ -12,8 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 class UserService(BaseService):
-    def __init__(self):
+    def __init__(self, blocked_email_service=None):
         super().__init__(User)
+        self.blocked_email_service = blocked_email_service or BlockedEmailService()
 
     def get_or_create(self, user_data):
         try:
@@ -32,6 +34,7 @@ class UserService(BaseService):
 
     def get_by_email(self, email):
         try:
+            self.blocked_email_service.verify(email)
             return User.objects.filter(email=email).first()
         except Exception as e:
             logger.error("Error while updating branch location", exc_info=True)

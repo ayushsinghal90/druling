@@ -17,11 +17,13 @@ djangorestframework==3.15.2
 djangorestframework-simplejwt==5.2.0
 filelock==3.16.1
 google-auth==2.36.0
+gunicorn==22.0.0
 identify==2.6.2
 idna==3.10
 jmespath==1.0.1
 nodeenv==1.9.1
 oauthlib==3.2.2
+packaging==24.2
 platformdirs==4.3.6
 postgres==4.0
 pre_commit==4.0.1

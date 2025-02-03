@@ -27,6 +27,7 @@ urlpatterns = [
                 path("subscription_plan/", include("subscription_plan.urls")),
                 path("transaction/", include("transaction.urls")),
                 path("subscription/", include("subscription.urls")),
+                path("email_config/", include("email_config.urls")),
             ]
         ),
     ),

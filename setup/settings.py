@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "commons",
     "handlers",
     "item",
+    "email_config",
     "user",
     "restaurant",
     "branch",
@@ -204,8 +205,7 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["console", "file"], "level": "INFO"},
-        "mail_template": {
+        "": {
             "handlers": ["console", "file"],
             "level": "DEBUG",
             "propagate": True,

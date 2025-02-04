@@ -3,7 +3,7 @@ import boto3
 from django.conf import settings
 
 
-def boto_client(service=None):
+def boto_client(service=None, config=None):
     if service is None:
         raise ValueError("Service name is required")
 
@@ -15,4 +15,6 @@ def boto_client(service=None):
         )
     else:
         # Production AWS configuration
-        return boto3.client(service, region_name=settings.AWS_DEFAULT_REGION)
+        return boto3.client(
+            service, region_name=settings.AWS_DEFAULT_REGION, config=config
+        )

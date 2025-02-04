@@ -7,15 +7,12 @@ ENV PYTHONUNBUFFERED 1        # Force the stdout and stderr streams to be unbuff
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    postgresql-client && \
+    postgresql-client \
+    supervisor && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container
 WORKDIR /app
-
-# Ensure required directories exist
-RUN mkdir -p /app/static /app/media
 
 # Copy the requirements file to the container
 COPY ../../requirements.txt /app/
@@ -26,14 +23,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the container
 COPY ../../ /app/
 
-# Copy the entrypoint configuration file
-COPY /build/docker/entrypoint.sh /app/entrypoint.sh
-
 # Expose port 8000 for the Django server
-EXPOSE 8000
+EXPOSE 3000
 
-# Make the entrypoint script executable
-RUN chmod +x /app/entrypoint.sh
-
-# Set the entrypoint script
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Use the entrypoint script
+CMD ["python", "manage.py", "runserver", "0.0.0.0:3000"]

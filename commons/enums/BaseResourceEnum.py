@@ -1,0 +1,19 @@
+from enum import Enum
+from django.conf import settings
+
+
+env = settings.ENV
+
+
+class BaseResourceEnum(Enum):
+    def __str__(self):
+        return f"{env}-{self.value}"
+
+    @property
+    def value(self) -> str:
+        return f"{env}-{super().value}"
+
+    @classmethod
+    def choices(cls):
+        """Generate choices for use in Django models."""
+        return [(item.value, item.name) for item in cls]

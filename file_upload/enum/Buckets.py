@@ -1,7 +1,7 @@
-from commons.enums.BaseEnum import BaseEnum
+from commons.enums.BaseResourceEnum import BaseResourceEnum
 
 
-class BucketType(BaseEnum):
+class BucketType(BaseResourceEnum):
     MENU = "druling-menus"
     RESTAURANT = "druling-restaurants"
     DRULING = "druling"

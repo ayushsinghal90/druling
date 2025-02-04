@@ -24,7 +24,8 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
-DEBUG = os.getenv("DEV", "True") == "True"
+ENV = os.getenv("ENV", "dev")
+DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
 )  # Comma-separated values in .env
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     "commons",
     "handlers",
     "item",
+    "email_config",
     "user",
     "restaurant",
     "branch",
@@ -203,8 +205,7 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["console", "file"], "level": "INFO"},
-        "mail_template": {
+        "": {
             "handlers": ["console", "file"],
             "level": "DEBUG",
             "propagate": True,
@@ -212,14 +213,15 @@ LOGGING = {
     },
 }
 
-CORS_ALLOW_ALL_ORIGINS = DEBUG
-CORS_ALLOW_CREDENTIALS = DEBUG  # Allow cookies or authentication headers
+CORS_ALLOW_CREDENTIALS = True
 if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
     CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-
-STATICFILES_DIRS = [
-    # os.path.join(BASE_DIR, "static"),  # Ensure this directory exists
-]
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https://.*\.druling\.com$",
+    ]
 
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")
 LOCALSTACK_HOST = os.getenv("LOCALSTACK_HOST", "localhost")

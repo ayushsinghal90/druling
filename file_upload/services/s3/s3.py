@@ -1,4 +1,5 @@
 import logging
+from botocore.client import Config
 
 from commons.clients.boto_client import boto_client
 from setup import settings
@@ -13,7 +14,7 @@ class S3Service:
         Get an S3 client for AWS or LocalStack.
         :return: Configured S3 client.
         """
-        return boto_client("s3")
+        return boto_client("s3", config=Config(signature_version="s3v4"))
 
     @staticmethod
     def get_endpoint(bucket):

@@ -10,6 +10,7 @@ class ProfileFeature(BaseModel):
     type = models.CharField(
         max_length=50,
         choices=[(type.name, type.value) for type in FeatureType],
+        db_index=True,
     )
     limit = models.IntegerField(default=0)
     usage = models.IntegerField(default=0)
@@ -20,3 +21,8 @@ class ProfileFeature(BaseModel):
 
     class Meta:
         db_table = "profile_feature"
+        indexes = [
+            models.Index(
+                fields=["profile", "type"], name="prof_feature_profile_type_idx"
+            ),
+        ]

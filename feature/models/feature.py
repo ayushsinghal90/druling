@@ -10,6 +10,7 @@ class Feature(BaseModel):
     type = models.CharField(
         max_length=50,
         choices=[(type.name, type.value) for type in FeatureType],
+        db_index=True,
     )
     description = models.CharField(max_length=200, blank=True, null=True)
     limit = models.IntegerField()

@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "plan",
     "transaction",
     "subscription",
+    "feature",
 ]
 
 # Middleware

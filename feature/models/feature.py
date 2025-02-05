@@ -5,7 +5,7 @@ from ..enums import FeatureType
 from plan.models import Plan
 
 
-class ProfileFeature(BaseModel):
+class Feature(BaseModel):
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
     type = models.CharField(
         max_length=50,

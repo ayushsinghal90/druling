@@ -16,6 +16,7 @@ from subscription.models import Subscription
 from plan.models import Plan
 from transaction.models import Transaction
 from email_config.models import BlockedEmail
+from feature.models import Feature, ProfileFeature
 
 # Register your models here.
 
@@ -34,3 +35,5 @@ admin.site.register(Subscription)
 admin.site.register(Plan)
 admin.site.register(Transaction)
 admin.site.register(BlockedEmail)
+admin.site.register(Feature)
+admin.site.register(ProfileFeature)

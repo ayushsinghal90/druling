@@ -66,10 +66,10 @@ INSTALLED_APPS = [
     "social_contact",
     "file_upload",
     "mail_template",
-    "subscription_plan",
+    "plan",
     "transaction",
     "subscription",
-    "resource_limit",
+    "feature",
 ]
 
 # Middleware
@@ -169,6 +169,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+os.makedirs(STATICFILES_DIRS[0], exist_ok=True)
 
 # Media files
 MEDIA_URL = "/media/"

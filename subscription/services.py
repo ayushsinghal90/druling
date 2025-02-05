@@ -5,7 +5,7 @@ from rest_framework.exceptions import ValidationError
 from django.db import transaction
 
 from commons.service.BaseService import BaseService
-from subscription_plan.services import SubscriptionPlanService
+from plan.services import PlanService
 from .enums import SubscriptionStatus
 from .models import Subscription
 from .serializer import SubscriptionCreateSerializer
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class SubscriptionService(BaseService):
     def __init__(self, plan_service=None):
         super().__init__(Subscription)
-        self.plan_service = plan_service or SubscriptionPlanService()
+        self.plan_service = plan_service or PlanService()
 
     def create_subscription(self, plan_id, profile_id):
         with transaction.atomic():

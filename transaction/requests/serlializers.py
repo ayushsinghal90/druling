@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from subscription_plan.models import SubscriptionPlan
+from plan.models import Plan
 
 
 class TransactionSerializer(serializers.Serializer):
     plan_id = serializers.PrimaryKeyRelatedField(
-        queryset=SubscriptionPlan.objects.all(), required=True
+        queryset=Plan.objects.all(), required=True
     )

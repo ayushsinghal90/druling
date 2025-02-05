@@ -13,10 +13,10 @@ from user.models import User
 from menu_file.models import MenuFile
 from social_contact.models import SocialContact
 from subscription.models import Subscription
-from subscription_plan.models import SubscriptionPlan
+from plan.models import Plan
 from transaction.models import Transaction
-from resource_limit.models import ResourceLimit
 from email_config.models import BlockedEmail
+from feature.models import Feature, ProfileFeature
 
 # Register your models here.
 
@@ -32,7 +32,8 @@ admin.site.register(User)
 admin.site.register(MenuFile)
 admin.site.register(SocialContact)
 admin.site.register(Subscription)
-admin.site.register(SubscriptionPlan)
-admin.site.register(ResourceLimit)
+admin.site.register(Plan)
 admin.site.register(Transaction)
 admin.site.register(BlockedEmail)
+admin.site.register(Feature)
+admin.site.register(ProfileFeature)

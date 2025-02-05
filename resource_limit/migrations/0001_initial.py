@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("subscription_plan", "0001_initial"),
+        ("plan", "0001_initial"),
     ]
 
     operations = [
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
                     "plan_id",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="subscription_plan.subscriptionplan",
+                        to="plan.subscriptionplan",
                     ),
                 ),
             ],

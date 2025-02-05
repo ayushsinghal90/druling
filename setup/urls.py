@@ -24,7 +24,7 @@ urlpatterns = [
                 path("menu-file/", include("menu_file.urls")),
                 path("entity-relation/", include("entity_relation.urls")),
                 path("file/", include("file_upload.urls")),
-                path("subscription_plan/", include("subscription_plan.urls")),
+                path("plan/", include("plan.urls")),
                 path("transaction/", include("transaction.urls")),
                 path("subscription/", include("subscription.urls")),
                 path("email_config/", include("email_config.urls")),

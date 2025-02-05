@@ -1,15 +1,15 @@
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 
-from .models import SubscriptionPlan
+from .models import Plan
 
 
-class SubscriptionPlanGetSerializer(BaseModelSerializer):
+class PlanGetSerializer(BaseModelSerializer):
     class Meta:
-        model = SubscriptionPlan
+        model = Plan
         fields = ["id", "amount", "name", "duration", "is_active"]
 
 
-class SubscriptionPlanCreateSerializer(BaseModelSerializer):
+class PlanCreateSerializer(BaseModelSerializer):
     class Meta:
-        model = SubscriptionPlan
+        model = Plan
         fields = ["id", "amount", "name", "duration", "is_active"]

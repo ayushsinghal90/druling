@@ -4,14 +4,14 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
-from .models import SubscriptionPlan
+from .models import Plan
 
 logger = logging.getLogger(__name__)
 
 
-class SubscriptionPlanService(BaseService):
+class PlanService(BaseService):
     def __init__(self):
-        super().__init__(SubscriptionPlan)
+        super().__init__(Plan)
 
     def get_active_plan_by_id(self, plan_id):
         try:

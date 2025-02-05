@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("subscription_plan", "0001_initial"),
+        ("plan", "0001_initial"),
         ("profile", "0003_alter_profile_img_url"),
     ]
 
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                     "plan",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="subscription_plan.subscriptionplan",
+                        to="plan.subscriptionplan",
                     ),
                 ),
                 (

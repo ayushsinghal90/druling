@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     "plan",
     "transaction",
     "subscription",
-    "resource_limit",
 ]
 
 # Middleware

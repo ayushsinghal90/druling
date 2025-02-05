@@ -15,7 +15,6 @@ from social_contact.models import SocialContact
 from subscription.models import Subscription
 from plan.models import Plan
 from transaction.models import Transaction
-from resource_limit.models import ResourceLimit
 from email_config.models import BlockedEmail
 
 # Register your models here.
@@ -33,6 +32,5 @@ admin.site.register(MenuFile)
 admin.site.register(SocialContact)
 admin.site.register(Subscription)
 admin.site.register(Plan)
-admin.site.register(ResourceLimit)
 admin.site.register(Transaction)
 admin.site.register(BlockedEmail)

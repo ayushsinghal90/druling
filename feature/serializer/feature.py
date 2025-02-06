@@ -16,7 +16,7 @@ class FeatureGetSerializer(BaseModelSerializer):
 
 
 class FeatureCreateSerializer(BaseModelSerializer):
-    plan_id = serializers.PrimaryKeyRelatedField(
+    plan = serializers.PrimaryKeyRelatedField(
         queryset=Plan.objects.all(),
         required=True,
         source="plan",
@@ -24,4 +24,4 @@ class FeatureCreateSerializer(BaseModelSerializer):
 
     class Meta:
         model = Feature
-        fields = ["id", "plan_id", "type", "description", "limit", "is_active"]
+        fields = ["id", "plan", "type", "description", "limit", "is_active"]

@@ -2,7 +2,7 @@ from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
-from ..serializer import FeatureGetSerializer
+from ..serializer import ProfileFeatureGetSerializer
 from ..services import ProfileFeatureService
 
 
@@ -14,7 +14,9 @@ class ProfileFeatureView(ViewSet):
         )
 
     @api_handler()
-    def get_all_subscription(self, request):
+    def get_all(self, request):
         profile_id = request.user.profile.id
-        feature = self.profile_feature_service.get_by_profile_id(profile_id)
-        return ResponseFactory.success(FeatureGetSerializer(feature, many=True).data)
+        profile_features = self.profile_feature_service.get_by_profile_id(profile_id)
+        return ResponseFactory.success(
+            ProfileFeatureGetSerializer(profile_features, many=True).data
+        )

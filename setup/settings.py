@@ -227,3 +227,6 @@ else:
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")
 LOCALSTACK_HOST = os.getenv("LOCALSTACK_HOST", "localhost")
 AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+
+
+INTERNAL_API_TOKEN = os.getenv("INTERNAL_API_TOKEN", "druldruldrul")

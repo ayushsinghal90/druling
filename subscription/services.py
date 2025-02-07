@@ -21,10 +21,10 @@ class SubscriptionService(BaseService):
     def create_subscription(self, plan_id, profile_id):
         with transaction.atomic():
             self.validate_if_subscription_exists(profile_id)
-            subscription_plan = self.plan_service.get_active_plan_by_id(plan_id)
+            plan = self.plan_service.get_active_plan_by_id(plan_id)
 
             start_date = datetime.now().date()
-            end_date = start_date + timedelta(days=subscription_plan.duration)
+            end_date = start_date + timedelta(days=plan.duration)
 
             subscription_serializer = SubscriptionCreateSerializer(
                 data={

@@ -1,6 +1,6 @@
-# from django.urls import path
-# from .views import PlanView
+from django.urls import path
+from .views import ProfileFeatureView
 
 urlpatterns = [
-    # path("all/", PlanView.as_view({"get": "get_all_plans"})),
+    path("profile/all/", ProfileFeatureView.as_view({"get": "get_all"})),
 ]

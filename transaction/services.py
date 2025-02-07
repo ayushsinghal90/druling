@@ -35,8 +35,8 @@ class TransactionService(BaseService):
             return {"transaction_id": transaction_obj.id}
 
     def create_transaction_data(self, subscription, profile_id, data):
-        subscription_plan = subscription.plan
-        amount = subscription_plan.amount
+        plan = subscription.plan
+        amount = plan.amount
         discount = data.get("discount", 0)
 
         total_amount = amount - discount
@@ -44,7 +44,7 @@ class TransactionService(BaseService):
         return {
             "subscription_id": subscription.id,
             "status": TransactionStatus.PENDING,
-            "amount": subscription_plan.amount,
+            "amount": plan.amount,
             "profile_id": profile_id,
             "discount": discount,
             "taxes": 0,

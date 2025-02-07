@@ -2,19 +2,14 @@ from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
-from .serializer import PlanGetSerializer, PlanCreateSerializer
-from .services import PlanService
+from plan.serializer import PlanGetSerializer
+from plan.services import PlanService
 
 
 class PlanView(ViewSet):
     def __init__(self, plan_service=None, **kwargs):
         super().__init__(**kwargs)
         self.plan_service = plan_service or PlanService()
-
-    @api_handler(serializer=PlanCreateSerializer)
-    def create_plan(self, request):
-        plan = self.plan_service.create(request.data)
-        return ResponseFactory.success(PlanGetSerializer(plan).data)
 
     @api_handler()
     def get_all_plans(self, request):

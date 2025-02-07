@@ -1,17 +1,34 @@
 import logging
 
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
+from feature.services import FeatureService
 from .models import Plan
+from .serializer import PlanCreateSerializer
 
 logger = logging.getLogger(__name__)
 
 
 class PlanService(BaseService):
-    def __init__(self):
+    def __init__(self, feature_service=None):
         super().__init__(Plan)
+        self.feature_service = feature_service or FeatureService()
+
+    def create(self, data):
+        with transaction.atomic():
+            plan_data = data.get("plan")
+
+            serializer = PlanCreateSerializer(data=plan_data)
+            serializer.is_valid(raise_exception=True)
+
+            plan = serializer.save()
+
+            features = data.get("features")
+            self.feature_service.create(features, plan)
+            return plan
 
     def get_active_plan_by_id(self, plan_id):
         try:

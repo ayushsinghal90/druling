@@ -13,7 +13,7 @@ class Feature(BaseModel):
         db_index=True,
     )
     description = models.CharField(max_length=200, blank=True, null=True)
-    limit = models.IntegerField()
+    limit = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):

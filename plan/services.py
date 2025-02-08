@@ -50,3 +50,23 @@ class PlanService(BaseService):
 
     def get_all_active_plans(self):
         return self.model.objects.filter(is_active=True)
+
+    def get_plan_by_details(self, product=None, plan_type=None):
+        try:
+            return self.model.objects.get(product=product, plan_type=plan_type)
+        except self.model.DoesNotExist:
+            logger.error(
+                f"{self.model.__name__} with product {product} and plan_type {plan_type} does not exist."
+            )
+            raise ObjectDoesNotExist(
+                f"{self.model.__name__} with product {product} and plan_type {plan_type} does not exist."
+            )
+
+        except Exception as e:
+            logger.error(
+                f"An error occurred while fetching the {self.model.__name__}: {str(e)}",
+                exc_info=True,
+            )
+            raise BaseError(
+                f"Error while fetching the {self.model.__name__}", original_exception=e
+            )

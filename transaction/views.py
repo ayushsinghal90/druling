@@ -3,6 +3,7 @@ from rest_framework.viewsets import ViewSet
 from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
 from .requests import TransactionSerializer
+from .serializer import TransactionGetSerializer
 from .services import TransactionService
 
 
@@ -18,3 +19,11 @@ class TransactionView(ViewSet):
             request.data, profile_id
         )
         return ResponseFactory.created(payment_initiated)
+
+    @api_handler()
+    def get_all(self, request):
+        profile_id = request.user.profile.id
+        transactions = self.transaction_service.get_all(profile_id)
+        return ResponseFactory.success(
+            TransactionGetSerializer(transactions, many=True).data
+        )

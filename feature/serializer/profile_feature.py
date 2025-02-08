@@ -3,12 +3,12 @@ from rest_framework import serializers
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from profile.models import Profile
 
-from ..models import ProfileFeature
+from ..models import Feature
 
 
 class ProfileFeatureGetSerializer(BaseModelSerializer):
     class Meta:
-        model = ProfileFeature
+        model = Feature
         fields = ["id", "type", "usage", "limit", "is_active"]
 
 
@@ -18,5 +18,5 @@ class ProfileFeatureCreateSerializer(BaseModelSerializer):
     )
 
     class Meta:
-        model = ProfileFeature
+        model = Feature
         fields = ["id", "profile_id", "type", "usage", "limit", "is_active"]

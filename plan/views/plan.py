@@ -20,8 +20,3 @@ class PlanView(ViewSet):
     def get_plan_by_id(self, request, plan_id):
         plan = self.plan_service.get_by_id(plan_id)
         return ResponseFactory.success(PlanGetSerializer(plan).data)
-
-    @api_handler()
-    def get_plan_by_details(self, request, product, plan_type):
-        plan = self.plan_service.get_plan_by_details(product, plan_type)
-        return ResponseFactory.success(PlanGetSerializer(plan).data)

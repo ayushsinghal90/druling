@@ -2,4 +2,4 @@ from commons.enums.BaseEnum import BaseEnum
 
 
 class FeatureType(BaseEnum):
-    QR_MENU = "qr_menu"
+    QR_MENU = "QR_MENU"

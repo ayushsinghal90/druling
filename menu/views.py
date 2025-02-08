@@ -3,6 +3,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ViewSet
 
 from commons.api.responses import ResponseFactory
+from feature.enums import FeatureType
+from handlers.services.restrictions import Restriction
 from menu.requests import CreateQRMenuSerializer
 from menu.serializer import QRMenuGetSerializer
 from commons.middleware.api_handler import api_handler
@@ -18,13 +20,17 @@ class QRMenuView(ViewSet):
 
     @api_handler(serializer=CreateQRMenuSerializer)
     def create_menu(self, request):
+        restriction = Restriction(request.user.profile.id)
+        restriction.check(FeatureType.QR_MENU)
         qr_menu_obj = self.qr_menu_service.create(request.data)
         return ResponseFactory.created(QRMenuGetSerializer(qr_menu_obj).data)
 
     @api_handler()
     @permission_classes([AllowAny])
     def get_menu_by_id(self, request, menu_id):
-        qr_menu_obj = self.qr_menu_service.get_by_id(menu_id)
+        qr_menu_obj = self.qr_menu_service.get_by_id(
+            menu_id, filters={"is_active": True}
+        )
         return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)
 
     @api_handler()

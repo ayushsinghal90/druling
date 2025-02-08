@@ -71,3 +71,15 @@ class QRMenuService(BaseService):
         except Exception as e:
             logger.error("Error while fetching restaurant", exc_info=True)
             raise BaseError("Error while fetching restaurant", original_exception=e)
+
+    def activate_menu(self, id):
+        try:
+            with transaction.atomic():
+                qr_menus = self.model.objects.filter(id=id, is_active=False)
+                for qr_menu in qr_menus:
+                    qr_menu.is_active = True
+                    qr_menu.save()
+                return qr_menu
+        except Exception as e:
+            logger.error("Error while activating menu", exc_info=True)
+            raise BaseError("Error while activating menu", original_exception=e)

@@ -18,7 +18,7 @@ class Restriction:
     def check(self, feature_type: FeatureType):
         for feature in self.features:
             if (
-                feature.type == feature_type
+                feature.type == feature_type.value
                 and feature.is_active
                 and feature.usage < feature.limit
             ):
@@ -31,7 +31,7 @@ class Restriction:
 
         for feature in self.features:
             if (
-                feature.type == feature_type
+                feature.type == feature_type.value
                 and feature.is_active
                 and feature.usage < feature.limit
             ):

@@ -6,6 +6,8 @@ from django.db import transaction
 from branch.services import BranchService
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
+from feature.enums import FeatureType
+from handlers.services.restrictions import Restriction
 from .models import QRMenu
 from .serializer import QRMenuCreateSerializer
 from menu_file.services import MenuFileService
@@ -19,7 +21,9 @@ class QRMenuService(BaseService):
         self.branch_service = branch_service or BranchService()
         self.menu_file_service = menu_file_service or MenuFileService()
 
-    def create(self, data):
+    def create(self, data, profile_id):
+        restriction = Restriction(profile_id)
+        restriction.check(FeatureType.QR_MENU)
         with transaction.atomic():
             try:
                 branch_id = data.get("branch_id")
@@ -33,6 +37,7 @@ class QRMenuService(BaseService):
                         qr_menu_instance = qr_menu_serializer.save()
 
                 self.menu_file_service.create(qr_menu_instance, files)
+                restriction.increment_usage(FeatureType.QR_MENU)
                 return qr_menu_instance
 
             except ValidationError as e:

@@ -17,7 +17,7 @@ class ProfileFeatureService(BaseService):
 
     def create_subscription(self, plan_id, profile_id):
         with transaction.atomic():
-            features = self.feature_service.get_all_features(plan_id)
+            features = self.feature_service.get_all(plan_id)
 
             profile_features = [
                 {"profile_id": profile_id, "type": feature.type, "limit": feature.limit}

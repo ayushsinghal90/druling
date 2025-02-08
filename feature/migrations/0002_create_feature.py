@@ -39,7 +39,7 @@ def create_plan(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("feature", "0001_initial"),
-        ("plan", "0001_create_plan"),
+        ("plan", "0002_create_plan"),
     ]
 
     operations = [

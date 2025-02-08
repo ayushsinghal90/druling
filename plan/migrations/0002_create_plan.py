@@ -2,7 +2,7 @@ from django.db import migrations
 
 
 def create_plan(apps, schema_editor):
-    Plan = apps.get_model('plan', 'SubscriptionPlan')
+    Plan = apps.get_model('plan', 'Plan')
 
     plans = [
         {

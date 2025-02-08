@@ -33,16 +33,16 @@ class Migration(migrations.Migration):
                 (
                     "product",
                     models.CharField(
-                        choices=[("menu", "menu")], db_index=True, max_length=50
+                        choices=[("MENU", "MENU")], db_index=True, max_length=50
                     ),
                 ),
                 (
                     "type",
                     models.CharField(
                         choices=[
-                            ("BASIC", "basic"),
-                            ("ADVANCE", "advance"),
-                            ("PREMIUM", "premium"),
+                            ("BASIC", "BASIC"),
+                            ("ADVANCE", "ADVANCE"),
+                            ("PREMIUM", "PREMIUM"),
                         ],
                         db_index=True,
                         max_length=50,

@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 (
                     "type",
                     models.CharField(
-                        choices=[("QR_MENU", "qr_menu")], db_index=True, max_length=50
+                        choices=[("QR_MENU", "QR_MENU")], db_index=True, max_length=50
                     ),
                 ),
                 (
@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
                 (
                     "type",
                     models.CharField(
-                        choices=[("QR_MENU", "qr_menu")], db_index=True, max_length=50
+                        choices=[("QR_MENU", "QR_MENU")], db_index=True, max_length=50
                     ),
                 ),
                 ("limit", models.IntegerField(default=0)),

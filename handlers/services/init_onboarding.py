@@ -12,9 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 class Onboarding:
-    def __init__(
-        self, profile: Profile, plan_service: None, subscription_service: None
-    ):
+    def __init__(self, profile: Profile, plan_service=None, subscription_service=None):
         self.profile = profile
         self.plan_service = plan_service or PlanService()
         self.subscription_service = subscription_service or SubscriptionService()

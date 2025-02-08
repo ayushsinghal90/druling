@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from commons.exceptions.BaseError import BaseError
 from commons.service.BaseService import BaseService
 from email_config.services import BlockedEmailService
+from handlers.services.init_onboarding import Onboarding
 from ..serializers import RegisterSerializer
 
 User = get_user_model()
@@ -24,6 +25,7 @@ class UserService(BaseService):
                 serializer = RegisterSerializer(data=user_data)
                 if serializer.is_valid(raise_exception=True):
                     user = serializer.save()
+                    Onboarding(user.profile).run()
             return user
         except ValidationError as e:
             logger.warning(f"Validation error while creating user: {str(e)}")

@@ -211,22 +211,6 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": True,
         },
-        "boto3": {
-            "level": "ERROR",
-            "propagate": True,
-        },
-        "botocore": {
-            "level": "ERROR",
-            "propagate": True,
-        },
-        "urllib3": {
-            "level": "ERROR",
-            "propagate": True,
-        },
-        "localstack": {
-            "level": "ERROR",
-            "propagate": True,
-        },
     },
 }
 

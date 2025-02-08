@@ -49,7 +49,7 @@ class SubscriptionService(BaseService):
             subscription.save()
 
             if subscription.status == SubscriptionStatus.COMPLETED:
-                self.profile_feature_service.update_subscription(
+                self.profile_feature_service.create_subscription(
                     subscription.plan_id, subscription.profile_id
                 )
 

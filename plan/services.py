@@ -53,7 +53,7 @@ class PlanService(BaseService):
 
     def get_plan_by_details(self, product=None, plan_type=None):
         try:
-            return self.model.objects.get(product=product, plan_type=plan_type)
+            return self.model.objects.get(product=product, type=plan_type)
         except self.model.DoesNotExist:
             logger.error(
                 f"{self.model.__name__} with product {product} and plan_type {plan_type} does not exist."

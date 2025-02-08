@@ -1,5 +1,6 @@
 import logging
 
+from django.db import transaction
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
@@ -20,13 +21,15 @@ class UserService(BaseService):
 
     def get_or_create(self, user_data):
         try:
-            user = self.get_by_email(user_data["email"])
-            if not user:
-                serializer = RegisterSerializer(data=user_data)
-                if serializer.is_valid(raise_exception=True):
-                    user = serializer.save()
-                    Onboarding(user.profile).run()
-            return user
+            with transaction.atomic():
+                user = self.get_by_email(user_data["email"])
+
+                if not user:
+                    serializer = RegisterSerializer(data=user_data)
+                    if serializer.is_valid(raise_exception=True):
+                        user = serializer.save()
+                        Onboarding(user.profile).run()
+                return user
         except ValidationError as e:
             logger.warning(f"Validation error while creating user: {str(e)}")
             raise e

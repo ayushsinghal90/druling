@@ -1,7 +1,7 @@
 asgiref==3.8.1
 async-timeout==5.0.1
-boto3==1.35.75
-botocore==1.35.75
+boto3==1.36.16
+botocore==1.36.16
 cachetools==5.5.0
 certifi==2024.8.30
 cffi==1.17.1
@@ -43,7 +43,7 @@ redis==5.2.1
 requests==2.32.3
 requests-oauthlib==2.0.0
 rsa==4.9
-s3transfer==0.10.4
+s3transfer==0.11.2
 six==1.17.0
 social-auth-app-django==5.4.2
 social-auth-core==4.5.4

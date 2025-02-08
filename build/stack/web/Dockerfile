@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED 1        # Force the stdout and stderr streams to be unbuff
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    postgresql-client \
+    postgresql-client && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory in the container

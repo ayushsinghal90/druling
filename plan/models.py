@@ -14,7 +14,7 @@ class Plan(BaseModel):
         choices=[(type.name, type.value) for type in Product],
         db_index=True,
     )
-    plan_type = models.CharField(
+    type = models.CharField(
         max_length=50,
         choices=[(type.name, type.value) for type in PlanType],
         db_index=True,
@@ -26,7 +26,5 @@ class Plan(BaseModel):
     class Meta:
         db_table = "plan"
         indexes = [
-            models.Index(
-                fields=["product", "plan_type"], name="plan_product_plan_type_idx"
-            ),
+            models.Index(fields=["product", "type"], name="plan_product_type_idx"),
         ]

@@ -37,7 +37,7 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 (
-                    "plan_type",
+                    "type",
                     models.CharField(
                         choices=[
                             ("BASIC", "basic"),
@@ -53,8 +53,8 @@ class Migration(migrations.Migration):
                 "db_table": "plan",
                 "indexes": [
                     models.Index(
-                        fields=["product", "plan_type"],
-                        name="plan_product_plan_type_idx",
+                        fields=["product", "type"],
+                        name="plan_product_type_idx",
                     )
                 ],
             },

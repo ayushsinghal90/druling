@@ -16,7 +16,7 @@ class ProfileFeatureView(ViewSet):
     @api_handler()
     def get_all(self, request):
         profile_id = request.user.profile.id
-        profile_features = self.profile_feature_service.get_by_profile_id(profile_id)
+        profile_features = self.profile_feature_service.get_all(profile_id)
         return ResponseFactory.success(
             ProfileFeatureGetSerializer(profile_features, many=True).data
         )

@@ -1,6 +1,7 @@
 import logging
 
 from django.db import transaction
+from django.db.models import F
 
 from commons.service.BaseService import BaseService
 from . import FeatureService
@@ -44,3 +45,7 @@ class ProfileFeatureService(BaseService):
         except Exception as e:
             logger.error(f"Error fetching profile features: {e}")
             return []
+
+    def update_usage(self, id):
+        with transaction.atomic():
+            self.model.objects.filter(id=id).update(usage=F("usage") + 1)

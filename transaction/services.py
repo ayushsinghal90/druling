@@ -66,3 +66,6 @@ class TransactionService(BaseService):
             )
             transaction_obj.save()
             return transaction_obj
+
+    def get_all(self, profile_id):
+        return self.model.objects.filter(profile_id=profile_id)

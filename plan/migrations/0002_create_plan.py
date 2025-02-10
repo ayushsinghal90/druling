@@ -11,7 +11,7 @@ def create_plan(apps, schema_editor):
             "type": "BASIC",
             "amount": 1099,
             "product": "MENU",
-            "duration": 30
+            "duration": 365
         },
         {
             "id": 'f5a1fab3-21aa-4d59-841f-50f0c561b21c',
@@ -19,7 +19,7 @@ def create_plan(apps, schema_editor):
             "type": "ADVANCE",
             "amount": 2999,
             "product": "MENU",
-            "duration": 30
+            "duration": 365
         },
     ]
 

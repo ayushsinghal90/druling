@@ -29,6 +29,7 @@ class SubscriptionService(BaseService):
 
             start_date = datetime.now().date()
             end_date = start_date + timedelta(days=plan.duration)
+            next_billing_date = end_date
 
             subscription_serializer = SubscriptionCreateSerializer(
                 data={
@@ -36,6 +37,7 @@ class SubscriptionService(BaseService):
                     "plan_id": plan_id,
                     "start_date": start_date,
                     "end_date": end_date,
+                    "next_billing_date": next_billing_date,
                 },
                 partial=True,
             )

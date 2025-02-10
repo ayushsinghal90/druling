@@ -3,13 +3,15 @@ name: Build, Push, and Deploy
 on:
   push:
     branches:
-      - handle_bounce_email
+      - dev
+      - master
+      - gamma
 
 jobs:
   build-and-push:
     name: Build and Push
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ github.ref == 'refs/heads/master' && 'prod' || (github.ref == 'refs/heads/dev' && 'dev' || 'staging') }}
 
     permissions:
       id-token: write

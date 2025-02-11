@@ -18,13 +18,15 @@ class QRMenuView(ViewSet):
 
     @api_handler(serializer=CreateQRMenuSerializer)
     def create_menu(self, request):
-        qr_menu_obj = self.qr_menu_service.create(request.data)
+        qr_menu_obj = self.qr_menu_service.create(request.data, request.user.profile.id)
         return ResponseFactory.created(QRMenuGetSerializer(qr_menu_obj).data)
 
     @api_handler()
     @permission_classes([AllowAny])
     def get_menu_by_id(self, request, menu_id):
-        qr_menu_obj = self.qr_menu_service.get_by_id(menu_id)
+        qr_menu_obj = self.qr_menu_service.get_by_id(
+            menu_id, filters={"is_active": True}
+        )
         return ResponseFactory.success(QRMenuGetSerializer(qr_menu_obj).data)
 
     @api_handler()

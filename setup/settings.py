@@ -24,7 +24,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "django-insecure-@1z*@ng_0yz=i62%mhd#ey+%qib3mwi!ut9ecikxi&t(t=resw"
 )
-ENV = os.getenv("ENV", "dev")
+ENV = os.getenv("ENV", "")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(
     ","
@@ -66,10 +66,10 @@ INSTALLED_APPS = [
     "social_contact",
     "file_upload",
     "mail_template",
-    "subscription_plan",
+    "plan",
     "transaction",
     "subscription",
-    "resource_limit",
+    "feature",
 ]
 
 # Middleware
@@ -169,6 +169,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
+os.makedirs(STATICFILES_DIRS[0], exist_ok=True)
 
 # Media files
 MEDIA_URL = "/media/"
@@ -210,6 +211,22 @@ LOGGING = {
             "level": "DEBUG",
             "propagate": True,
         },
+        "boto3": {
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "botocore": {
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "urllib3": {
+            "level": "ERROR",
+            "propagate": True,
+        },
+        "localstack": {
+            "level": "ERROR",
+            "propagate": True,
+        },
     },
 }
 
@@ -226,3 +243,6 @@ else:
 LOCALSTACK_PORT = os.getenv("LOCALSTACK_PORT", "4566")
 LOCALSTACK_HOST = os.getenv("LOCALSTACK_HOST", "localhost")
 AWS_DEFAULT_REGION = os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+
+
+INTERNAL_API_TOKEN = os.getenv("INTERNAL_API_TOKEN", "druldruldrul")

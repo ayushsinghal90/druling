@@ -8,6 +8,8 @@ from .models import Transaction
 
 
 class TransactionGetSerializer(BaseModelSerializer):
+    subscription = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Transaction
         fields = [
@@ -20,6 +22,7 @@ class TransactionGetSerializer(BaseModelSerializer):
             "method",
             "completed_at",
             "reference_number",
+            "subscription",
         ]
 
 

@@ -2,8 +2,8 @@ from rest_framework import serializers
 
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from profile.models import Profile
-from subscription_plan.models import SubscriptionPlan
-from subscription_plan.serializer import SubscriptionPlanGetSerializer
+from plan.models import Plan
+from plan.serializer import PlanGetSerializer
 from transaction.serializer import TransactionGetSerializer
 
 from .models import Subscription
@@ -11,7 +11,7 @@ from .models import Subscription
 
 class SubscriptionGetSerializer(BaseModelSerializer):
     transaction = TransactionGetSerializer(read_only=True)
-    plan = SubscriptionPlanGetSerializer(read_only=True)
+    plan = PlanGetSerializer(read_only=True)
 
     class Meta:
         model = Subscription
@@ -32,7 +32,7 @@ class SubscriptionCreateSerializer(BaseModelSerializer):
         queryset=Profile.objects.all(), required=True, source="profile"
     )
     plan_id = serializers.PrimaryKeyRelatedField(
-        queryset=SubscriptionPlan.objects.all(),
+        queryset=Plan.objects.all(),
         required=True,
         source="plan",
     )

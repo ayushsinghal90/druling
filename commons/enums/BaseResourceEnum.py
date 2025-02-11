@@ -7,11 +7,13 @@ env = settings.ENV
 
 class BaseResourceEnum(Enum):
     def __str__(self):
-        return f"{env}-{self.value}"
+        base = f"{env}-" if env else ""
+        return f"{base}{self.value}"
 
     @property
     def value(self) -> str:
-        return f"{env}-{super().value}"
+        base = f"{env}-" if env else ""
+        return f"{base}{super().value}"
 
     @classmethod
     def choices(cls):

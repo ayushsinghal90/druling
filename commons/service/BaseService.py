@@ -11,15 +11,17 @@ class BaseService:
     def __init__(self, model):
         self.model = model
 
-    def get_by_id(self, id):
+    def get_by_id(self, id, filters=None):
         try:
-            return self.model.objects.get(id=id)
+            query = self.model.objects.filter(id=id)
+            if filters:
+                query = query.filter(**filters)
+            return query.get()
         except self.model.DoesNotExist:
             logger.error(f"{self.model.__name__} with ID {id} does not exist.")
             raise ObjectDoesNotExist(
                 f"{self.model.__name__} with ID {id} does not exist."
             )
-
         except Exception as e:
             logger.error(
                 f"An error occurred while fetching the {self.model.__name__}: {str(e)}",

@@ -79,8 +79,6 @@ jobs:
             --cluster $ECS_CLUSTER \
             --service $ECS_SERVICE \
             --force-new-deployment \
-            --region $AWS_REGION \
-            --no-cli-pager \
-            > /dev/null 2>&1
+            --region $AWS_REGION
           
           echo "Started Deployment"

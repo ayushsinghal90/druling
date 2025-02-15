@@ -3,7 +3,7 @@ from rest_framework import serializers
 from branch.models import Branch
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 
-from .models import Item
+from ..models import Item
 
 
 class ItemSerializer(BaseModelSerializer):

@@ -70,6 +70,9 @@ INSTALLED_APPS = [
     "transaction",
     "subscription",
     "feature",
+    "seat",
+    "order",
+    "favourite",
 ]
 
 # Middleware

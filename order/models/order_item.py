@@ -1,18 +1,26 @@
 from django.db import models
 
-from branch.models import Branch
 from commons.models.BaseModel import BaseModel
-from item.models import Item
+from item.models import Item, ItemVariation, ItemAddon
+from order.models.order import Order
 
 
 class OrderItem(BaseModel):
-    branch = models.ForeignKey(
-        Branch, related_name="favourites", on_delete=models.CASCADE
+    order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    variation = models.ForeignKey(
+        ItemVariation, on_delete=models.SET_NULL, null=True, blank=True
     )
-    item = models.ForeignKey(Item, related_name="favourites", on_delete=models.CASCADE)
+    addons = models.ForeignKey(
+        Item, related_name="order_item", on_delete=models.CASCADE
+    )
+    note = models.CharField(max_length=200, blank=True, null=True)
+    addon = models.ManyToManyField(ItemAddon, blank=True)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.item.name} - {self.branch.name}"
+        return f"{self.id} - {self.order.id}"
 
     class Meta:
         db_table = "order_item"

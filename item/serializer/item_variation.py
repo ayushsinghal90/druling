@@ -7,7 +7,7 @@ from ..models import Item
 
 class ItemAddonSerializer(BaseModelSerializer):
     item_id = serializers.PrimaryKeyRelatedField(
-        queryset=Item.objects.all(), required=True, source="branch"
+        queryset=Item.objects.all(), required=True, source="item"
     )
 
     class Meta:

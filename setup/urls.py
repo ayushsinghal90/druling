@@ -29,6 +29,9 @@ urlpatterns = [
                 path("subscription/", include("subscription.urls")),
                 path("email_config/", include("email_config.urls")),
                 path("feature/", include("feature.urls")),
+                path("seat/", include("seat.urls")),
+                path("order/", include("order.urls")),
+                path("favourite/", include("favourite.urls")),
             ]
         ),
     ),

@@ -35,3 +35,8 @@ class BaseModel(models.Model):
     def restore(self):
         self.deleted_at = None
         self.save()
+
+    """Perform a hard delete by permanently removing the record from the database."""
+
+    def hard_delete(self, using=None, keep_parents=False):
+        super(BaseModel, self).delete(using=using, keep_parents=keep_parents)

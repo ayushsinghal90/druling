@@ -5,7 +5,7 @@ from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from ..models import Item
 
 
-class ItemAddonSerializer(BaseModelSerializer):
+class ItemVariationSerializer(BaseModelSerializer):
     item_id = serializers.PrimaryKeyRelatedField(
         queryset=Item.objects.all(), required=True, source="item"
     )

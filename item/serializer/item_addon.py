@@ -7,10 +7,10 @@ from ..models import Item, Addon
 
 class ItemAddonSerializer(BaseModelSerializer):
     item_id = serializers.PrimaryKeyRelatedField(
-        queryset=Item.objects.all(), required=True, source="branch"
+        queryset=Item.objects.all(), required=True, source="item"
     )
     addon_id = serializers.PrimaryKeyRelatedField(
-        queryset=Addon.objects.all(), required=True, source="branch"
+        queryset=Addon.objects.all(), required=True, source="addon"
     )
 
     class Meta:

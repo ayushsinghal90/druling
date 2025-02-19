@@ -16,6 +16,17 @@ class AddonService(BaseService):
     def create(self, data):
         with transaction.atomic():
             addon = AddonSerializer(data=data)
-            if addon.is_valid(raise_exception=True):
-                addon.save()
-                return addon
+            addon.is_valid(raise_exception=True)
+            return addon.save()
+
+    def bulk_create(self, data):
+        with transaction.atomic():
+            addon_serializer = AddonSerializer(data=data, many=True)
+            addon_serializer.is_valid(raise_exception=True)
+
+            addon_instances = [
+                Addon(**data) for data in addon_serializer.validated_data
+            ]
+            addon_saved = Addon.objects.bulk_create(addon_instances)
+
+            return addon_saved

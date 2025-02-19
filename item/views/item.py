@@ -4,7 +4,7 @@ from commons.api.responses import ResponseFactory
 from commons.middleware.api_handler import api_handler
 from ..serializer import ItemSerializer
 
-from ..services.item import ItemService
+from ..services import ItemService
 
 
 class ItemView(ViewSet):

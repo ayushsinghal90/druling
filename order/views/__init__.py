@@ -1,3 +1,3 @@
-from .seat import SeatView
+from .order import OrderView
 
-__all__ = [SeatView]
+__all__ = [OrderView]

@@ -1,5 +1,5 @@
 from django.urls import include, path
 
 urlpatterns = [
-    path("", include("seat.urls.seat")),
+    path("", include("order.urls.order")),
 ]

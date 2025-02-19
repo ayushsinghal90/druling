@@ -3,10 +3,10 @@ from rest_framework import serializers
 from commons.serializer.BaseModelSerializer import BaseModelSerializer
 from seat.models import Seat
 
-from ..models import OrderItem, Order
+from ..models import SeatOrder, Order
 
 
-class OrderItemSerializer(BaseModelSerializer):
+class SeatOrderSerializer(BaseModelSerializer):
     order_id = serializers.PrimaryKeyRelatedField(
         queryset=Order.objects.all(), required=True, source="order"
     )
@@ -15,7 +15,7 @@ class OrderItemSerializer(BaseModelSerializer):
     )
 
     class Meta:
-        model = OrderItem
+        model = SeatOrder
         fields = [
             "id",
             "order_id",

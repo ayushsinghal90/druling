@@ -18,7 +18,6 @@ class OrderService(BaseService):
     def create(self, order_data):
         with transaction.atomic():
             items = order_data.pop("items")
-
             serializer = OrderSerializer(data=order_data)
             serializer.is_valid(raise_exception=True)
             order = serializer.save()

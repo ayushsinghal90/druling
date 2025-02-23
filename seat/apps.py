@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class OrderConfig(AppConfig):
-    name = "order"
+class SeatConfig(AppConfig):
+    name = "seat"

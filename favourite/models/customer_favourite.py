@@ -9,7 +9,9 @@ class CustomerFavourite(BaseModel):
     branch = models.ForeignKey(
         Branch, related_name="customer_favourites", on_delete=models.CASCADE
     )
-    item = models.ForeignKey(Item, related_name="favourites", on_delete=models.CASCADE)
+    item = models.ForeignKey(
+        Item, related_name="customer_favourites", on_delete=models.CASCADE
+    )
     note = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):

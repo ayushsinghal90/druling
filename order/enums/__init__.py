@@ -1,3 +1,3 @@
-from .status import SeatStatus
+from .status import OrderStatus
 
-__all__ = [SeatStatus]
+__all__ = [OrderStatus]

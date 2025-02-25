@@ -28,4 +28,5 @@ class OrderItemSerializer(BaseModelSerializer):
             "note",
             "quantity",
             "price",
+            "status",
         ]

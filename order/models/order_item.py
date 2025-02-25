@@ -2,6 +2,7 @@ from django.db import models
 
 from commons.models.BaseModel import BaseModel
 from item.models import Item, ItemVariation, ItemAddon
+from order.enums import ItemStatus
 from order.models.order import Order
 
 
@@ -18,6 +19,12 @@ class OrderItem(BaseModel):
     addon = models.ManyToManyField(ItemAddon, blank=True)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(
+        max_length=50,
+        choices=[(type.name, type.value) for type in ItemStatus],
+        db_index=True,
+        default=ItemStatus.PENDING,
+    )
 
     def __str__(self):
         return f"{self.id} - {self.order.id}"

@@ -14,6 +14,7 @@ class Seat(BaseModel):
         max_length=50,
         choices=[(type.name, type.value) for type in SeatStatus],
         db_index=True,
+        default=SeatStatus.UNOCCUPIED,
     )
     note = models.CharField(max_length=200, blank=True, null=True)
 

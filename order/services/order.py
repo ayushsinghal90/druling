@@ -25,6 +25,17 @@ class OrderService(BaseService):
             self.order_item_service.bulk_create(order, items)
             return order
 
+    def update_status(self, order_data):
+        with transaction.atomic():
+            order_ids, status = order_data.get("order_ids"), order_data.get("status")
+            try:
+                orders = Order.objects.filter(id__in=order_ids)
+                orders.update(status=status)
+                return orders
+            except Exception as e:
+                logger.error(f"Error updating status: {e}")
+                return []
+
     def get_all(self, branch):
         try:
             return Order.objects.filter(branch=branch)

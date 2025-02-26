@@ -28,6 +28,17 @@ class OrderItemService(BaseService):
 
             return order_items
 
+    def update_status(self, data):
+        with transaction.atomic():
+            order_ids, status = data.get("order_ids"), data.get("status")
+            try:
+                order_items = OrderItem.objects.filter(order_id__in=order_ids)
+                order_items.update(status=status)
+                return order_items
+            except Exception as e:
+                logger.error(f"Error updating status: {e}")
+                return []
+
     def get_all(self, order):
         try:
             return OrderItem.objects.filter(order=order)

@@ -12,6 +12,7 @@ class Order(BaseModel):
         max_length=50,
         choices=[(type.name, type.value) for type in OrderStatus],
         db_index=True,
+        default=OrderStatus.PENDING,
     )
 
     def __str__(self):

@@ -14,5 +14,10 @@ class OrderView(ViewSet):
 
     @api_handler()
     def create(self, request):
-        seat = self.order_service.create(request.data)
-        return ResponseFactory.created(OrderSerializer(seat).data)
+        order = self.order_service.create(request.data)
+        return ResponseFactory.created(OrderSerializer(order).data)
+
+    @api_handler()
+    def update_status(self, request):
+        order = self.order_service.update_status(request.data)
+        return ResponseFactory.created(OrderSerializer(order).data)
